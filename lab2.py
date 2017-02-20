@@ -1,18 +1,18 @@
-#Lab 2 Linear Regression
-
+#Lab 2 Linear Regressigon
 import tensorflow as tf
+import numpy as np
 
-x_data = [1,2,3]
-y_data = [1,2,3]
+x_data = np.array([1,2,3])
+y_data = np.array([1,2,3])
 
 #Try to find values for W and b to compute y_data = W * x_data + b
 #We know that W should be 1 and b should be 0
 #But let's use Tensorflow to figure it out
-W = tf.Variable(tf.random_uniform([1], -1.0, 1.0))
-b = tf.Variable(tf.random_uniform([1], -1.0, 1.0))
+W = tf.Variable(tf.random_uniform([1], minval=-1.0, maxval=1.0, dtype=tf.float32))
+b = tf.Variable(tf.random_uniform([1], minval=-1.0, maxval=1.0, dtype=tf.float32))
 
 #Our hypothesis
-hypothesis = W * x_data + b
+hypothesis = x_data * W + b
 
 #Simplified cost function
 cost = tf.reduce_mean(tf.square(hypothesis - y_data))
