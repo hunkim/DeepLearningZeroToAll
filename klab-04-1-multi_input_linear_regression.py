@@ -13,5 +13,5 @@ model.add(Dense(output_dim=1, input_dim=2))
 model.compile(loss='mse', optimizer='sgd')
 model.fit(x_data, y_data)
 
-y_predict = model.predict(x_data)
+y_predict = model.predict(np.array([[2.1, 4.2]]))
 print(y_predict)
