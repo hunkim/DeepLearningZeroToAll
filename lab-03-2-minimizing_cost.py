@@ -9,13 +9,13 @@ y_data = [1., 2., 3.]
 # We know that W should be 1 and b should be 0
 # But let's use Tensorflow to figure it out
 W = tf.Variable(tf.random_uniform(
-    [1], minval=-10.0, maxval=10.0, dtype=tf.float32))
+    shape=[1], minval=-10.0, maxval=10.0, dtype=tf.float32))
 
 X = tf.placeholder(tf.float32)
 Y = tf.placeholder(tf.float32)
 
 # Our hypothesis for linear model X * W
-hypothesis = W * X
+hypothesis = X * W
 
 # Cost function
 cost = tf.reduce_sum(tf.square(hypothesis - Y))

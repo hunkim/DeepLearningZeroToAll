@@ -9,9 +9,9 @@ y_data = np.array([1, 2, 3])
 # We know that W should be 1 and b should be 0
 # But let's use Tensorflow to figure it out
 W = tf.Variable(tf.random_uniform(
-    [1], minval=-1.0, maxval=1.0, dtype=tf.float32))
+    shape=[1], minval=-1.0, maxval=1.0, dtype=tf.float32))
 b = tf.Variable(tf.random_uniform(
-    [1], minval=-1.0, maxval=1.0, dtype=tf.float32))
+    shape=[1], minval=-1.0, maxval=1.0, dtype=tf.float32))
 
 X = tf.placeholder(tf.float32)
 Y = tf.placeholder(tf.float32)
