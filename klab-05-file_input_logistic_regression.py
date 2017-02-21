@@ -2,7 +2,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 import numpy as np
 
-xy = np.loadtxt('data.txt')
+xy = np.loadtxt('data.csv', delimiter=",")
 x_data = xy[:, 0:-1]
 y_data = xy[:, -1]
 
