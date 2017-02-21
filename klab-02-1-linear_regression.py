@@ -2,8 +2,8 @@ from keras.models import Sequential
 from keras.layers import Dense
 import numpy as np
 
-x_train = [1,2,3,4]
-y_train = [0,-1,-2,-3]
+x_train = [1, 2, 3, 4]
+y_train = [0, -1, -2, -3]
 
 model = Sequential()
 model.add(Dense(output_dim=1, input_dim=1))
