@@ -1,22 +1,22 @@
 #Lab 2 Linear Regression
-
 import tensorflow as tf
+import numpy as np
 
-x_data = [1,2,3]
-y_data = [1,2,3]
+x_data = np.array([1,2,3])
+y_data = np.array([1,2,3])
 
 #Try to find values for W and b to compute y_data = W * x_data + b
 #We know that W should be 1 and b should be 0
 #But let's use Tensorflow to figure it out
-W = tf.Variable(tf.random_uniform([1], -1.0, 1.0))
-b = tf.Variable(tf.random_uniform([1], -1.0, 1.0))
+W = tf.Variable(tf.random_uniform([1], minval=-1.0, maxval=1.0, dtype=tf.float32))
+b = tf.Variable(tf.random_uniform([1], minval=-1.0, maxval=1.0, dtype=tf.float32))
 
 X = tf.placeholder(tf.float32)
 Y = tf.placeholder(tf.float32)
 #Now we can use X and Y in place of x_data and y_data
 
 #Our hypothesis
-hypothesis = W * X + b
+hypothesis = X * W + b
 
 #Simplified cost function
 cost = tf.reduce_mean(tf.square(hypothesis - Y))
