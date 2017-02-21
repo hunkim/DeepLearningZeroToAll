@@ -4,6 +4,7 @@ import tensorflow as tf
 
 
 class SquareTest(tf.test.TestCase):
+
     def testSquare(self):
         with self.test_session():
             x = tf.square([2, 3])
