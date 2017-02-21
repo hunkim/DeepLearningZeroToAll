@@ -1,9 +1,8 @@
 # Lab 2 Linear Regression
 import tensorflow as tf
-import numpy as np
 
-x_data = np.array([1, 2, 3])
-y_data = np.array([1, 2, 3])
+x_train = [1, 2, 3]
+y_train = [1, 2, 3]
 
 # Try to find values for W and b to compute y_data = W * x_data + b
 # We know that W should be 1 and b should be 0
@@ -24,25 +23,25 @@ hypothesis = X * W + b
 cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
 # Minimize
-a = tf.Variable(0.1)  # Learning rate, alpha
-optimizer = tf.train.GradientDescentOptimizer(a)
+optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01)
 train = optimizer.minimize(cost)
 
 # Initialize all variables before we start
 init = tf.global_variables_initializer()
 
-# Lauch graph
+# Launch graph
 sess = tf.Session()
 sess.run(init)
 
 # Fit the line
 for step in range(2001):
-    sess.run(train, feed_dict={X: x_data, Y: y_data})
+    sess.run(train, feed_dict={X: x_train, Y: y_train})
     if step % 20 == 0:
         print(step, sess.run(cost, feed_dict={
-              X: x_data, Y: y_data}), sess.run(W), sess.run(b))
+              X: x_train, Y: y_train}), sess.run(W), sess.run(b))
 
-# Learns best fit W:[ 1.],  b:[  5.90419234e-08]
+# Learns best fit W:[ 1.],  b:[ 0]
 
+# Testing out model
 print(sess.run(hypothesis, feed_dict={X: 5}))
 print(sess.run(hypothesis, feed_dict={X: 2.5}))

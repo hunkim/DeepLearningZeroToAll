@@ -1,9 +1,8 @@
 # Lab 3 Minimizing Cost
 import tensorflow as tf
-import numpy as np
 
-x_data = [1., 2., 3.]
-y_data = [1., 2., 3.]
+x_data = [1, 2, 3]
+y_data = [1, 2, 3]
 
 # Try to find values for W and b to compute y_data = W * x_data + b
 # We know that W should be 1 and b should be 0

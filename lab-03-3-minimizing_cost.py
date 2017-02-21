@@ -2,18 +2,18 @@
 import tensorflow as tf
 
 # tf Graph Input
-X = [1., 2., 3.]
-Y = [1., 2., 3.]
-m = n_samples = len(X)
+X = [1, 2, 3]
+Y = [1, 2, 3]
 
 # Set model weights
-W = tf.Variable(0.)
+W = tf.Variable(5.)
+
 # Linear model
-hypothesis = tf.multiply(X, W)
+hypothesis = X * W
 
 # Cost function
-cost = tf.reduce_sum(tf.pow(hypothesis - Y, 2)) / (m)
-optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1)
+cost = tf.reduce_mean(tf.square(hypothesis - Y))
+optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01)
 train = optimizer.minimize(cost)
 
 # Initialize variables
@@ -22,9 +22,6 @@ init = tf.global_variables_initializer()
 sess = tf.Session()
 sess.run(init)
 
-# Set model weights
-wOp = W.assign(5.)
-sess.run(wOp)
 for step in range(10):
     print(step, sess.run(W))
     sess.run(train)
