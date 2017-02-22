@@ -1,4 +1,5 @@
-== Lab code (WIP) == 
+# Lab code (WIP)
+This is work in progress. Please do not use them, since they may have many bugs and trial code. We will let you know when it's done.
 
 ## Naming rule:
 
