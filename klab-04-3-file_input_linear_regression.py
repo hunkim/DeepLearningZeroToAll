@@ -3,7 +3,7 @@ from keras.layers import Dense
 import numpy as np
 xy = np.loadtxt('data.csv', delimiter=',')
 x_data = xy[:, 0:-1]
-y_data = xy[:, -1]
+y_data = xy[:, [-1]]
 
 print("x_data", x_data)
 print("y_data", y_data)
@@ -13,7 +13,7 @@ model = Sequential()
 model.add(Dense(input_dim=3, output_dim=1))
 
 model.compile(loss='mse', optimizer='sgd')
-model.fit(x_data, y_data)
+model.fit(x_data, y_data, nb_epoch=2000)
 
-y_predict = model.predict(np.array([[0, 2, 1]]))
-print(y_predict)
+print(model.predict(np.array([[0, 2, 1]])))
+print(model.predict(np.array([[0, 9, -1]])))
