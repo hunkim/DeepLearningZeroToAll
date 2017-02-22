@@ -14,6 +14,7 @@ b = tf.Variable(tf.random_uniform(
     shape=[1], minval=-1.0, maxval=1.0, dtype=tf.float32))
 
 hypothesis = x1_data * w1 + x2_data * w2 + b
+print(hypothesis)
 
 # Cost function
 cost = tf.reduce_mean(tf.square(hypothesis - y_data))
