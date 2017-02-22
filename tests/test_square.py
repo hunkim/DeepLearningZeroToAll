@@ -1,7 +1,7 @@
 # https://www.tensorflow.org/api_guides/python/test
 
 import tensorflow as tf
-
+import numpy as np
 
 class SquareTest(tf.test.TestCase):
 
@@ -10,6 +10,18 @@ class SquareTest(tf.test.TestCase):
             x = tf.square([2, 3])
             self.assertAllEqual(x.eval(), [4, 9])
 
+    def testBroadcast(self):
+        with self.test_session():
+            hypothesis = np.array([[1], [2], [3]])
+            y = np.array([1,2,3])
+            print(hypothesis-y)
+            cost = tf.reduce_mean(tf.square(hypothesis - y))
+            self.assertNotEqual(cost.eval(), 0)
+
+            y = y.reshape(-1,1)
+            print(y, hypothesis-y)
+            cost = tf.reduce_mean(tf.square(hypothesis - y))
+            self.assertAllEqual(cost.eval(), 0)
 
 if __name__ == '__main__':
     tf.test.main()
