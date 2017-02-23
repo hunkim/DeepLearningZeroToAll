@@ -2,7 +2,8 @@
 import tensorflow as tf
 import numpy as np
 
-x_data = np.array([[1., 1.], [2., 2.], [3., 3.], [4., 4.], [5., 5.]], dtype=np.float32)
+x_data = np.array([[1., 1.], [2., 2.], [3., 3.], [
+                  4., 4.], [5., 5.]], dtype=np.float32)
 y_data = np.array([1, 2, 3, 4, 5], dtype=np.float32).reshape(-1, 1)
 
 W = tf.Variable(tf.random_uniform(

@@ -3,6 +3,7 @@
 import tensorflow as tf
 import numpy as np
 
+
 class SquareTest(tf.test.TestCase):
 
     def testSquare(self):
@@ -13,13 +14,13 @@ class SquareTest(tf.test.TestCase):
     def testBroadcast(self):
         with self.test_session():
             hypothesis = np.array([[1], [2], [3]])
-            y = np.array([1,2,3])
-            print(hypothesis-y)
+            y = np.array([1, 2, 3])
+            print(hypothesis - y)
             cost = tf.reduce_mean(tf.square(hypothesis - y))
             self.assertNotEqual(cost.eval(), 0)
 
-            y = y.reshape(-1,1)
-            print(y, hypothesis-y)
+            y = y.reshape(-1, 1)
+            print(y, hypothesis - y)
             cost = tf.reduce_mean(tf.square(hypothesis - y))
             self.assertAllEqual(cost.eval(), 0)
 
