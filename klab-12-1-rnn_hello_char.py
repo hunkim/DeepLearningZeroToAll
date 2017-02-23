@@ -7,7 +7,7 @@ from keras.utils import np_utils
 sample = "hihello"
 
 char_set = list(set(sample))  # id -> char ['i', 'l', 'e', 'o', 'h']
-char_dic = {w:i for i, w in enumerate(char_set)}
+char_dic = {w: i for i, w in enumerate(char_set)}
 
 x_str = sample[:-1]
 y_str = sample[1:]
@@ -18,8 +18,8 @@ nb_classes = len(char_set)
 
 print(x_str, y_str)
 
-x = [char_dic[c] for c in x_str] # char to index
-y = [char_dic[c] for c in y_str] # char to index
+x = [char_dic[c] for c in x_str]  # char to index
+y = [char_dic[c] for c in y_str]  # char to index
 
 # One-hot encoding
 x = np_utils.to_categorical(x, nb_classes=nb_classes)
@@ -34,12 +34,14 @@ y = np.reshape(y, (-1, len(y), data_dim))
 print(y.shape)
 
 model = Sequential()
-model.add(LSTM(nb_classes, input_shape=(timesteps, data_dim), return_sequences=True))
+model.add(LSTM(nb_classes, input_shape=(
+    timesteps, data_dim), return_sequences=True))
 model.add(TimeDistributed(Dense(nb_classes)))
 model.add(Activation('softmax'))
 model.summary()
 
-model.compile(loss='categorical_crossentropy',optimizer='rmsprop', metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy',
+              optimizer='rmsprop', metrics=['accuracy'])
 model.fit(x, y, nb_epoch=1)
 
 predictions = model.predict(x, verbose=0)

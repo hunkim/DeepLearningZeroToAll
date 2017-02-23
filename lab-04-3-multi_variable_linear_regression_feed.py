@@ -28,7 +28,8 @@ init = tf.global_variables_initializer()
 sess = tf.Session()
 sess.run(init)
 
-x_data = np.array([[1, 0], [0, 2], [3, 0], [0, 4], [5, 0]], dtype=np.float32).reshape(-1, 2)
+x_data = np.array([[1, 0], [0, 2], [3, 0], [0, 4], [5, 0]],
+                  dtype=np.float32).reshape(-1, 2)
 y_data = np.array([1, 2, 3, 4, 5]).reshape(-1, 1)
 
 for step in range(2001):
