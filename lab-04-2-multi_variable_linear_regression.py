@@ -1,6 +1,5 @@
 # Lab 4 Multi-variable linear regression
 import tensorflow as tf
-import numpy as np
 
 x_data = [[1., 1.], [2., 2.], [3., 3.],
           [4., 4.], [5., 5.]]
