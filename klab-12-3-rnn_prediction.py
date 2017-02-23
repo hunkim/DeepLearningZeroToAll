@@ -3,6 +3,12 @@ import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, LSTM
 from sklearn.preprocessing import MinMaxScaler
+import os
+
+# brew install graphviz
+# pip3 install graphviz
+# pip3 install pydot
+from keras.utils.visualize_util import plot
 
 import matplotlib.pyplot as plt
 
@@ -44,6 +50,9 @@ model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='adam')
 
 model.summary()
+# Store model graph in png
+plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
+
 
 print(trainX.shape, trainY.shape)
 model.fit(trainX, trainY, nb_epoch=200)

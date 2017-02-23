@@ -3,8 +3,15 @@ from keras.models import Sequential
 from keras.layers import Dense, TimeDistributed, Activation, LSTM
 from keras.utils import np_utils
 
-# hello
-sentence = "If you want to build a ship, don’t drum up people together to collect wood and don’t assign them tasks and work, but rather teach them to long for the endless immensity of the sea."
+import os
+
+# brew install graphviz
+# pip3 install graphviz
+# pip3 install pydot
+from keras.utils.visualize_util import plot
+
+# sample sentence
+sentence = "If you want to build a ship, don't drum up people together to collect wood and don't assign them tasks and work, but rather teach them to long for the endless immensity of the sea."
 
 char_set = list(set(sentence))  # id -> char ['i', 'l', 'e', 'o', 'h']
 char_dic = {w: i for i, w in enumerate(char_set)}
@@ -27,16 +34,16 @@ for i in range(0, len(sentence) - seq_length):
     dataY.append(y)
 
 # One-hot encoding
-x = np_utils.to_categorical(dataX, nb_classes=nb_classes)
+dataX = np_utils.to_categorical(dataX, nb_classes=nb_classes)
 # reshape X to be [samples, time steps, features]
-x = np.reshape(x, (-1, seq_length, data_dim))
-print(x.shape)
+dataX = np.reshape(dataX, (-1, seq_length, data_dim))
+print(dataX.shape)
 
 # One-hot encoding
-y = np_utils.to_categorical(dataY, nb_classes=nb_classes)
+dataY = np_utils.to_categorical(dataY, nb_classes=nb_classes)
 # time steps
-y = np.reshape(y, (-1, seq_length, data_dim))
-print(y.shape)
+dataY = np.reshape(dataY, (-1, seq_length, data_dim))
+print(dataY.shape)
 
 model = Sequential()
 model.add(LSTM(nb_classes, input_shape=(
@@ -46,18 +53,20 @@ model.add(TimeDistributed(Dense(nb_classes)))
 
 model.add(Activation('softmax'))
 model.summary()
+# Store model graph in png
+plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
 model.compile(loss='categorical_crossentropy',
               optimizer='rmsprop', metrics=['accuracy'])
-model.fit(x, y, nb_epoch=1000)
+model.fit(dataX, dataY, nb_epoch=1000)
 
-predictions = model.predict(x, verbose=0)
+predictions = model.predict(dataX, verbose=0)
 for i, prediction in enumerate(predictions):
     # print(prediction)
-    x_index = np.argmax(x[i], axis=1)
+    x_index = np.argmax(dataX[i], axis=1)
     x_str = [char_set[j] for j in x_index]
-    print(x_index, ''.join(x_str))
 
     index = np.argmax(prediction, axis=1)
     result = [char_set[j] for j in index]
-    print(index, ''.join(result))
+
+    print(''.join(x_str), ' -> ', ''.join(result))
