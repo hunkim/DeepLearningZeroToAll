@@ -1,8 +1,10 @@
 # Lab 4 Multi-variable linear regression
 import tensorflow as tf
+import numpy as np
 
-x_data = [[1., 1.], [2., 2.], [3., 3.], [4., 4.], [5., 5.]]
-y_data = [1, 2, 3, 4, 5]
+x_data = np.array([[1., 1.], [2., 2.], [3., 3.], [
+                  4., 4.], [5., 5.]], dtype=np.float32)
+y_data = np.array([1, 2, 3, 4, 5], dtype=np.float32).reshape(-1, 1)
 
 W = tf.Variable(tf.random_uniform(
     shape=[2, 1], minval=-1.0, maxval=1.0, dtype=tf.float32))

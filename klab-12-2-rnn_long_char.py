@@ -56,7 +56,6 @@ model.summary()
 # Store model graph in png
 plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
-
 model.compile(loss='categorical_crossentropy',
               optimizer='rmsprop', metrics=['accuracy'])
 model.fit(dataX, dataY, nb_epoch=1000)
