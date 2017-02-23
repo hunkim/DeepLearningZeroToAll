@@ -53,3 +53,10 @@ with tf.Session() as sess:
     plt.imshow(mnist.test.images[r:r + 1].reshape(28,
                                                   28), cmap='Greys', interpolation='nearest')
     plt.show()
+
+    # Test model
+    correct_prediction = tf.equal(tf.argmax(hypothesis, 1), tf.argmax(Y, 1))
+    # Calculate accuracy
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+    print("Accuracy: ", accuracy.eval(session=sess, feed_dict={
+          X: mnist.test.images, Y: mnist.test.labels}))
