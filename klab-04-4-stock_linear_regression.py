@@ -26,7 +26,7 @@ print(x_data[0], "->", y_data[0])
 model = Sequential()
 model.add(Dense(input_dim=4, output_dim=1))
 
-model.compile(loss='mse', optimizer='sgd')
+model.compile(loss='mse', optimizer='sgd', metrics=['mse'])
 model.fit(x_data, y_data, nb_epoch=100)
 
 test = x_data[10].reshape(-1,4)
@@ -34,3 +34,32 @@ print("y=", y_data[10], "prediction=", model.predict(test))
 
 test = x_data[30].reshape(-1,4)
 print("y=", y_data[30], "prediction=", model.predict(test))
+
+# ---------------------------
+# Test
+# split to train and testing
+import matplotlib.pyplot as plt
+
+train_size = int(len(x_data) * 0.7)
+test_size = len(x_data) - train_size
+x_train, x_test = x_data[0:train_size], x_data[train_size:len(x_data)]
+y_train, y_test = y_data[0:train_size], y_data[train_size:len(y_data)]
+
+model = Sequential()
+model.add(Dense(input_dim=4, output_dim=1))
+model.compile(loss='mse', optimizer='sgd', metrics=['mse'])
+
+# Train a model
+model.fit(x_train, y_train, nb_epoch=200)
+
+# evaluate
+results = model.evaluate(x_test, y_test, verbose=1)
+print(results)
+
+predictions = model.predict(x_test)
+
+plt.plot(y_test)
+plt.plot(predictions)
+plt.show()
+
+

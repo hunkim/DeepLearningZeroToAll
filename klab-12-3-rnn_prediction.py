@@ -5,7 +5,6 @@ from keras.layers import Dense, LSTM
 from sklearn.preprocessing import MinMaxScaler
 
 import matplotlib.pyplot as plt
-import pandas
 
 timesteps = seq_length = 7
 data_dim = 5
