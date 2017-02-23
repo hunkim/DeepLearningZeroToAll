@@ -3,6 +3,12 @@ import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, LSTM
 from sklearn.preprocessing import MinMaxScaler
+import os
+
+# brew install graphviz
+# pip3 install graphviz
+# pip3 install pydot
+from keras.utils.visualize_util import plot
 
 import matplotlib.pyplot as plt
 
@@ -12,14 +18,14 @@ data_dim = 5
 import matplotlib.pyplot as plt
 # Open,High,Low,Close,Volume
 xy = np.loadtxt('stock_daily.csv', delimiter=',')
-xy = xy[::-1] # reverse order (chronically ordered)
+xy = xy[::-1]  # reverse order (chronically ordered)
 
 # very important. It does not work without it.
 scaler = MinMaxScaler(feature_range=(0, 1))
 xy = scaler.fit_transform(xy)
 
-x= xy
-y = xy[:, [-1]] # Close as label
+x = xy
+y = xy[:, [-1]]  # Close as label
 
 dataX = []
 dataY = []
@@ -33,8 +39,10 @@ for i in range(0, len(y) - seq_length):
 # split to train and testing
 train_size = int(len(dataY) * 0.7)
 test_size = len(dataY) - train_size
-trainX, testX = np.array(dataX[0:train_size]), np.array(dataX[train_size:len(dataX)])
-trainY, testY = np.array(dataY[0:train_size]), np.array(dataY[train_size:len(dataY)])
+trainX, testX = np.array(dataX[0:train_size]), np.array(
+    dataX[train_size:len(dataX)])
+trainY, testY = np.array(dataY[0:train_size]), np.array(
+    dataY[train_size:len(dataY)])
 
 model = Sequential()
 model.add(LSTM(5, input_shape=(timesteps, data_dim), return_sequences=False))
@@ -42,6 +50,9 @@ model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='adam')
 
 model.summary()
+# Store model graph in png
+plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
+
 
 print(trainX.shape, trainY.shape)
 model.fit(trainX, trainY, nb_epoch=200)
