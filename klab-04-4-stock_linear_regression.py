@@ -31,3 +31,6 @@ model.fit(x_data, y_data, nb_epoch=100)
 
 test = x_data[10].reshape(-1,4)
 print("y=", y_data[10], "prediction=", model.predict(test))
+
+test = x_data[30].reshape(-1,4)
+print("y=", y_data[30], "prediction=", model.predict(test))
