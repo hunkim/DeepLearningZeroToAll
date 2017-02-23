@@ -1,54 +1,60 @@
+# http://machinelearningmastery.com/time-series-prediction-lstm-recurrent-neural-networks-python-keras/
 import numpy as np
 from keras.models import Sequential
-from keras.layers import Dense, TimeDistributed, Activation, LSTM
-from keras.utils import np_utils
+from keras.layers import Dense, LSTM
+from sklearn.preprocessing import MinMaxScaler
 
-# sample test
-sample = "hihello"
+import matplotlib.pyplot as plt
+import pandas
 
-char_set = list(set(sample))  # id -> char ['i', 'l', 'e', 'o', 'h']
-char_dic = {w:i for i, w in enumerate(char_set)}
+timesteps = seq_length = 7
+data_dim = 5
 
-x_str = sample[:-1]
-y_str = sample[1:]
+import matplotlib.pyplot as plt
+# Open,High,Low,Close,Volume
+xy = np.loadtxt('stock_daily.csv', delimiter=',')
+xy = xy[::-1] # reverse order (chronically ordered)
 
-data_dim = len(char_set)
-timesteps = len(y_str)
-nb_classes = len(char_set)
+# very important. It does not work without it.
+scaler = MinMaxScaler(feature_range=(0, 1))
+xy = scaler.fit_transform(xy)
 
-print(x_str, y_str)
+x= xy
+y = xy[:, [-1]] # Close as label
 
-x = [char_dic[c] for c in x_str] # char to index
-y = [char_dic[c] for c in y_str] # char to index
+dataX = []
+dataY = []
+for i in range(0, len(y) - seq_length):
+    _x = x[i:i + seq_length]
+    _y = y[i + 1]  # Next close price
+    print(_x, "->", _y)
+    dataX.append(_x)
+    dataY.append(_y)
 
-# One-hot encoding
-x = np_utils.to_categorical(x, nb_classes=nb_classes)
-# reshape X to be [samples, time steps, features]
-x = np.reshape(x, (-1, len(x), data_dim))
-print(x.shape)
-
-# One-hot encoding
-y = np_utils.to_categorical(y, nb_classes=nb_classes)
-# time steps
-y = np.reshape(y, (-1, len(y), data_dim))
-print(y.shape)
+# split to train and testing
+train_size = int(len(dataY) * 0.7)
+test_size = len(dataY) - train_size
+trainX, testX = np.array(dataX[0:train_size]), np.array(dataX[train_size:len(dataX)])
+trainY, testY = np.array(dataY[0:train_size]), np.array(dataY[train_size:len(dataY)])
 
 model = Sequential()
-model.add(LSTM(nb_classes, input_shape=(timesteps, data_dim), return_sequences=True))
-model.add(TimeDistributed(Dense(nb_classes)))
-model.add(Activation('softmax'))
+model.add(LSTM(5, input_shape=(timesteps, data_dim), return_sequences=False))
+model.add(Dense(1))
+model.compile(loss='mean_squared_error', optimizer='adam')
+
 model.summary()
 
-model.compile(loss='categorical_crossentropy',optimizer='rmsprop', metrics=['accuracy'])
-model.fit(x, y, nb_epoch=1)
+print(trainX.shape, trainY.shape)
+model.fit(trainX, trainY, nb_epoch=200)
 
-predictions = model.predict(x, verbose=0)
-for i, prediction in enumerate(predictions):
-    print(prediction)
-    x_index = np.argmax(x[i], axis=1)
-    x_str = [char_set[j] for j in x_index]
-    print(x_index, ''.join(x_str))
+# make predictions
+testPredict = model.predict(testX)
 
-    index = np.argmax(prediction, axis=1)
-    result = [char_set[j] for j in index]
-    print(index, ''.join(result))
+# inverse values
+#testPredict = scaler.transform(testPredict)
+#testY = scaler.transform(testY)
+
+print(testPredict)
+plt.plot(testY)
+plt.plot(testPredict)
+plt.show()
