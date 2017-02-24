@@ -69,5 +69,4 @@ for i, prediction in enumerate(predictions):
     index = np.argmax(prediction, axis=1)
     result = [char_set[j] for j in index]
 
-
     print(''.join(x_str), ' -> ', ''.join(result))
