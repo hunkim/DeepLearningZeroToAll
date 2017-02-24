@@ -20,6 +20,7 @@ nb_classes = len(char_set)
 # Build training date set
 dataX = []
 dataY = []
+
 for i in range(1000):
     rand_pick = np.random.choice(10, 7)
     x = [char_dic[digit[c]] for c in rand_pick]
