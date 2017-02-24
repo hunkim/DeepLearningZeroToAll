@@ -13,9 +13,9 @@ W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
 
 # MNIST data image of shape 28 * 28 = 784
-X = tf.placeholder("float", [None, 784])
+X = tf.placeholder(tf.float32, [None, 784])
 # 0 - 9 digits recognition = 10 classes
-Y = tf.placeholder("float", [None, 10])
+Y = tf.placeholder(tf.float32, [None, 10])
 
 # Hypothesis (using softmax)
 hypothesis = tf.nn.softmax(tf.matmul(X, W) + b)
@@ -55,8 +55,8 @@ with tf.Session() as sess:
     plt.show()
 
     # Test model
-    correct_prediction = tf.equal(tf.argmax(hypothesis, 1), tf.argmax(Y, 1))
+    correct_prediction = tf.equal(tf.arg_max(hypothesis, 1), tf.arg_max(Y, 1))
     # Calculate accuracy
-    accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     print("Accuracy: ", accuracy.eval(session=sess, feed_dict={
           X: mnist.test.images, Y: mnist.test.labels}))
