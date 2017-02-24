@@ -1,12 +1,16 @@
 # Lab 4 Multi-variable linear regression
 import tensorflow as tf
+import numpy as np
 
-x_data = [[1., 1.], [2., 2.], [3., 3.],
-          [4., 4.], [5., 5.]]
-y_data = [[1], [2], [3], [4], [5]]
+xy = np.loadtxt('data.csv', delimiter=',', dtype=np.float32)
+x_data = xy[:, 0:-1]
+y_data = xy[:, [-1]]
+
+print(x_data.shape, x_data, len(x_data))
+print(y_data.shape, y_data)
 
 W = tf.Variable(tf.random_uniform(
-    shape=[2, 1], minval=-1.0, maxval=1.0, dtype=tf.float32))
+    shape=[3, 1], minval=-1.0, maxval=1.0, dtype=tf.float32))
 b = tf.Variable(tf.random_uniform(
     shape=[1], minval=-1.0, maxval=1.0, dtype=tf.float32))
 

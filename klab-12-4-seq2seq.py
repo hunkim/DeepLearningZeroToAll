@@ -19,7 +19,8 @@ nb_classes = len(char_set)
 # Build training date set
 dataX = []
 dataY = []
-for i in range(100):
+
+for i in range(1000):
     rand_pick = np.random.choice(10, 7)
     x = [char_dic[digit[c]] for c in rand_pick]
     y = [char_dic[alpha[c]] for c in rand_pick]
@@ -62,10 +63,23 @@ model.fit(dataX, dataY, nb_epoch=1000)
 # Store model graph in png
 plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
-predictions = model.predict(dataX, verbose=0)
+# Create test dataset for fun
+testX = []
+for i in range(10):
+    rand_pick = np.random.choice(10, 7)
+    x = [char_dic[digit[c]] for c in rand_pick]
+    testX.append(x)
+
+# One-hot encoding
+testX = np_utils.to_categorical(testX, nb_classes=nb_classes)
+# reshape X to be [samples, time steps, features]
+testX = np.reshape(testX, (-1, seq_length, data_dim))
+
+
+predictions = model.predict(testX, verbose=0)
 for i, prediction in enumerate(predictions):
     # print(prediction)
-    x_index = np.argmax(dataX[i], axis=1)
+    x_index = np.argmax(testX[i], axis=1)
     x_str = [char_set[j] for j in x_index]
 
     index = np.argmax(prediction, axis=1)

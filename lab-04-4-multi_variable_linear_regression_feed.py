@@ -14,7 +14,7 @@ b = tf.Variable(tf.random_uniform(
 hypothesis = tf.matmul(x, W) + b
 
 # Simplified cost function
-with tf.control_dependencies(y.shape.assert_same_rank(y)):
+with tf.control_dependencies(y.shape.assert_same_rank(hypothesis)):
     cost = tf.reduce_mean(tf.square(hypothesis - y))
 
 # Minimize
