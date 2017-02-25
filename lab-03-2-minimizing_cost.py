@@ -6,9 +6,8 @@ y_data = [1, 2, 3]
 
 # Try to find values for W and b to compute y_data = W * x_data + b
 # We know that W should be 1 and b should be 0
-# But let's use Tensorflow to figure it out
-W = tf.Variable(tf.random_uniform(
-    shape=[1], minval=-10.0, maxval=10.0, dtype=tf.float32))
+# But let's use TensorFlow to figure it out
+W = tf.Variable(tf.random_normal([1]), name='weight')
 
 X = tf.placeholder(tf.float32)
 Y = tf.placeholder(tf.float32)

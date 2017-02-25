@@ -11,6 +11,7 @@ X = tf.placeholder("float", [None, 3])
 Y = tf.placeholder("float", [None, 3])
 
 W = tf.Variable(tf.zeros([3, 3]))
+
 # Softmax
 hypothesis = tf.nn.softmax(tf.matmul(X, W))
 # tf.nn.softmax computes softmax activations

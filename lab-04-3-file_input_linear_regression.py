@@ -9,10 +9,8 @@ y_data = xy[:, [-1]]
 print(x_data.shape, x_data, len(x_data))
 print(y_data.shape, y_data)
 
-W = tf.Variable(tf.random_uniform(
-    shape=[3, 1], minval=-1.0, maxval=1.0, dtype=tf.float32))
-b = tf.Variable(tf.random_uniform(
-    shape=[1], minval=-1.0, maxval=1.0, dtype=tf.float32))
+W = tf.Variable(tf.random_normal([3, 1]), name='weight')
+b = tf.Variable(tf.random_normal([1]), name='bias')
 
 # Hypothesis
 hypothesis = tf.matmul(x_data, W) + b

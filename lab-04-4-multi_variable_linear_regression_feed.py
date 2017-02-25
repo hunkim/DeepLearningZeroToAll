@@ -5,10 +5,8 @@ import numpy as np
 y = tf.placeholder(tf.float32, shape=[None, 1])
 x = tf.placeholder(tf.float32, shape=[None, 2])
 
-W = tf.Variable(tf.random_uniform(
-    shape=[2, 1], minval=-1.0, maxval=1.0, dtype=tf.float32))
-b = tf.Variable(tf.random_uniform(
-    shape=[1], minval=-1.0, maxval=1.0, dtype=tf.float32))
+W = tf.Variable(tf.random_normal([2, 1]), name='weight')
+b = tf.Variable(tf.random_normal([1]), name='bias')
 
 # Hypothesis
 hypothesis = tf.matmul(x, W) + b
