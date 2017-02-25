@@ -66,6 +66,7 @@ model.fit(dataX, dataY, nb_epoch=1000)
 # Store model graph in png
 plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
+
 # Create test data set for fun
 testX = []
 testY = []
@@ -75,6 +76,7 @@ for i in range(10):
     y = [alpha[c] for c in rand_pick]
     testX.append(x)
     testY.append(y)
+
 
 # One-hot encoding
 testX = np_utils.to_categorical(testX, nb_classes=nb_classes)
