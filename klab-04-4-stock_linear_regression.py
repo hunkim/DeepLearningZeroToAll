@@ -3,7 +3,7 @@ from keras.layers import Dense
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
-xy = np.loadtxt('stock_daily.csv', delimiter=',')
+xy = np.loadtxt('data-02-data-02-stock_daily.csv', delimiter=',')
 
 # very important. It does not work without it.
 scaler = MinMaxScaler(feature_range=(0, 1))

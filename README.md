@@ -1,13 +1,23 @@
-# Lab code (WIP)
-This is work in progress. Please do not use them, since they may have many bugs and trial code. We will let you know when it's done.
+# Lab code (WIP), but call for comments
+This is code for labs covered in TensorFlow basic tutorials (in Korean) at https://www.youtube.com/watch?v=BS6O0zOGX4E&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm. 
+(We also have a plan to record videos in English.)
 
-## Naming rule:
+This is work in progress, and may have bugs. 
+However, we call for your comments and pull requests. Check out our style guide line:
 
-* klab-XX-X-[name].py: Keras labs
-* lab-XX-X-[name].py: regular tensorflow labs
+* More TF (1.0) style: use more recent and decent TF APIs.
+* More Pythonic: fully leverage the powe of python
+* Readability (over efficiency): Since it's for instruction purposes, we prefer *readability* over others.  
+* Understandability (over everything): Understanding TF key concepts is the main goal of this code.
+ 
+## File naming rule:
+
+* klab-XX-X-[name].py: Keras labs code
+* lab-XX-X-[name].py: TensorFlow lab code
 
 
 ## Run test and autopep8
+TODO: Need to add more test cases
 
 ```bash
 python -m unittest discover -s tests;
