@@ -11,9 +11,9 @@ import os
 from keras.utils.visualize_util import plot
 
 # sample sentence
-sentence = "If you want to build a ship, don't drum up people together to collect wood and don't assign them tasks and work, but rather teach them to long for the endless immensity of the sea."
+sentence = "if you want to build a ship, don't drum up people together to collect wood and don't assign them tasks and work, but rather teach them to long for the endless immensity of the sea."
 
-char_set = list(set(sentence))  # id -> char ['i', 'l', 'e', 'o', 'h']
+char_set = list(set(sentence))  # id -> char ['i', 'l', 'e', 'o', 'h', ...]
 char_dic = {w: i for i, w in enumerate(char_set)}
 
 data_dim = len(char_set)

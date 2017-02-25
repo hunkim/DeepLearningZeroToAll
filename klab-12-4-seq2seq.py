@@ -4,6 +4,7 @@ from keras.models import Sequential
 from keras.layers import Activation, TimeDistributed, Dense, RepeatVector, LSTM
 from keras.utils import np_utils
 from keras.utils.visualize_util import plot
+from keras.callbacks import TensorBoard
 import os
 
 digit = "0123456789"
@@ -39,6 +40,8 @@ dataY = np.reshape(dataY, (-1, seq_length, data_dim))
 
 
 print('Build model...')
+TensorBoard(log_dir='./logs', histogram_freq=1, write_graph=True, write_images=False)
+
 model = Sequential()
 # "Encode" the input sequence using an RNN, producing an output of HIDDEN_SIZE
 # note: in a situation where your input sequences have a variable length,
@@ -63,12 +66,17 @@ model.fit(dataX, dataY, nb_epoch=1000)
 # Store model graph in png
 plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
-# Create test dataset for fun
+
+# Create test data set for fun
 testX = []
+testY = []
 for i in range(10):
     rand_pick = np.random.choice(10, 7)
     x = [char_dic[digit[c]] for c in rand_pick]
+    y = [alpha[c] for c in rand_pick]
     testX.append(x)
+    testY.append(y)
+
 
 # One-hot encoding
 testX = np_utils.to_categorical(testX, nb_classes=nb_classes)
@@ -85,4 +93,5 @@ for i, prediction in enumerate(predictions):
     index = np.argmax(prediction, axis=1)
     result = [char_set[j] for j in index]
 
-    print(''.join(x_str), ' -> ', ''.join(result))
+    print(''.join(x_str), ' -> ', ''.join(result),
+          " true: ", ''.join(testY[i]))
