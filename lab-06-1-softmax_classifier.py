@@ -2,15 +2,15 @@
 import tensorflow as tf
 import numpy as np
 
-x_data = np.array([[1, 2, 1], [1, 3, 2], [1, 3, 4], [1, 5, 5],
-                   [1, 7, 5], [1, 2, 5], [1, 6, 6], [1, 7, 7]], dtype=np.float32)
+x_data = np.array([[1, 2, 1, 1], [2, 1, 3, 2], [3, 1, 3, 4], [4, 1, 5, 5],
+                   [1, 7, 5, 5], [1, 2, 5, 6], [1, 6, 6, 6], [1, 7, 7, 7]], dtype=np.float32)
 y_data = np.array([[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 1, 0],
                    [0, 1, 0], [0, 1, 0], [1, 0, 0], [1, 0, 0]], dtype=np.float32)
 
-X = tf.placeholder("float", [None, 3])
+X = tf.placeholder("float", [None, 4])
 Y = tf.placeholder("float", [None, 3])
 
-W = tf.Variable(tf.zeros([3, 3]))
+W = tf.Variable(tf.zeros([4, 3]))
 
 # Softmax
 hypothesis = tf.nn.softmax(tf.matmul(X, W))
@@ -39,21 +39,21 @@ with tf.Session() as sess:
     print('--------------')
 
     # Testing & One-hot encoding
-    a = sess.run(hypothesis, feed_dict={X: [[1, 11, 7]]})
+    a = sess.run(hypothesis, feed_dict={X: [[1, 11, 7, 9]]})
     print(a, sess.run(tf.arg_max(a, 1)))
 
     print('--------------')
 
-    b = sess.run(hypothesis, feed_dict={X: [[1, 3, 4]]})
+    b = sess.run(hypothesis, feed_dict={X: [[1, 3, 4, 3]]})
     print(a, sess.run(tf.arg_max(b, 1)))
 
     print('--------------')
 
-    c = sess.run(hypothesis, feed_dict={X: [[1, 1, 0]]})
+    c = sess.run(hypothesis, feed_dict={X: [[1, 1, 0, 1]]})
     print(a, sess.run(tf.arg_max(c, 1)))
 
     print('--------------')
 
     all = sess.run(hypothesis, feed_dict={
-                   X: [[1, 11, 7], [1, 3, 4], [1, 1, 0]]})
+                   X: [[1, 11, 7, 9], [1, 3, 4, 3], [1, 1, 0, 1]]})
     print(all, sess.run(tf.arg_max(all, 1)))

@@ -25,7 +25,8 @@ cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y)
 train = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(cost)
 
 # Accuracy computation
-predicted = tf.cast(hypothesis > 0.5, dtype=tf.float32) # True if hypothesis>0.5 else False
+# True if hypothesis>0.5 else False
+predicted = tf.cast(hypothesis > 0.5, dtype=tf.float32)
 accuracy = tf.reduce_mean(tf.cast(tf.equal(predicted, Y), dtype=tf.float32))
 
 # Launch graph
@@ -40,5 +41,6 @@ with tf.Session() as sess:
                   X: x_data, Y: y_data}), sess.run(W))
 
     # Accuracy report
-    h, c, a = sess.run([hypothesis, predicted, accuracy], feed_dict={X: x_data, Y: y_data})
+    h, c, a = sess.run([hypothesis, predicted, accuracy],
+                       feed_dict={X: x_data, Y: y_data})
     print("\nHypothesis: ", h, "\nCorrect: ", c, "\nAccuracy: ", a)
