@@ -31,7 +31,7 @@ accuracy = tf.reduce_mean(tf.cast(tf.equal(predicted, Y), dtype=tf.float32))
 
 # Launch graph
 with tf.Session() as sess:
-    # Initialize tensorflow variables
+    # Initialize TensorFlow variables
     sess.run(tf.global_variables_initializer())
 
     for step in range(2001):

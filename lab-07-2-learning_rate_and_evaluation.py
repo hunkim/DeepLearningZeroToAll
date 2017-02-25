@@ -23,10 +23,9 @@ hypothesis = tf.nn.softmax(tf.matmul(X, W) + b)
 cost = tf.reduce_mean(-tf.reduce_sum(Y * tf.log(hypothesis), axis=1))
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=1.).minimize(cost)
 
-init = tf.global_variables_initializer()
-
 with tf.Session() as sess:
-    sess.run(init)
+    # Initialize TensorFlow variables
+    sess.run(tf.global_variables_initializer())
 
     # Training cycle
     for step in range(2001):

@@ -23,12 +23,10 @@ cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y)
 
 train = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(cost)
 
-# Initialize variables
-init = tf.global_variables_initializer()
-
 # Launch graph
 with tf.Session() as sess:
-    sess.run(init)
+    # Initialize TensorFlow variables
+    sess.run(tf.global_variables_initializer())
 
     for step in range(1001):
         sess.run(train, feed_dict={X: x_data, Y: y_data})

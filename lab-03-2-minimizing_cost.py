@@ -24,12 +24,10 @@ descent = W - \
     tf.multiply(0.1, tf.reduce_mean(tf.multiply((tf.multiply(W, X) - Y), X)))
 update = W.assign(descent)
 
-# Initialize variables
-init = tf.global_variables_initializer()
-
 # Launch the graph
 sess = tf.Session()
-sess.run(init)
+# Initialize TensorFlow variables
+sess.run(tf.global_variables_initializer())
 
 for step in range(21):
     sess.run(update, feed_dict={X: x_data, Y: y_data})

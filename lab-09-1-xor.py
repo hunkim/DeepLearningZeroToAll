@@ -26,12 +26,10 @@ train = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(cost)
 predicted = tf.cast(hypothesis > 0.5, dtype=tf.float32)
 accuracy = tf.reduce_mean(tf.cast(tf.equal(predicted, Y), dtype=tf.float32))
 
-# Initialize variables
-init = tf.global_variables_initializer()
-
 # Launch graph
 with tf.Session() as sess:
-    sess.run(init)
+    # Initialize TensorFlow variables
+    sess.run(tf.global_variables_initializer())
 
     for step in range(5001):
         sess.run(train, feed_dict={X: x_data, Y: y_data})

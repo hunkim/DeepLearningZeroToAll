@@ -9,11 +9,13 @@ y_data = np.array([[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 1, 0],
 
 X = tf.placeholder("float", [None, 4])
 Y = tf.placeholder("float", [None, 3])
+nb_classes = 3
 
-W = tf.Variable(tf.zeros([4, 3]))
+W = tf.Variable(tf.random_normal([4, nb_classes]), name='weight')
+b = tf.Variable(tf.random_normal([nb_classes]), name='bias')
 
 # Softmax
-hypothesis = tf.nn.softmax(tf.matmul(X, W))
+hypothesis = tf.nn.softmax(tf.matmul(X, W) + b)
 # tf.nn.softmax computes softmax activations
 # softmax = exp(logits) / reduce_sum(exp(logits), dim)
 
@@ -24,11 +26,9 @@ cost = tf.reduce_mean(-tf.reduce_sum(Y *
 optimizer = tf.train.GradientDescentOptimizer(
     learning_rate=0.1).minimize(cost)
 
-init = tf.global_variables_initializer()
-
 # Launch graph
 with tf.Session() as sess:
-    sess.run(init)
+    sess.run(tf.global_variables_initializer())
 
     for step in range(2001):
         sess.run(optimizer, feed_dict={X: x_data, Y: y_data})

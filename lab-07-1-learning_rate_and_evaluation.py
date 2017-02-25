@@ -24,11 +24,10 @@ cost = tf.reduce_mean(-tf.reduce_sum(Y *
 optimizer = tf.train.GradientDescentOptimizer(
     learning_rate=10.).minimize(cost)
 
-init = tf.global_variables_initializer()
-
 # Launch graph
 with tf.Session() as sess:
-    sess.run(init)
+    # Initialize TensorFlow variables
+    sess.run(tf.global_variables_initializer())
 
     for step in range(2001):
         sess.run(optimizer, feed_dict={X: x_data, Y: y_data})

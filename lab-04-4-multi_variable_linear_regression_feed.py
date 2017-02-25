@@ -20,12 +20,10 @@ cost = tf.reduce_mean(tf.square(hypothesis - y))
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01)
 train = optimizer.minimize(cost)
 
-# Initialize variable
-init = tf.global_variables_initializer()
-
 # Launch graph
 sess = tf.Session()
-sess.run(init)
+# Initialize TensorFlow variables
+sess.run(tf.global_variables_initializer())
 
 x_data = np.array([[1, 0], [0, 2], [3, 0], [0, 4], [5, 0]],
                   dtype=np.float32).reshape(-1, 2)
