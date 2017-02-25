@@ -5,17 +5,20 @@ import random
 import matplotlib.pyplot as plt
 
 from tensorflow.examples.tutorials.mnist import input_data
+
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 # Check out https://www.tensorflow.org/get_started/mnist/beginners for
 # more information about the mnist dataset
 
-W = tf.Variable(tf.zeros([784, 10]))
-b = tf.Variable(tf.zeros([10]))
+nb_classes = 10
+
+W = tf.Variable(tf.zeros([784, nb_classes]))
+b = tf.Variable(tf.zeros([nb_classes]))
 
 # MNIST data image of shape 28 * 28 = 784
 X = tf.placeholder(tf.float32, [None, 784])
 # 0 - 9 digits recognition = 10 classes
-Y = tf.placeholder(tf.float32, [None, 10])
+Y = tf.placeholder(tf.float32, [None, nb_classes])
 
 # Hypothesis (using softmax)
 hypothesis = tf.nn.softmax(tf.matmul(X, W) + b)
@@ -29,19 +32,13 @@ with tf.Session() as sess:
 
     # Training cycle
     for step in range(2001):
-        avg_cost = 0.
-        total_batch = int(mnist.train.num_examples / 10000)
-        # Loop over all batches
-        for i in range(total_batch):
-            batch_xs, batch_ys = mnist.train.next_batch(100)
-            # Fi training using batch data
-            sess.run(optimizer, feed_dict={X: batch_xs, Y: batch_ys})
-            avg_cost += sess.run(cost, feed_dict={X: batch_xs, Y: batch_ys})
-        if step % 200 == 0:
+        batch_xs, batch_ys = mnist.train.next_batch(100)
+        c, _ = sess.run([cost, optimizer], feed_dict={X: batch_xs, Y: batch_ys})
+        if step % 100 == 0:
             print("Epoch: ", '%04d' % (step + 1),
-                  "cost=", "{:.9f}".format(avg_cost))
+                  "cost=", "{:.9f}".format(c))
 
-    print("Optimization finished")
+    print("Learning finished")
 
     # Get one and predict
     r = random.randint(0, mnist.test.num_examples - 1)
