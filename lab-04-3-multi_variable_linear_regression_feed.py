@@ -25,18 +25,20 @@ sess = tf.Session()
 # Initialize TensorFlow variables
 sess.run(tf.global_variables_initializer())
 
-x_data = np.array([[73, 80., 75.], [93., 88., 93.], [89., 91., 90.], [96., 98., 100.], [73., 66., 70.]])
+x_data = np.array([[73, 80., 75.], [93., 88., 93.],
+                   [89., 91., 90.], [96., 98., 100.], [73., 66., 70.]])
 y_data = np.array([[152.], [185.], [180.], [196.], [142.]])
 
 
 for step in range(2001):
-    sess.run(train, feed_dict={X:x_data, Y: y_data})
+    sess.run(train, feed_dict={X: x_data, Y: y_data})
     if step % 10 == 0:
-        print(step, sess.run([cost, hypothesis], feed_dict={X:x_data, Y: y_data}))
+        print(step, sess.run([cost, hypothesis],
+                             feed_dict={X: x_data, Y: y_data}))
 
 # Ask my score
 score = np.array([[100, 70, 101]])
-print("Your score will be ", sess.run(hypothesis, feed_dict={X:score}))
+print("Your score will be ", sess.run(hypothesis, feed_dict={X: score}))
 
 score = np.array([[60, 70, 110], [90, 100, 80]])
-print("Other scores will be ", sess.run(hypothesis, feed_dict={X:score}))
+print("Other scores will be ", sess.run(hypothesis, feed_dict={X: score}))

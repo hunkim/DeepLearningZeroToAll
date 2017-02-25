@@ -1,8 +1,6 @@
 # Lab 4 Multi-variable linear regression
 import tensorflow as tf
 
-
-
 x1_data = [73., 93., 89., 96., 73.]
 x2_data = [80., 88., 91., 98., 66.]
 x3_data = [75., 93., 90., 100., 70.]
@@ -32,4 +30,5 @@ sess.run(tf.global_variables_initializer())
 for step in range(2001):
     sess.run(train)
     if step % 10 == 0:
-        print(step, "Cost: ", sess.run(cost), "\nPrediction:\n", sess.run(hypothesis))
+        print(step, "Cost: ", sess.run(cost),
+              "\nPrediction:\n", sess.run(hypothesis))
