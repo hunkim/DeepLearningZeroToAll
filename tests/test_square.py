@@ -15,14 +15,23 @@ class SquareTest(tf.test.TestCase):
         with self.test_session():
             hypothesis = np.array([[1], [2], [3]])
             y = np.array([1, 2, 3])
-            print(hypothesis - y)
+            print("broadcast", hypothesis - y)
             cost = tf.reduce_mean(tf.square(hypothesis - y))
             self.assertNotEqual(cost.eval(), 0)
 
             y = y.reshape(-1, 1)
-            print(y, hypothesis - y)
+            print("no broadcast", y, hypothesis - y)
             cost = tf.reduce_mean(tf.square(hypothesis - y))
             self.assertAllEqual(cost.eval(), 0)
+
+    def testSquaredDifference(self):
+        with self.test_session():
+            hypothesis = np.array([[1], [2], [3]])
+            y = np.array([1, 2, 3])
+            diff = tf.squared_difference(hypothesis, y)
+            print("squared difference", diff.eval())
+            cost = tf.reduce_mean(diff)
+            self.assertNotEqual(cost.eval(), 0)
 
 if __name__ == '__main__':
     tf.test.main()
