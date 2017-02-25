@@ -1,4 +1,4 @@
-#https://github.com/fchollet/keras/blob/master/examples/mnist_cnn.py
+# https://github.com/fchollet/keras/blob/master/examples/mnist_cnn.py
 '''Trains a simple convnet on the MNIST dataset.
 Gets to 99.25% test accuracy after 12 epochs
 (there is still a lot of margin for parameter tuning).

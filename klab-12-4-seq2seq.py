@@ -40,7 +40,8 @@ dataY = np.reshape(dataY, (-1, seq_length, data_dim))
 
 
 print('Build model...')
-TensorBoard(log_dir='./logs', histogram_freq=1, write_graph=True, write_images=False)
+TensorBoard(log_dir='./logs', histogram_freq=1,
+            write_graph=True, write_images=False)
 
 model = Sequential()
 # "Encode" the input sequence using an RNN, producing an output of HIDDEN_SIZE
