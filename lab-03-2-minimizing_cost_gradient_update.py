@@ -18,7 +18,7 @@ hypothesis = X * W
 # Cost function
 cost = tf.reduce_sum(tf.square(hypothesis - Y))
 
-# Minimize
+# Minimize: Gradient Descent
 descent = W - \
     tf.multiply(0.1, tf.reduce_mean(tf.multiply((tf.multiply(W, X) - Y), X)))
 update = W.assign(descent)

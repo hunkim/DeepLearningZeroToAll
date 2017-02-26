@@ -1,5 +1,6 @@
 # Lab 3 Minimizing Cost
 import tensorflow as tf
+import matplotlib.pyplot as plt
 
 X = [1, 2, 3]
 Y = [1, 2, 3]
@@ -25,3 +26,7 @@ for i in range(-30, 50):
     print(i * 0.1, sess.run(cost, feed_dict={W: i * 0.1}))
     W_val.append(i * 0.1)
     cost_val.append(sess.run(cost, feed_dict={W: i * 0.1}))
+
+# Show cost
+plt.plot(W_val, cost_val)
+plt.show()
