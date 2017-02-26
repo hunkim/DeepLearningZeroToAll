@@ -58,6 +58,6 @@ print(results)
 
 predictions = model.predict(x_test)
 
-plt.plot(y_test)
-plt.plot(predictions)
-plt.show()
+#plt.plot(y_test)
+#plt.plot(predictions)
+#plt.show()

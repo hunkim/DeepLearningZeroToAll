@@ -2,6 +2,7 @@
 import tensorflow as tf
 import random
 import matplotlib.pyplot as plt
+from sys import platform
 
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -52,6 +53,7 @@ with tf.Session() as sess:
     print("Label: ", sess.run(tf.argmax(mnist.test.labels[r:r + 1], 1)))
     print("Prediction: ", sess.run(
         tf.argmax(hypothesis, 1), {X: mnist.test.images[r:r + 1]}))
+
 
     #plt.imshow(mnist.test.images[r:r + 1].
     #           reshape(28, 28), cmap='Greys', interpolation='nearest')
