@@ -12,7 +12,7 @@ mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 # Check out https://www.tensorflow.org/get_started/mnist/beginners for
 # more information about the mnist dataset
 
-# parameters
+# hyper parameters
 learning_rate = 0.001
 training_epochs = 15
 batch_size = 100
@@ -22,9 +22,10 @@ X = tf.placeholder(tf.float32, [None, 784])
 X_img = tf.reshape(X, [-1, 28, 28, 1])   # img 28x28x1 (black/white)
 Y = tf.placeholder(tf.float32, [None, 10])
 
+# L1 ImgIn shape=(?, 28, 28, 1)
 W1 = tf.Variable(tf.random_normal([3, 3, 1, 32], stddev=0.01))
-# L1 Conv shape=(?, 28, 28, 32)
-#    Pool     ->(?, 14, 14, 32)
+#    Conv     -> (?, 28, 28, 32)
+#    Pool     -> (?, 14, 14, 32)
 L1 = tf.nn.conv2d(X_img, W1, strides=[1, 1, 1, 1], padding='SAME')
 L1 = tf.nn.relu(L1)
 L1 = tf.nn.max_pool(L1, ksize=[1, 2, 2, 1],
@@ -35,10 +36,10 @@ Tensor("Relu:0", shape=(?, 28, 28, 32), dtype=float32)
 Tensor("MaxPool:0", shape=(?, 14, 14, 32), dtype=float32)
 '''
 
+# L2 ImgIn shape=(?, 14, 14, 32)
 W2 = tf.Variable(tf.random_normal([3, 3, 32, 64], stddev=0.01))
-# L2 Conv shape=(?, 14, 14, 64)
-#    Pool     ->(?, 7, 7, 64)
-#    Reshape  ->(?,  7 * 7 * 64]) Flatten them for FC
+#    Conv      ->(?, 14, 14, 64)
+#    Pool      ->(?, 7, 7, 64)
 L2 = tf.nn.conv2d(L1, W2, strides=[1, 1, 1, 1], padding='SAME')
 L2 = tf.nn.relu(L2)
 L2 = tf.nn.max_pool(L2, ksize=[1, 2, 2, 1],
