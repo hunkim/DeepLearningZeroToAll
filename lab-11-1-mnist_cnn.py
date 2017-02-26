@@ -19,24 +19,43 @@ batch_size = 100
 
 # input place holders
 X = tf.placeholder(tf.float32, [None, 784])
+X_img = tf.reshape(X, [-1, 28, 28, 1])   # img 28x28x1 (black/white)
 Y = tf.placeholder(tf.float32, [None, 10])
 
-# weights & bias for nn layers
-# http://stackoverflow.com/questions/33640581/how-to-do-xavier-initialization-on-tensorflow
-W1 = tf.get_variable("W1", shape=[784, 256],
-                     initializer=tf.contrib.layers.xavier_initializer())
-b1 = tf.Variable(tf.random_normal([256]))
-L1 = tf.nn.relu(tf.matmul(X, W1) + b1)
+W1 = tf.Variable(tf.random_normal([3, 3, 1, 32], stddev=0.01))
+# L1 Conv shape=(?, 28, 28, 32)
+#    Pool     ->(?, 14, 14, 32)
+L1 = tf.nn.conv2d(X_img, W1, strides=[1, 1, 1, 1], padding='SAME')
+L1 = tf.nn.relu(L1)
+L1 = tf.nn.max_pool(L1, ksize=[1, 2, 2, 1],
+                    strides=[1, 2, 2, 1], padding='SAME')
+'''
+Tensor("Conv2D:0", shape=(?, 28, 28, 32), dtype=float32)
+Tensor("Relu:0", shape=(?, 28, 28, 32), dtype=float32)
+Tensor("MaxPool:0", shape=(?, 14, 14, 32), dtype=float32)
+'''
 
-W2 = tf.get_variable("W2", shape=[256, 256],
-                     initializer=tf.contrib.layers.xavier_initializer())
-b2 = tf.Variable(tf.random_normal([256]))
-L2 = tf.nn.relu(tf.matmul(L1, W2) + b2)
+W2 = tf.Variable(tf.random_normal([3, 3, 32, 64], stddev=0.01))
+# L2 Conv shape=(?, 14, 14, 64)
+#    Pool     ->(?, 7, 7, 64)
+#    Reshape  ->(?,  7 * 7 * 64]) Flatten them for FC
+L2 = tf.nn.conv2d(L1, W2, strides=[1, 1, 1, 1], padding='SAME')
+L2 = tf.nn.relu(L2)
+L2 = tf.nn.max_pool(L2, ksize=[1, 2, 2, 1],
+                    strides=[1, 2, 2, 1], padding='SAME')
+L2 = tf.reshape(L2, [-1, 7 * 7 * 64])
+'''
+Tensor("Conv2D_1:0", shape=(?, 14, 14, 64), dtype=float32)
+Tensor("Relu_1:0", shape=(?, 14, 14, 64), dtype=float32)
+Tensor("MaxPool_1:0", shape=(?, 7, 7, 64), dtype=float32)
+Tensor("Reshape_1:0", shape=(?, 3136), dtype=float32)
+'''
 
-W3 = tf.get_variable("W3", shape=[256, 10],
+# Final FC 7x7x64 inputs -> 10 outputs
+W3 = tf.get_variable("W2", shape=[7 * 7 * 64, 10],
                      initializer=tf.contrib.layers.xavier_initializer())
-b3 = tf.Variable(tf.random_normal([10]))
-hypothesis = tf.matmul(L2, W3) + b3
+b = tf.Variable(tf.random_normal([10]))
+hypothesis = tf.matmul(L2, W3) + b
 
 # define cost & optimizer
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
@@ -48,13 +67,15 @@ sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 # train my model
+print('Learning stared. It takes sometime.')
 for epoch in range(training_epochs):
     avg_cost = 0
     total_batch = int(mnist.train.num_examples / batch_size)
 
     for i in range(total_batch):
         batch_xs, batch_ys = mnist.train.next_batch(batch_size)
-        sess.run(optimizer, feed_dict={X: batch_xs, Y: batch_ys})
+        sess.run(optimizer, feed_dict={
+                 X: batch_xs, Y: batch_ys})
         avg_cost += sess.run(cost,
                              feed_dict={X: batch_xs, Y: batch_ys}) / total_batch
 
@@ -79,21 +100,21 @@ plt.imshow(mnist.test.images[r:r + 1].
 plt.show()
 
 '''
-Epoch: 0001 cost = 0.301498963
-Epoch: 0002 cost = 0.107252513
-Epoch: 0003 cost = 0.064888892
-Epoch: 0004 cost = 0.044463030
-Epoch: 0005 cost = 0.029951642
-Epoch: 0006 cost = 0.020663404
-Epoch: 0007 cost = 0.015853033
-Epoch: 0008 cost = 0.011764387
-Epoch: 0009 cost = 0.008598264
-Epoch: 0010 cost = 0.007383116
-Epoch: 0011 cost = 0.006839140
-Epoch: 0012 cost = 0.004672963
-Epoch: 0013 cost = 0.003979437
-Epoch: 0014 cost = 0.002714260
-Epoch: 0015 cost = 0.004707661
+Epoch: 0001 cost = 0.340291267
+Epoch: 0002 cost = 0.090731326
+Epoch: 0003 cost = 0.064477619
+Epoch: 0004 cost = 0.050683064
+Epoch: 0005 cost = 0.041864835
+Epoch: 0006 cost = 0.035760704
+Epoch: 0007 cost = 0.030572132
+Epoch: 0008 cost = 0.026207981
+Epoch: 0009 cost = 0.022622454
+Epoch: 0010 cost = 0.019055919
+Epoch: 0011 cost = 0.017758641
+Epoch: 0012 cost = 0.014156652
+Epoch: 0013 cost = 0.012397016
+Epoch: 0014 cost = 0.010693789
+Epoch: 0015 cost = 0.009469977
 Learning Finished!
-Accuracy: 0.9783
+Accuracy: 0.9885
 '''

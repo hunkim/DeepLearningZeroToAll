@@ -66,3 +66,23 @@ print("Prediction: ", sess.run(
 plt.imshow(mnist.test.images[r:r + 1].
            reshape(28, 28), cmap='Greys', interpolation='nearest')
 plt.show()
+
+'''
+Epoch: 0001 cost = 5.888845987
+Epoch: 0002 cost = 1.860620173
+Epoch: 0003 cost = 1.159035648
+Epoch: 0004 cost = 0.892340870
+Epoch: 0005 cost = 0.751155428
+Epoch: 0006 cost = 0.662484806
+Epoch: 0007 cost = 0.601544010
+Epoch: 0008 cost = 0.556526115
+Epoch: 0009 cost = 0.521186961
+Epoch: 0010 cost = 0.493068354
+Epoch: 0011 cost = 0.469686249
+Epoch: 0012 cost = 0.449967254
+Epoch: 0013 cost = 0.433519321
+Epoch: 0014 cost = 0.419000337
+Epoch: 0015 cost = 0.406490815
+Learning Finished!
+Accuracy: 0.9035
+'''
