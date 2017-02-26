@@ -9,7 +9,7 @@ This is work in progress, and may have bugs.
 However, we call for your comments and pull requests. Check out our style guide line:
 
 * More TF (1.0) style: use more recent and decent TF APIs.
-* More Pythonic: fully leverage the powe of python
+* More Pythonic: fully leverage the power of python
 * Readability (over efficiency): Since it's for instruction purposes, we prefer *readability* over others.  
 * Understandability (over everything): Understanding TF key concepts is the main goal of this code.
 * KISS: Keep It Simple Stupid! https://www.techopedia.com/definition/20262/keep-it-simple-stupid-principle-kiss-principle
