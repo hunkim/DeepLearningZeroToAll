@@ -43,6 +43,13 @@ with tf.Session() as sess:
 
     print("Learning finished")
 
+    # Test model
+    correct_prediction = tf.equal(tf.arg_max(hypothesis, 1), tf.arg_max(Y, 1))
+    # Calculate accuracy
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+    print("Accuracy: ", accuracy.eval(session=sess, feed_dict={
+          X: mnist.test.images, Y: mnist.test.labels}))
+
     # Get one and predict
     r = random.randint(0, mnist.test.num_examples - 1)
     print("Label: ", sess.run(tf.argmax(mnist.test.labels[r:r + 1], 1)))
@@ -51,11 +58,4 @@ with tf.Session() as sess:
 
     plt.imshow(mnist.test.images[r:r + 1].
                reshape(28, 28), cmap='Greys', interpolation='nearest')
-    plt.show()
-
-    # Test model
-    correct_prediction = tf.equal(tf.arg_max(hypothesis, 1), tf.arg_max(Y, 1))
-    # Calculate accuracy
-    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-    print("Accuracy: ", accuracy.eval(session=sess, feed_dict={
-          X: mnist.test.images, Y: mnist.test.labels}))
+    # plt.show()
