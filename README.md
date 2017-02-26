@@ -9,7 +9,7 @@ However, we call for your comments and pull requests. Check out our style guide 
 * More Pythonic: fully leverage the powe of python
 * Readability (over efficiency): Since it's for instruction purposes, we prefer *readability* over others.  
 * Understandability (over everything): Understanding TF key concepts is the main goal of this code.
-* KISS: Keep It Simple Stupid!
+* KISS: Keep It Simple Stupid! https://www.techopedia.com/definition/20262/keep-it-simple-stupid-principle-kiss-principle
  
 ## File naming rule:
 
@@ -39,3 +39,6 @@ pip install pipreqs
 pipreqs /path/to/project
 ```
 http://stackoverflow.com/questions/31684375
+
+# Contributions/Comments
+We always welcome your comments and pull requests.

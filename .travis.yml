@@ -14,3 +14,4 @@ script:
   - python lab-07-2-learning_rate_and_evaluation.py # run this first to download the MNIST file
   # run all python files in parallel, http://stackoverflow.com/questions/5015316
   - ls ??_*.py|xargs -n 1 -P 3 python
+  - pytest
