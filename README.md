@@ -1,4 +1,7 @@
 # Lab code (WIP), but call for comments
+
+[![Build Status](https://travis-ci.org/hunkim/DeepLearningZeroToAll.svg?branch=master)](https://travis-ci.org/hunkim/DeepLearningZeroToAll)
+
 This is code for labs covered in TensorFlow basic tutorials (in Korean) at https://www.youtube.com/watch?v=BS6O0zOGX4E&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm. 
 (We also have a plan to record videos in English.)
 
