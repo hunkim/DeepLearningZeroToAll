@@ -1,10 +1,7 @@
 # Lab 7 Learning rate and Evaluation
 import tensorflow as tf
-import numpy as np
 import random
 import matplotlib.pyplot as plt
-import matplotlib
-matplotlib.use('Agg')
 
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -56,6 +53,6 @@ with tf.Session() as sess:
     print("Prediction: ", sess.run(
         tf.argmax(hypothesis, 1), {X: mnist.test.images[r:r + 1]}))
 
-    plt.imshow(mnist.test.images[r:r + 1].
-               reshape(28, 28), cmap='Greys', interpolation='nearest')
+    #plt.imshow(mnist.test.images[r:r + 1].
+    #           reshape(28, 28), cmap='Greys', interpolation='nearest')
     # plt.show()
