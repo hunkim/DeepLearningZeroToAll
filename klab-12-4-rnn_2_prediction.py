@@ -53,8 +53,9 @@ model.add(Dense(1))
 model.add(Activation('linear'))
 
 model.summary()
+
 # Store model graph in png
-plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
+#plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
 model.compile(loss='mean_squared_error', optimizer='adam')
 

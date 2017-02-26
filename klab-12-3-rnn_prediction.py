@@ -50,9 +50,9 @@ model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='adam')
 
 model.summary()
-# Store model graph in png
-plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
+# Store model graph in png
+#plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
 print(trainX.shape, trainY.shape)
 model.fit(trainX, trainY, nb_epoch=200)
