@@ -43,5 +43,11 @@ pipreqs /path/to/project
 ```
 http://stackoverflow.com/questions/31684375
 
-# Contributions/Comments
+## Contributions/Comments
 We always welcome your comments and pull requests.
+
+## Reference Implementations 
+* https://github.com/nlintz/TensorFlow-Tutorials/
+* https://github.com/golbin/TensorFlow-ML-Exercises
+* https://github.com/FuZer/Study_TensorFlow
+* https://github.com/fchollet/keras/tree/master/examples
