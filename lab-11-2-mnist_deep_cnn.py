@@ -134,9 +134,9 @@ print("Label: ", sess.run(tf.argmax(mnist.test.labels[r:r + 1], 1)))
 print("Prediction: ", sess.run(
     tf.argmax(hypothesis, 1), {X: mnist.test.images[r:r + 1], keep_prob: 1}))
 
-#plt.imshow(mnist.test.images[r:r + 1].
+# plt.imshow(mnist.test.images[r:r + 1].
 #           reshape(28, 28), cmap='Greys', interpolation='nearest')
-#plt.show()
+# plt.show()
 
 '''
 Learning stared. It takes sometime.

@@ -1,5 +1,6 @@
 # Lab 2 Linear Regression
 import tensorflow as tf
+tf.set_random_seed(777)  # for reproducibility
 
 x_train = [1, 2, 3]
 y_train = [1, 2, 3]
@@ -10,23 +11,25 @@ y_train = [1, 2, 3]
 W = tf.Variable(tf.random_normal([1]), name='weight')
 b = tf.Variable(tf.random_normal([1]), name='bias')
 
+# Now we can use X and Y in place of x_data and y_data
+# use feed_dict to feed these
+# See http://stackoverflow.com/questions/36693740/
 X = tf.placeholder(tf.float32)
 Y = tf.placeholder(tf.float32)
-# Now we can use X and Y in place of x_data and y_data
 
-# Our hypothesis
+# Our hypothesis XW+b
 hypothesis = X * W + b
 
-# Simplified cost function
+# Cost/loss function
 cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
 # Minimize
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01)
 train = optimizer.minimize(cost)
 
-# Launch graph
+# Launch the graph in a session.
 sess = tf.Session()
-# Initialize TensorFlow variables
+# Initializes global variables in the graph.
 sess.run(tf.global_variables_initializer())
 
 # Fit the line
@@ -37,7 +40,17 @@ for step in range(2001):
               X: x_train, Y: y_train}), sess.run(W), sess.run(b))
 
 # Learns best fit W:[ 1.],  b:[ 0]
+'''
+...
+1980 1.32962e-05 [ 1.00423515] [-0.00962736]
+2000 1.20761e-05 [ 1.00403607] [-0.00917497]
+'''
 
-# Testing out model
+# Testing our model
 print(sess.run(hypothesis, feed_dict={X: 5}))
 print(sess.run(hypothesis, feed_dict={X: 2.5}))
+
+'''
+[ 5.0110054]
+[ 2.50091505]
+'''

@@ -22,9 +22,9 @@ cost = tf.reduce_mean(tf.square(hypothesis - y_data))
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=1e-5)
 train = optimizer.minimize(cost)
 
-# Launch graph
+# Launch the graph in a session.
 sess = tf.Session()
-# Initialize TensorFlow variables
+# Initializes global variables in the graph.
 sess.run(tf.global_variables_initializer())
 
 for step in range(2001):
