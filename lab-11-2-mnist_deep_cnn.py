@@ -59,7 +59,7 @@ Tensor("dropout_1/mul:0", shape=(?, 7, 7, 64), dtype=float32)
 W3 = tf.Variable(tf.random_normal([3, 3, 64, 128], stddev=0.01))
 # L3 Conv shape=(?, 7, 7, 128)
 #    Pool     ->(?, 4, 4, 128)
-#    Reshape  ->(?, 4 * 4 * 128)
+#    Reshape  ->(?, 4 * 4 * 128) # Flatten them for FC
 L3 = tf.nn.conv2d(L2, W3, strides=[1, 1, 1, 1], padding='SAME')
 L3 = tf.nn.relu(L3)
 L3 = tf.nn.max_pool(L3, ksize=[1, 2, 2, 1], strides=[
