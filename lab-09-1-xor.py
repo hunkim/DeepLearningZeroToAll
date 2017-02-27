@@ -2,7 +2,6 @@
 # This example does not work
 import tensorflow as tf
 import numpy as np
-
 tf.set_random_seed(777)  # for reproducibility
 
 x_data = np.array([[0, 0], [0, 1], [1, 0], [1, 1]], dtype=np.float32)
