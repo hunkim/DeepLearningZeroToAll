@@ -46,7 +46,7 @@ trainY, testY = np.array(dataY[0:train_size]), np.array(
 
 model = Sequential()
 model.add(LSTM(1, input_shape=(seq_length, data_dim), return_sequences=False))
-#model.add(Dense(1))
+# model.add(Dense(1))
 model.add(Activation("linear"))
 model.compile(loss='mean_squared_error', optimizer='adam')
 
@@ -65,7 +65,7 @@ testPredict = model.predict(testX)
 #testPredict = scaler.transform(testPredict)
 #testY = scaler.transform(testY)
 
-#print(testPredict)
+# print(testPredict)
 plt.plot(testY)
 plt.plot(testPredict)
 plt.show()

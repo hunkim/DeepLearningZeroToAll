@@ -44,7 +44,7 @@ Y = tf.placeholder(tf.float32, [None, 1])
 cell = tf.contrib.rnn.BasicLSTMCell(num_units=output_dim, state_is_tuple=True)
 cell = tf.contrib.rnn.MultiRNNCell([cell] * 2, state_is_tuple=True)
 outputs, _states = tf.nn.dynamic_rnn(cell, X, dtype=tf.float32)
-last_output = outputs[:, -1] # We use the last cell's output
+last_output = outputs[:, -1]  # We use the last cell's output
 
 # Softmax layer (rnn_hidden_size -> num_classes)
 softmax_w = tf.get_variable("softmax_w", [output_dim, 1])
@@ -66,11 +66,12 @@ sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 for i in range(1000):
-    _, l = sess.run([train, loss], feed_dict={X: trainX, Y:trainY})
+    _, l = sess.run([train, loss], feed_dict={X: trainX, Y: trainY})
     print(i, l)
 
 testPredict = sess.run(Y_pred, feed_dict={X: testX})
-print("RMSE", sess.run(rmse, feed_dict={targets: testY, predictions:testPredict}))
+print("RMSE", sess.run(rmse, feed_dict={
+      targets: testY, predictions: testPredict}))
 plt.plot(testY)
 plt.plot(testPredict)
 plt.show()
