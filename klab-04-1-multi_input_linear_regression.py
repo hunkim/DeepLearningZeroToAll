@@ -10,7 +10,7 @@ model = Sequential()
 model.add(Dense(output_dim=1, input_dim=3))
 model.add(Activation('linear'))
 
-model.compile(loss='mse', optimizer='sgd',  lr=1e-10)
+model.compile(loss='mse', optimizer='rmsprop',  lr=1e-10)
 model.fit(x_data, y_data, nb_epoch=1000)
 
 y_predict = model.predict(np.array([[95., 100., 80]]))
