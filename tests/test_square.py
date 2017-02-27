@@ -24,5 +24,11 @@ class SquareTest(tf.test.TestCase):
             cost = tf.reduce_mean(tf.square(hypothesis - y))
             self.assertAllEqual(cost.eval(), 0)
 
+    def testNormalize(self):
+        with self.test_session():
+            values = np.array([[10, 20], [1000, -100]], dtype=np.float32)
+            norm_values = tf.nn.l2_normalize(values, dim=1)
+            print(norm_values.eval())
+
 if __name__ == '__main__':
     tf.test.main()

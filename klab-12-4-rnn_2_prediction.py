@@ -18,7 +18,7 @@ data_dim = 5
 
 import matplotlib.pyplot as plt
 # Open,High,Low,Close,Volume
-xy = np.loadtxt('data-02-data-02-stock_daily.csv', delimiter=',')
+xy = np.loadtxt('data-02-stock_daily.csv', delimiter=',')
 xy = xy[::-1]  # reverse order (chronically ordered)
 
 # very important. It does not work without it.
@@ -70,6 +70,6 @@ testPredict = model.predict(testX)
 #testY = scaler.transform(testY)
 
 print(testPredict)
-# plt.plot(testY)
-# plt.plot(testPredict)
-# plt.show()
+plt.plot(testY)
+plt.plot(testPredict)
+plt.show()
