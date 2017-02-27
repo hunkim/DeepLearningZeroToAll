@@ -28,18 +28,10 @@ cell = rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
 initial_state = cell.zero_state(batch_size, tf.float32)
 outputs, _states = tf.nn.dynamic_rnn(cell, x_data, initial_state=initial_state, dtype=tf.float32)
 
-x_data = x_data.reshape(-1, hidden_size)
-print(x_data)
-softmax_w = np.arange(20, dtype=np.float32).reshape(hidden_size, num_classes)
-print(x_data.shape)
-print(softmax_w.shape)
-outputs = np.matmul(x_data, softmax_w)
-outputs = outputs.reshape(-1, sequence_length, num_classes)
-
-
 prediction = tf.constant([[h, e, l, l, o]], dtype=tf.float32)
-y_data = tf.constant([[1, 1, 1, 1, 1]])
-weights = tf.constant([[1, 1, 1, 1, 1]], dtype=tf.float32)
+y_data = tf.Variable([[2, 3, 3, 4]])
+print(y_data)
+weights = tf.ones([batch_size, sequence_length])
 
 sequence_loss = tf.contrib.seq2seq.sequence_loss(prediction, y_data, weights)
 cost = tf.reduce_sum(sequence_loss)/batch_size
