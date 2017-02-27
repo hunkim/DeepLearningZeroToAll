@@ -11,7 +11,7 @@ print("y_data", y_data)
 model = Sequential()
 model.add(Dense(input_dim=3, output_dim=1))
 
-model.compile(loss='mse', optimizer='sgd')
+model.compile(loss='mse', optimizer='rmsprop')
 model.fit(x_data, y_data, nb_epoch=2000)
 
 print("0, 2, 1", model.predict(np.array([[0, 2, 1]])))
