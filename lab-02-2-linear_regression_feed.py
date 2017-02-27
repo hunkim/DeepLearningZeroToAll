@@ -12,7 +12,7 @@ W = tf.Variable(tf.random_normal([1]), name='weight')
 b = tf.Variable(tf.random_normal([1]), name='bias')
 
 # Now we can use X and Y in place of x_data and y_data
-# use feed_dict to feed these
+# # placeholders for a tensor that will be always fed using feed_dict
 # See http://stackoverflow.com/questions/36693740/
 X = tf.placeholder(tf.float32)
 Y = tf.placeholder(tf.float32)
