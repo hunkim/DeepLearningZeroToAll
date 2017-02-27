@@ -43,6 +43,7 @@ weights = tf.constant([[1, 1, 1, 1, 1]], dtype=tf.float32)
 
 sequence_loss = tf.contrib.seq2seq.sequence_loss(prediction, y_data, weights)
 cost = tf.reduce_sum(sequence_loss)/batch_size
+optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
 
 sess.run(tf.global_variables_initializer())
 pp.pprint(outputs)
