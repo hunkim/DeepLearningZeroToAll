@@ -3,7 +3,7 @@ from keras.layers import Dense
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
-xy = np.loadtxt('data-02-data-02-stock_daily.csv', delimiter=',')
+xy = np.loadtxt('data-02-stock_daily.csv', delimiter=',')
 
 # very important. It does not work without it.
 scaler = MinMaxScaler(feature_range=(0, 1))
@@ -58,6 +58,6 @@ print(results)
 
 predictions = model.predict(x_test)
 
-plt.plot(y_test)
-plt.plot(predictions)
-plt.show()
+# plt.plot(y_test)
+# plt.plot(predictions)
+# plt.show()

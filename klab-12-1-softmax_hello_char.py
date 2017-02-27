@@ -46,7 +46,7 @@ model.add(Dense(nb_classes, input_shape=(
 model.add(Activation('softmax'))
 model.summary()
 # Store model graph in png
-plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
+#plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
 model.compile(loss='categorical_crossentropy',
               optimizer='rmsprop', metrics=['accuracy'])

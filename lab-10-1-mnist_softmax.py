@@ -3,7 +3,6 @@ import tensorflow as tf
 import numpy as np
 import random
 import matplotlib.pyplot as plt
-
 from tensorflow.examples.tutorials.mnist import input_data
 
 tf.set_random_seed(777)  # reproducibility
@@ -63,9 +62,9 @@ print("Label: ", sess.run(tf.argmax(mnist.test.labels[r:r + 1], 1)))
 print("Prediction: ", sess.run(
     tf.argmax(hypothesis, 1), {X: mnist.test.images[r:r + 1]}))
 
-plt.imshow(mnist.test.images[r:r + 1].
-           reshape(28, 28), cmap='Greys', interpolation='nearest')
-plt.show()
+# plt.imshow(mnist.test.images[r:r + 1].
+#           reshape(28, 28), cmap='Greys', interpolation='nearest')
+# plt.show()
 
 '''
 Epoch: 0001 cost = 5.888845987

@@ -1,0 +1,6 @@
+Keras==1.2.2
+matplotlib==2.0.0
+numpy==1.12.0
+tensorflow==1.0.0
+scikit_learn==0.18.1
+pydot==1.2.3
