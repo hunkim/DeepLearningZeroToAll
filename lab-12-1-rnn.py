@@ -1,4 +1,5 @@
 # Lab 12 RNN
+#WIP
 import tensorflow as tf
 import numpy as np
 from tensorflow.contrib import rnn
@@ -7,50 +8,42 @@ pp = pprint.PrettyPrinter(indent=4)
 
 sess = tf.InteractiveSession()
 
-char_rdic = ['h', 'e', 'l', 'o']  # id -> char
-char_dic = {w: i for i, w in enumerate(char_rdic)}  # char -> id
+h = [1,0,0,0]
+e = [0,1,0,0]
+l = [0,0,1,0]
+o = [0,0,0,1]
 
-sample = [char_dic[c] for c in "hello"]
-
-# Configuration
-char_vocab_size = len(char_dic)
-rnn_size = char_vocab_size  # one hot encoding
+hidden_size = 5
 time_step_size = 4  # 'hell' -> 'ello'
 batch_size = 1
 
-hidden_size = 5
-cell = tf.contrib.rnn.BasicRNNCell(num_units=hidden_size)
-x_data = np.array([[[1, 0, 0,0], [0, 1, 0,0], [0, 0, 1,0],
-                   [0, 0, 0, 1]]], dtype=np.float32)
-outputs, states = tf.nn.dynamic_rnn(cell, x_data, dtype=tf.float32)
+num_classes = 4
+sequence_length = 4
+input_dim = 5
 
-#logits: list of 2D Tensors of shape [batch_size x num_decoder_symbols]
-#targets: list of 1D batch-sized int32 tensors of the same length as logits
-#weights: list of 1D batch-sized float-Tensors of the same length as logits
-logits = tf.reshape(tf.concat(values=outputs, axis=1), [-1, rnn_size])
-targets = tf.reshape(sample[1:], [-1])
-weights = tf.ones([time_step_size * batch_size])
+x_data = np.array([[h, e, l, l, o]], dtype=np.float32)
+print(x_data)
 
-print(len(outputs.get_shape()))
-print(len(logits.get_shape()))
+cell = rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
+initial_state = cell.zero_state(batch_size, tf.float32)
+outputs, _states = tf.nn.dynamic_rnn(cell, x_data, initial_state=initial_state, dtype=tf.float32)
 
-#ValueError: Logits must be a [batch_size x sequence_length x logits] tensor
-loss = tf.contrib.seq2seq.sequence_loss(logits=logits, targets=targets, weights=weights)
-
-cost = tf.reduce_sum(loss)/batch_size
-
-train_op = tf.train.GradientDescentOptimizer(
-    learning_rate=.1).minimize(cost)
+x_data = x_data.reshape(-1, hidden_size)
+print(x_data)
+softmax_w = np.arange(20, dtype=np.float32).reshape(hidden_size, num_classes)
+print(x_data.shape)
+print(softmax_w.shape)
+outputs = np.matmul(x_data, softmax_w)
+outputs = outputs.reshape(-1, sequence_length, num_classes)
 
 
-# Initialize variables
-init = tf.global_variables_initializer()
+prediction = tf.constant([[h, e, l, l, o]], dtype=tf.float32)
+y_data = tf.constant([[1, 1, 1, 1, 1]])
+weights = tf.constant([[1, 1, 1, 1, 1]], dtype=tf.float32)
 
-# Launch graph
-with tf.Session() as sess:
-    sess.run(init)
-    for i in range(100):
-    	sess.run(train_op)
-    	result = sess.run(tf.argmax(logits, 1))
-    	print (result, [char_rdic[t] for t in result])
+sequence_loss = tf.contrib.seq2seq.sequence_loss(prediction, y_data, weights)
+cost = tf.reduce_sum(sequence_loss)/batch_size
 
+sess.run(tf.global_variables_initializer())
+pp.pprint(outputs)
+print(sequence_loss.eval())
