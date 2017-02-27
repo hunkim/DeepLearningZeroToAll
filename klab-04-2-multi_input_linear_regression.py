@@ -9,7 +9,7 @@ y_data = [[152.], [185.], [180.], [196.], [142.]]
 model = Sequential()
 model.add(Dense(input_dim=3, output_dim=1))
 
-model.compile(loss='mse', optimizer='sgd')
+model.compile(loss='mse', optimizer='rmsprop')
 model.fit(x_data, y_data)
 
 y_predict = model.predict(np.array([[0, 2, 1]]))
