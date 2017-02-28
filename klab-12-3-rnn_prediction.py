@@ -15,7 +15,6 @@ import matplotlib.pyplot as plt
 timesteps = seq_length = 7
 data_dim = 5
 
-import matplotlib.pyplot as plt
 # Open,High,Low,Close,Volume
 xy = np.loadtxt('data-02-stock_daily.csv', delimiter=',')
 xy = xy[::-1]  # reverse order (chronically ordered)
@@ -53,7 +52,7 @@ model.compile(loss='mean_squared_error', optimizer='adam')
 model.summary()
 
 # Store model graph in png
-#plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
+# plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
 print(trainX.shape, trainY.shape)
 model.fit(trainX, trainY, nb_epoch=200)
@@ -62,8 +61,8 @@ model.fit(trainX, trainY, nb_epoch=200)
 testPredict = model.predict(testX)
 
 # inverse values
-#testPredict = scaler.transform(testPredict)
-#testY = scaler.transform(testY)
+# testPredict = scaler.transform(testPredict)
+# testY = scaler.transform(testY)
 
 # print(testPredict)
 plt.plot(testY)
