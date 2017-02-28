@@ -25,7 +25,8 @@ train = optimizer.minimize(cost)
 # Get gradients
 gvs = optimizer.compute_gradients(cost)
 # Apply gradients
-apply_gradients = optimizer.apply_gradients(gvs)
+capped_gvs = [(tf.clip_by_value(grad, -1., 1.), var) for grad, var in gvs]
+apply_gradients = optimizer.apply_gradients(capped_gvs)
 
 # Launch the graph in a session.
 sess = tf.Session()
@@ -33,7 +34,7 @@ sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 for step in range(100):
-    print(step, sess.run([gradient, W, gvs]))
+    print(step, sess.run([gradient, W, gvs, capped_gvs]))
     sess.run(apply_gradients)
     # Same as sess.run(train)
 
