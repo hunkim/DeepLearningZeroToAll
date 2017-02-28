@@ -3,7 +3,7 @@ import tensorflow as tf
 import numpy as np
 tf.set_random_seed(777)  # reproducibility
 
-dic = {0: 'h', 1: 'i', 2: 'e', 3: 'l', 4: 'o'}
+idx2char=['h','i', 'e', 'l', 'o']
 # Teach hello: hihell -> ihello
 x_data = [[0, 1, 0, 2, 3, 3]]   # hihell
 x_one_hot = [[[1, 0, 0, 0, 0],   # h 0
@@ -45,7 +45,7 @@ with tf.Session() as sess:
         print(i, "loss:", l, "prediction: ", result, "true Y: ", y_data)
 
         # print char using dic
-        result_str = [dic[c] for c in np.squeeze(result)]
+        result_str = [idx2char[c] for c in np.squeeze(result)]
         print("\tPrediction str: ", ''.join(result_str))
 
 '''
