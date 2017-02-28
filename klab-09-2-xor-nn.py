@@ -1,7 +1,6 @@
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.optimizers import SGD
-import numpy as np
 
 x_data = [[0., 0.], [0., 1.], [1., 0.], [1., 1.]]
 y_data = [[0.], [1.], [1.], [0.]]

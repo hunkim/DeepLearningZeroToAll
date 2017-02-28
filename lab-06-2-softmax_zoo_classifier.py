@@ -3,6 +3,7 @@ import tensorflow as tf
 import numpy as np
 tf.set_random_seed(777)  # for reproducibility
 
+# Predicting animal type based on various features
 xy = np.loadtxt('data-04-zoo.csv', delimiter=',', dtype=np.float32)
 x_data = xy[:, 0:-1]
 

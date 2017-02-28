@@ -3,10 +3,15 @@ import tensorflow as tf
 import numpy as np
 tf.set_random_seed(777)  # for reproducibility
 
-x_data = np.array([[1, 2, 1], [1, 3, 2], [1, 3, 4], [1, 5, 5],
-                   [1, 7, 5], [1, 2, 5], [1, 6, 6], [1, 7, 7]], dtype=np.float32)
-y_data = np.array([[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 1, 0],
-                   [0, 1, 0], [0, 1, 0], [1, 0, 0], [1, 0, 0]], dtype=np.float32)
+x_data = [[1, 2, 1], [1, 3, 2], [1, 3, 4], [1, 5, 5],
+          [1, 7, 5], [1, 2, 5], [1, 6, 6], [1, 7, 7]]
+y_data = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 1, 0],
+          [0, 1, 0], [0, 1, 0], [1, 0, 0], [1, 0, 0]]
+
+
+# Evaluation our model using this test dataset
+x_test = [[2, 1, 1], [3, 1, 2], [3, 3, 4]]
+y_test = [[0, 0, 1], [0, 0, 1], [0, 0, 1]]
 
 X = tf.placeholder("float", [None, 3])
 Y = tf.placeholder("float", [None, 3])
@@ -23,7 +28,9 @@ cost = tf.reduce_mean(-tf.reduce_sum(Y * tf.log(hypothesis), axis=1))
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
 
 # Correct prediction Test model
-correct_prediction = tf.equal(tf.arg_max(hypothesis, 1), tf.arg_max(Y, 1))
+prediction = tf.arg_max(hypothesis, 1)
+is_correct = tf.equal(prediction, tf.arg_max(Y, 1))
+accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
 
 # Launch graph
 with tf.Session() as sess:
@@ -36,14 +43,10 @@ with tf.Session() as sess:
             print(step, sess.run(cost, feed_dict={
                   X: x_data, Y: y_data}), sess.run(W))
 
-    # Evaluation our model using this test dataset
-    x_test = np.array([[2, 1, 1], [3, 1, 2], [3, 3, 4]], dtype=np.float32)
-    y_test = np.array([[0, 0, 1], [0, 0, 1], [0, 0, 1]], dtype=np.float32)
-
+    # predict
+    print("Prediction:", sess.run(prediction, feed_dict={X: x_test}))
     # Calculate the accuracy
-    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-    print("Accuracy: ", accuracy.eval(session=sess, feed_dict={
-        X: x_test, Y: y_test}))
+    print("Accuracy: ", sess.run(accuracy, feed_dict={X: x_test, Y: y_test}))
 
 '''
 when lr = 10.
@@ -59,6 +62,7 @@ when lr = 10.
 2000 nan [[ nan  nan  nan]
  [ nan  nan  nan]
  [ nan  nan  nan]]
+Prediction: [0 0 0]
 Accuracy:  0.0
 
 -------------------------------------------------
@@ -78,5 +82,6 @@ When lr = 0.1
 2000 0.361591 [[-6.95501471  0.21433842  6.7406764 ]
  [ 0.13668649  0.02956286 -0.16624542]
  [ 1.2420913   0.1036661  -1.3457557 ]]
+Prediction: [2 2 2]
 Accuracy:  1.0
 '''

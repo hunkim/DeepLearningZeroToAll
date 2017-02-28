@@ -42,8 +42,27 @@ with tf.Session() as sess:
     for i in range(2000):
         l, _ = sess.run([loss, train], feed_dict={X: x_one_hot, Y: y_data})
         result = sess.run(prediction, feed_dict={X: x_one_hot})
-        print("loss:", l, "prediction: ", result, "true Y: ", y_data)
+        print(i, "loss:", l, "prediction: ", result, "true Y: ", y_data)
 
         # print char using dic
         result_str = [dic[c] for c in np.squeeze(result)]
-        print("Prediction str: ", ''.join(result_str))
+        print("\tPrediction str: ", ''.join(result_str))
+
+'''
+0 loss: 1.55474 prediction:  [[3 3 3 3 4 4]] true Y:  [[1, 0, 2, 3, 3, 4]]
+	Prediction str:  lllloo
+1 loss: 1.55081 prediction:  [[3 3 3 3 4 4]] true Y:  [[1, 0, 2, 3, 3, 4]]
+	Prediction str:  lllloo
+2 loss: 1.54704 prediction:  [[3 3 3 3 4 4]] true Y:  [[1, 0, 2, 3, 3, 4]]
+	Prediction str:  lllloo
+3 loss: 1.54342 prediction:  [[3 3 3 3 4 4]] true Y:  [[1, 0, 2, 3, 3, 4]]
+	Prediction str:  lllloo
+
+...
+
+
+1998 loss: 0.75305 prediction:  [[1 0 2 3 3 4]] true Y:  [[1, 0, 2, 3, 3, 4]]
+	Prediction str:  ihello
+1999 loss: 0.752973 prediction:  [[1 0 2 3 3 4]] true Y:  [[1, 0, 2, 3, 3, 4]]
+	Prediction str:  ihello
+'''

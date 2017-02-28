@@ -1,13 +1,9 @@
 # Lab 5 Logistic Regression Classifier
 import tensorflow as tf
-import numpy as np
 tf.set_random_seed(777)  # for reproducibility
 
-x_data = np.array([[1, 2], [2, 3], [3, 1], [4, 3], [5, 3], [6, 2]])
-y_data = np.array([[0], [0], [0], [1], [1], [1]])
-
-print(x_data.shape, x_data, len(x_data))
-print(y_data.shape, y_data)
+x_data = [[1, 2], [2, 3], [3, 1], [4, 3], [5, 3], [6, 2]]
+y_data = [[0], [0], [0], [1], [1], [1]]
 
 # placeholders for a tensor that will be always fed.
 X = tf.placeholder(tf.float32, shape=[None, 2])

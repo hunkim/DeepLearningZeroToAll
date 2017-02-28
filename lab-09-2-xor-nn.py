@@ -14,8 +14,8 @@ W1 = tf.Variable(tf.random_normal([2, 2]), name='weight1')
 b1 = tf.Variable(tf.random_normal([2]), name='bias1')
 layer1 = tf.sigmoid(tf.matmul(X, W1) + b1)
 
-W2 = tf.Variable(tf.random_normal([2, 2]), name='weight2')
-b2 = tf.Variable(tf.random_normal([2]), name='bias2')
+W2 = tf.Variable(tf.random_normal([2, 1]), name='weight2')
+b2 = tf.Variable(tf.random_normal([1]), name='bias2')
 hypothesis = tf.sigmoid(tf.matmul(layer1, W2) + b2)
 
 # Cost function
@@ -44,3 +44,16 @@ with tf.Session() as sess:
     h, c, a = sess.run([hypothesis, predicted, accuracy],
                        feed_dict={X: x_data, Y: y_data})
     print("\nHypothesis: ", h, "\nCorrect: ", c, "\nAccuracy: ", a)
+
+
+'''
+Hypothesis:  [[ 0.01338218]
+ [ 0.98166394]
+ [ 0.98809403]
+ [ 0.01135799]]
+Correct:  [[ 0.]
+ [ 1.]
+ [ 1.]
+ [ 0.]]
+Accuracy:  1.0
+'''
