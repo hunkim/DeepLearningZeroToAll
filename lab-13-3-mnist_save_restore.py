@@ -172,11 +172,15 @@ print("Prediction: ", sess.run(
 
 '''
 
-
 ...
 
 Successfully loaded: ./tb/mnist/model-549
 Start learning from: 2
 Epoch: 2
+
+...
+tensorboard --logdir tb/
+Starting TensorBoard b'41' on port 6006
+(You can navigate to http://10.0.1.4:6006)
 
 '''
