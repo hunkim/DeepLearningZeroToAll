@@ -11,7 +11,9 @@ import os
 from keras.utils.visualize_util import plot
 
 # sample sentence
-sentence = "if you want to build a ship, don't drum up people together to collect wood and don't assign them tasks and work, but rather teach them to long for the endless immensity of the sea."
+sentence = ("if you want to build a ship, don't drum up people together to "
+            "collect wood and don't assign them tasks and work, but rather "
+            "teach them to long for the endless immensity of the sea.")
 
 char_set = list(set(sentence))  # id -> char ['i', 'l', 'e', 'o', 'h', ...]
 char_dic = {w: i for i, w in enumerate(char_set)}
@@ -55,7 +57,7 @@ model.add(Activation('softmax'))
 model.summary()
 
 # Store model graph in png
-#plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
+# plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
 model.compile(loss='categorical_crossentropy',
               optimizer='rmsprop', metrics=['accuracy'])

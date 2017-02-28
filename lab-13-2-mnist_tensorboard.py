@@ -117,13 +117,12 @@ for epoch in range(training_epochs):
 
     for i in range(total_batch):
         batch_xs, batch_ys = mnist.train.next_batch(batch_size)
-        s, _ = sess.run([summary, optimizer], feed_dict={
-                 X: batch_xs, Y: batch_ys, keep_prob: 0.7})
+        feed_dict = {X: batch_xs, Y: batch_ys, keep_prob: 0.7}
+        s, _ = sess.run([summary, optimizer], feed_dict=feed_dict)
         writer.add_summary(s, global_step=global_step)
         global_step += 1
 
-        avg_cost += sess.run(cost,
-                             feed_dict={X: batch_xs, Y: batch_ys, keep_prob: 0.7}) / total_batch
+        avg_cost += sess.run(cost, feed_dict=feed_dict) / total_batch
 
     print('Epoch:', '%04d' % (epoch + 1), 'cost =', '{:.9f}'.format(avg_cost))
 

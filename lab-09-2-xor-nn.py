@@ -19,8 +19,8 @@ b2 = tf.Variable(tf.random_normal([1]), name='bias2')
 hypothesis = tf.sigmoid(tf.matmul(layer1, W2) + b2)
 
 # Cost function
-cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y)
-                       * tf.log(1 - hypothesis))
+cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) *
+                       tf.log(1 - hypothesis))
 
 train = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
 

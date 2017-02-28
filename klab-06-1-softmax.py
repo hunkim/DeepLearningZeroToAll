@@ -3,9 +3,11 @@ from keras.layers import Dense, Activation
 import numpy as np
 
 x_data = np.array([[1, 2, 1, 1], [2, 1, 3, 2], [3, 1, 3, 4], [4, 1, 5, 5],
-                   [1, 7, 5, 5], [1, 2, 5, 6], [1, 6, 6, 6], [1, 7, 7, 7]], dtype=np.float32)
+                   [1, 7, 5, 5], [1, 2, 5, 6], [1, 6, 6, 6], [1, 7, 7, 7]],
+                  dtype=np.float32)
 y_data = np.array([[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 1, 0],
-                   [0, 1, 0], [0, 1, 0], [1, 0, 0], [1, 0, 0]], dtype=np.float32)
+                   [0, 1, 0], [0, 1, 0], [1, 0, 0], [1, 0, 0]],
+                  dtype=np.float32)
 
 nb_classes = 3
 
