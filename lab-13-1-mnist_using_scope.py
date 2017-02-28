@@ -21,39 +21,46 @@ batch_size = 100
 X = tf.placeholder(tf.float32, [None, 784])
 Y = tf.placeholder(tf.float32, [None, 10])
 
-# dropout (keep_prob) rate  0.7 on training, but should be 1 for testing
+# dropout (keep_prob) rate  0.7~0.5 on training, but should be 1 for testing
 keep_prob = tf.placeholder(tf.float32)
 
 # weights & bias for nn layers
 # http://stackoverflow.com/questions/33640581/how-to-do-xavier-initialization-on-tensorflow
-W1 = tf.get_variable("W1", shape=[784, 512],
-                     initializer=tf.contrib.layers.xavier_initializer())
-b1 = tf.Variable(tf.random_normal([512]))
-L1 = tf.nn.relu(tf.matmul(X, W1) + b1)
-L1 = tf.nn.dropout(L1, keep_prob=keep_prob)
+with tf.variable_scope('layer1') as scope:
+    W1 = tf.get_variable("W", shape=[784, 512],
+                         initializer=tf.contrib.layers.xavier_initializer())
+    b1 = tf.Variable(tf.random_normal([512]))
+    L1 = tf.nn.relu(tf.matmul(X, W1) + b1)
+    L1 = tf.nn.dropout(L1, keep_prob=keep_prob)
 
-W2 = tf.get_variable("W2", shape=[512, 512],
-                     initializer=tf.contrib.layers.xavier_initializer())
-b2 = tf.Variable(tf.random_normal([512]))
-L2 = tf.nn.relu(tf.matmul(L1, W2) + b2)
-L2 = tf.nn.dropout(L2, keep_prob=keep_prob)
+with tf.variable_scope('layer2') as scope:
+    W2 = tf.get_variable("W", shape=[512, 512],
+                         initializer=tf.contrib.layers.xavier_initializer())
+    b2 = tf.Variable(tf.random_normal([512]))
+    L2 = tf.nn.relu(tf.matmul(L1, W2) + b2)
+    L2 = tf.nn.dropout(L2, keep_prob=keep_prob)
 
-W3 = tf.get_variable("W3", shape=[512, 512],
-                     initializer=tf.contrib.layers.xavier_initializer())
-b3 = tf.Variable(tf.random_normal([512]))
-L3 = tf.nn.relu(tf.matmul(L2, W3) + b3)
-L3 = tf.nn.dropout(L3, keep_prob=keep_prob)
+with tf.variable_scope('layer3') as scope:
+    W3 = tf.get_variable("W", shape=[512, 512],
+                         initializer=tf.contrib.layers.xavier_initializer())
+    b3 = tf.Variable(tf.random_normal([512]))
+    L3 = tf.nn.relu(tf.matmul(L2, W3) + b3)
+    L3 = tf.nn.dropout(L3, keep_prob=keep_prob)
 
-W4 = tf.get_variable("W4", shape=[512, 512],
-                     initializer=tf.contrib.layers.xavier_initializer())
-b4 = tf.Variable(tf.random_normal([512]))
-L4 = tf.nn.relu(tf.matmul(L3, W4) + b4)
-L4 = tf.nn.dropout(L4, keep_prob=keep_prob)
+with tf.variable_scope('layer4') as scope:
+    W4 = tf.get_variable("W", shape=[512, 512],
+                         initializer=tf.contrib.layers.xavier_initializer())
+    b4 = tf.Variable(tf.random_normal([512]))
+    L4 = tf.nn.relu(tf.matmul(L3, W4) + b4)
+    L4 = tf.nn.dropout(L4, keep_prob=keep_prob)
 
-W5 = tf.get_variable("W5", shape=[512, 10],
-                     initializer=tf.contrib.layers.xavier_initializer())
-b5 = tf.Variable(tf.random_normal([10]))
-hypothesis = tf.matmul(L4, W5) + b5
+with tf.variable_scope('layer5') as scope:
+    W5 = tf.get_variable("W", shape=[512, 10],
+                         initializer=tf.contrib.layers.xavier_initializer())
+    b5 = tf.Variable(tf.random_normal([10]))
+    hypothesis = tf.matmul(L4, W5) + b5
+
+print(W1, W5)
 
 # define cost & optimizer
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
@@ -72,8 +79,8 @@ for epoch in range(training_epochs):
     for i in range(total_batch):
         batch_xs, batch_ys = mnist.train.next_batch(batch_size)
         feed_dict = {X: batch_xs, Y: batch_ys, keep_prob: 0.7}
-        c, _ = sess.run([cost, optimizer], feed_dict=feed_dict)
-        avg_cost += c / total_batch
+        sess.run(optimizer, feed_dict=feed_dict)
+        avg_cost += sess.run(cost, feed_dict=feed_dict) / total_batch
 
     print('Epoch:', '%04d' % (epoch + 1), 'cost =', '{:.9f}'.format(avg_cost))
 

@@ -21,7 +21,8 @@ cost = tf.reduce_sum(tf.square(hypothesis - Y))
 
 # Minimize: Gradient Descent using derivative: W -= learning_rate * derivative
 learning_rate = 0.1
-descent = W - learning_rate * tf.reduce_mean((W * X - Y) * X)
+gradient = tf.reduce_mean((W * X - Y) * X)
+descent = W - learning_rate * gradient
 update = W.assign(descent)
 
 # Launch the graph in a session.

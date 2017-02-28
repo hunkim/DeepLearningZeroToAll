@@ -4,6 +4,7 @@ from keras.layers import Dense, Activation
 from keras.utils import np_utils
 import numpy as np
 
+# Predicting animal type based on various features
 xy = np.loadtxt('data-04-zoo.csv', delimiter=',', dtype=np.float32)
 x_data = xy[:, 0:-1]
 y_data = xy[:, [-1]] - 1

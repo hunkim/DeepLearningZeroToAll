@@ -1,8 +1,8 @@
 # Lab 7 Learning rate and Evaluation
 import tensorflow as tf
-import numpy as np
 import random
 import matplotlib.pyplot as plt
+import os
 
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -17,9 +17,16 @@ learning_rate = 0.001
 training_epochs = 15
 batch_size = 100
 
+CHECK_POINT_DIR = TB_SUMMARY_DIR = './tb/mnist2'
+
+
 # input place holders
 X = tf.placeholder(tf.float32, [None, 784])
 Y = tf.placeholder(tf.float32, [None, 10])
+
+# Image input
+x_image = tf.reshape(X, [-1, 28, 28, 1])
+tf.summary.image('input', x_image, 3)
 
 # dropout (keep_prob) rate  0.7~0.5 on training, but should be 1 for testing
 keep_prob = tf.placeholder(tf.float32)
@@ -33,12 +40,21 @@ with tf.variable_scope('layer1') as scope:
     L1 = tf.nn.relu(tf.matmul(X, W1) + b1)
     L1 = tf.nn.dropout(L1, keep_prob=keep_prob)
 
+    tf.summary.histogram("X", X)
+    tf.summary.histogram("weights", W1)
+    tf.summary.histogram("bias", b1)
+    tf.summary.histogram("layer", L1)
+
 with tf.variable_scope('layer2') as scope:
     W2 = tf.get_variable("W", shape=[512, 512],
                          initializer=tf.contrib.layers.xavier_initializer())
     b2 = tf.Variable(tf.random_normal([512]))
     L2 = tf.nn.relu(tf.matmul(L1, W2) + b2)
     L2 = tf.nn.dropout(L2, keep_prob=keep_prob)
+
+    tf.summary.histogram("weights", W2)
+    tf.summary.histogram("bias", b2)
+    tf.summary.histogram("layer", L2)
 
 with tf.variable_scope('layer3') as scope:
     W3 = tf.get_variable("W", shape=[512, 512],
@@ -47,6 +63,10 @@ with tf.variable_scope('layer3') as scope:
     L3 = tf.nn.relu(tf.matmul(L2, W3) + b3)
     L3 = tf.nn.dropout(L3, keep_prob=keep_prob)
 
+    tf.summary.histogram("weights", W3)
+    tf.summary.histogram("bias", b3)
+    tf.summary.histogram("layer", L3)
+
 with tf.variable_scope('layer4') as scope:
     W4 = tf.get_variable("W", shape=[512, 512],
                          initializer=tf.contrib.layers.xavier_initializer())
@@ -54,36 +74,82 @@ with tf.variable_scope('layer4') as scope:
     L4 = tf.nn.relu(tf.matmul(L3, W4) + b4)
     L4 = tf.nn.dropout(L4, keep_prob=keep_prob)
 
+    tf.summary.histogram("weights", W4)
+    tf.summary.histogram("bias", b4)
+    tf.summary.histogram("layer", L4)
+
 with tf.variable_scope('layer5') as scope:
     W5 = tf.get_variable("W", shape=[512, 10],
                          initializer=tf.contrib.layers.xavier_initializer())
     b5 = tf.Variable(tf.random_normal([10]))
     hypothesis = tf.matmul(L4, W5) + b5
 
-print(W1, W5)
+    tf.summary.histogram("weights", W5)
+    tf.summary.histogram("bias", b5)
+    tf.summary.histogram("hypothesis", hypothesis)
+
 
 # define cost & optimizer
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
     logits=hypothesis, labels=Y))
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 
+tf.summary.scalar("loss", cost)
+
+last_epoch = tf.Variable(0, name='last_epoch')
+
+# Summary
+summary = tf.summary.merge_all()
+
 # initialize
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
+# Create summary writer
+writer = tf.summary.FileWriter(TB_SUMMARY_DIR)
+writer.add_graph(sess.graph)
+global_step = 0
+
+# Savor and Restore
+saver = tf.train.Saver()
+checkpoint = tf.train.get_checkpoint_state(CHECK_POINT_DIR)
+
+if checkpoint and checkpoint.model_checkpoint_path:
+    try:
+        saver.restore(sess, checkpoint.model_checkpoint_path)
+        print("Successfully loaded:", checkpoint.model_checkpoint_path)
+    except:
+        print("Error on loading old network weights")
+else:
+    print("Could not find old network weights")
+
+start_from = sess.run(last_epoch)
+
 # train my model
-for epoch in range(training_epochs):
+print('Start learning from:', start_from)
+
+for epoch in range(start_from, training_epochs):
+    print('Start Epoch:', epoch)
+
     avg_cost = 0
     total_batch = int(mnist.train.num_examples / batch_size)
 
     for i in range(total_batch):
         batch_xs, batch_ys = mnist.train.next_batch(batch_size)
-        sess.run(optimizer, feed_dict={
-                 X: batch_xs, Y: batch_ys, keep_prob: 0.7})
-        avg_cost += sess.run(cost,
-                             feed_dict={X: batch_xs, Y: batch_ys, keep_prob: 0.7}) / total_batch
+        feed_dict = {X: batch_xs, Y: batch_ys, keep_prob: 0.7}
+        s, _ = sess.run([summary, optimizer], feed_dict=feed_dict)
+        writer.add_summary(s, global_step=global_step)
+        global_step += 1
+
+        avg_cost += sess.run(cost, feed_dict=feed_dict) / total_batch
 
     print('Epoch:', '%04d' % (epoch + 1), 'cost =', '{:.9f}'.format(avg_cost))
+
+    print("Saving network...")
+    sess.run(last_epoch.assign(epoch + 1))
+    if not os.path.exists(CHECK_POINT_DIR):
+        os.makedirs(CHECK_POINT_DIR)
+    saver.save(sess, CHECK_POINT_DIR + "/model", global_step=i)
 
 print('Learning Finished!')
 
@@ -104,21 +170,16 @@ print("Prediction: ", sess.run(
 # plt.show()
 
 '''
-Epoch: 0001 cost = 0.447322626
-Epoch: 0002 cost = 0.157285590
-Epoch: 0003 cost = 0.121884535
-Epoch: 0004 cost = 0.098128681
-Epoch: 0005 cost = 0.082901778
-Epoch: 0006 cost = 0.075337573
-Epoch: 0007 cost = 0.069752543
-Epoch: 0008 cost = 0.060884363
-Epoch: 0009 cost = 0.055276413
-Epoch: 0010 cost = 0.054631256
-Epoch: 0011 cost = 0.049675195
-Epoch: 0012 cost = 0.049125314
-Epoch: 0013 cost = 0.047231930
-Epoch: 0014 cost = 0.041290121
-Epoch: 0015 cost = 0.043621063
-Learning Finished!
-Accuracy: 0.9804
+
+...
+
+Successfully loaded: ./tb/mnist/model-549
+Start learning from: 2
+Epoch: 2
+
+...
+tensorboard --logdir tb/
+Starting TensorBoard b'41' on port 6006
+(You can navigate to http://10.0.1.4:6006)
+
 '''
