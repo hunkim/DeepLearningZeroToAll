@@ -4,7 +4,7 @@ tf.set_random_seed(777)  # reproducibility
 
 sample = " if you want you"
 idx2char = list(set(sample))  # index -> char
-char2idx = {c: i for i, c in enumerate(idx2char)} # char -> idex
+char2idx = {c: i for i, c in enumerate(idx2char)}  # char -> idex
 
 # hyper parameters
 dic_size = len(char2idx)  # RNN input size (one hot size)
@@ -21,7 +21,8 @@ X = tf.placeholder(tf.int32, [None, sequence_length])  # X data
 Y = tf.placeholder(tf.int32, [None, sequence_length])  # Y label
 
 x_one_hot = tf.one_hot(X, num_classes)  # one hot: 1 -> 0 1 0 0 0 0 0 0 0 0
-cell = tf.contrib.rnn.BasicLSTMCell(num_units=rnn_hidden_size, state_is_tuple=True)
+cell = tf.contrib.rnn.BasicLSTMCell(
+    num_units=rnn_hidden_size, state_is_tuple=True)
 initial_state = cell.zero_state(batch_size, tf.float32)
 outputs, _states = tf.nn.dynamic_rnn(
     cell, x_one_hot, initial_state=initial_state, dtype=tf.float32)

@@ -3,7 +3,7 @@ import tensorflow as tf
 import numpy as np
 tf.set_random_seed(777)  # reproducibility
 
-idx2char=['h','i', 'e', 'l', 'o']
+idx2char = ['h', 'i', 'e', 'l', 'o']
 # Teach hello: hihell -> ihello
 x_data = [[0, 1, 0, 2, 3, 3]]   # hihell
 x_one_hot = [[[1, 0, 0, 0, 0],   # h 0

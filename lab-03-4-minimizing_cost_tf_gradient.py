@@ -13,7 +13,7 @@ W = tf.Variable(5.)
 hypothesis = X * W
 
 # Manual gradient
-gradient = tf.reduce_mean((W * X - Y) * X)*2
+gradient = tf.reduce_mean((W * X - Y) * X) * 2
 
 # Cost function
 cost = tf.reduce_mean(tf.square(hypothesis - Y))
