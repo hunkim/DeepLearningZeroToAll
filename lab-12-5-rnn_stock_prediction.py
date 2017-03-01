@@ -47,8 +47,9 @@ Y_pred = outputs[:, -1]  # We use the last cell's output
 
 print(outputs[:, -1])
 
-# loss
+# cost/loss
 loss = tf.reduce_sum(tf.square(Y_pred - Y))  # sum of the squares
+
 # optimizer
 optimizer = tf.train.GradientDescentOptimizer(0.01)
 train = optimizer.minimize(loss)

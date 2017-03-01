@@ -33,7 +33,7 @@ outputs = tf.matmul(x_for_softmax,  softmax_w) + softmax_b
 outputs = tf.reshape(outputs, [batch_size, sequence_length, num_classes])
 weights = tf.ones([batch_size, sequence_length])
 
-# Compute sequence loss
+# Compute sequence cost/loss
 sequence_loss = tf.contrib.seq2seq.sequence_loss(outputs, Y, weights)
 loss = tf.reduce_mean(sequence_loss)  # mean all sequence loss
 train = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)

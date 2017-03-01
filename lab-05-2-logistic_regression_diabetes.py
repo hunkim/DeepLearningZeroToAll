@@ -19,7 +19,7 @@ b = tf.Variable(tf.random_normal([1]), name='bias')
 # Hypothesis using sigmoid: tf.div(1., 1. + tf.exp(tf.matmul(X, W)))
 hypothesis = tf.sigmoid(tf.matmul(X, W) + b)
 
-# Cost function
+# cost/loss function
 cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) *
                        tf.log(1 - hypothesis))
 

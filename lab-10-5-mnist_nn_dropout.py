@@ -55,7 +55,7 @@ W5 = tf.get_variable("W5", shape=[512, 10],
 b5 = tf.Variable(tf.random_normal([10]))
 hypothesis = tf.matmul(L4, W5) + b5
 
-# define cost & optimizer
+# define cost/loss & optimizer
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
     logits=hypothesis, labels=Y))
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)

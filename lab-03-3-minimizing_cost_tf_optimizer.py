@@ -12,7 +12,7 @@ W = tf.Variable(5.)
 # Linear model
 hypothesis = X * W
 
-# Cost function
+# cost/loss function
 cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
 # Minimize: Gradient Descent Magic
