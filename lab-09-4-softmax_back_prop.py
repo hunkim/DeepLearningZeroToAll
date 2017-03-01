@@ -14,35 +14,60 @@ nb_classes = 7  # 1 ~ 7
 
 X = tf.placeholder("float", [None, 16])
 Y = tf.placeholder("int32", [None, 1])  # 1 ~ 7
+
 Y_one_hot = tf.one_hot(Y, nb_classes)  # one hot
-Y_one_hot = tf.reshape(Y_one_hot, [-1, nb_classes])
-print(Y_one_hot)
+Y_one_hot = tf.cast(tf.reshape(
+    Y_one_hot, [-1, nb_classes]), "float32")  # one hot
 
 W = tf.Variable(tf.random_normal([16, nb_classes]), name='weight')
 b = tf.Variable(tf.random_normal([nb_classes]), name='bias')
 
-# tf.nn.softmax computes softmax activations
-# softmax = exp(logits) / reduce_sum(exp(logits), dim)
-hypothesis = tf.nn.softmax(tf.matmul(X, W) + b)
 
-# Cross entropy cost
-# cost = tf.reduce_mean(-tf.reduce_sum(Y *
-#        tf.log(hypothesis), axis=1))
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
-    labels=Y_one_hot, logits=hypothesis))
+def sigma(x):
+    #  sigmoid function
+    return tf.div(tf.constant(1.0),
+                  tf.add(tf.constant(1.0), tf.exp(-x)))
 
-optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
 
-prediction = tf.argmax(hypothesis, 1)
+def sigma_prime(x):
+    # derivative of the sigmoid function
+    return sigma(x) * (1 - sigma(x))
+
+# Forward prop
+layer1 = tf.add(tf.matmul(X, W), b)
+y_pred = sigma(layer1)
+
+print(y_pred, Y_one_hot)
+
+
+# diff
+diff = (y_pred - Y_one_hot)
+
+# Back prop (chain rule)
+d_layer1 = diff * sigma_prime(layer1)
+d_b = 1 * d_layer1
+d_w = tf.matmul(tf.transpose(X), d_layer1)
+
+# Updating network using gradients
+learning_rate = 0.1
+train_step = [
+    tf.assign(W, W - learning_rate * d_w),
+    tf.assign(b, b - learning_rate *
+              tf.reduce_mean(d_b)),
+]
+
+# 7. Running and testing the training process
+prediction = tf.argmax(y_pred, 1)
+acct_mat = tf.equal(tf.argmax(y_pred, 1), tf.argmax(Y_one_hot, 1))
+acct_res = tf.reduce_mean(tf.cast(acct_mat, tf.float32))
 
 # Launch graph
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
 
-    for step in range(20001):
-        sess.run(optimizer, feed_dict={X: x_data, Y: y_data})
-        if step % 200 == 0:
-            print(step, sess.run(cost, feed_dict={X: x_data, Y: y_data}))
+    for step in range(2001):
+        sess.run(train_step, feed_dict={X: x_data, Y: y_data})
+        print(step, sess.run(acct_res, feed_dict={X: x_data, Y: y_data}))
 
     # Let's see if we can predict
     pred = sess.run(prediction, feed_dict={X: x_data})

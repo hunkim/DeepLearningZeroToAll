@@ -35,7 +35,9 @@ l2 = tf.add(tf.matmul(a1, w2), b2)
 y_pred = sigma(l2)
 
 # diff
+assert y_pred.shape == Y.shape
 diff = (y_pred - Y)
+
 
 # Back prop (chain rule)
 d_l2 = diff * sigma_prime(l2)

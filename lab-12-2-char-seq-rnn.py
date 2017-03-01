@@ -43,6 +43,7 @@ with tf.Session() as sess:
 
         # print char using dic
         result_str = [idx2char[c] for c in np.squeeze(result)]
+
         print(i, "loss:", l, "Prediction:", ''.join(result_str))
 
 
