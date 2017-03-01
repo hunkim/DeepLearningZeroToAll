@@ -12,17 +12,9 @@ x_data = xy[:, 0:-1]
 N = x_data.shape[0]
 y_data = xy[:, [-1]]
 
-# y_data has labels from 1 ~ 7
-# [1, 2, 3, 4, 5, 6, 7]
-print("Y has one of the following values")
-print(np.unique(y_data))
-
-# In order to use tf.one_hot, the label must start with 0
-y_data = y_data - 1
-
-# Label (1 ~7) -> (0 ~ 6)
+# y_data has labels from 0 ~ 6
 # [0, 1, 2, 3, 4, 5, 6]
-print("Y ranges from 0 to 6 now")
+print("Y has one of the following values")
 print(np.unique(y_data))
 
 # x_data.shape = (101, 16)
