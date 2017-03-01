@@ -10,9 +10,9 @@ sentence = ("if you want to build a ship, don't drum up people together to "
 char_set = list(set(sentence))
 char_dic = {w: i for i, w in enumerate(char_set)}
 
-data_dim = hidden_size = len(char_set)
+data_dim = hidden_size = len(char_set) #25
 seq_length = timesteps = 10
-num_classes = len(char_set)
+num_classes = len(char_set) #25
 
 dataX = []
 dataY = []
@@ -27,11 +27,10 @@ for i in range(0, len(sentence) - seq_length):
     dataX.append(x)
     dataY.append(y)
 
-dataX = np.asarray(dataX, dtype=np.float32)
-datay = np.asarray(dataY, dtype=np.float32)
+# dataX = np.asarray(dataX, dtype=np.float32)
+# datay = np.asarray(dataY, dtype=np.float32)
 
 batch_size = len(dataX) #170
-print(dataX)
 
 X = tf.placeholder(tf.int32, [None, seq_length])
 Y = tf.placeholder(tf.int32, [None, seq_length])
@@ -41,7 +40,7 @@ x_one_hot = tf.one_hot(X, num_classes)
 # One-hot encoding
 y_one_hot = tf.one_hot(Y, num_classes)
 
-cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
+cell = tf.contrib.rnn.BasicLSTMCell(num_units=num_classes, state_is_tuple=True)
 cell = tf.contrib.rnn.MultiRNNCell([cell] * 2, state_is_tuple=True)
 initial_state = cell.zero_state(batch_size, tf.float32)
 
@@ -51,13 +50,23 @@ weights = tf.ones([batch_size, seq_length])
 loss = tf.reduce_mean(tf.contrib.seq2seq.sequence_loss(logits=outputs, targets=Y, weights=weights))
 train = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(loss)
 
-predict = tf.argmax(outputs, 1)
+predict = tf.argmax(outputs, axis=-1)
 
 with tf.Session() as sess:
-	sess.run(tf.global_variables_initializer())
-	for i in range(2000):
-		l, _ = sess.run([loss, train], feed_dict={X: dataX, Y: dataY})
-		result = sess.run(predict, feed_dict={X: dataX})
-		if i == 1999:
-			print(i, "loss:", l, "prediction: ", result, "true Y: ", dataY)
-		print(i, "loss: ", l)
+    sess.run(tf.global_variables_initializer())
+    for x in range(50):
+        l, _ = sess.run([loss, train], feed_dict={X: dataX, Y: dataY})
+        result = sess.run(predict, feed_dict={X: dataX})
+    
+        print(x, "loss: ", l)
+
+    for i, prediction in enumerate(result):
+        x_index = dataX[i]
+        x_str = [char_set[j] for j in x_index]
+
+        index = prediction
+        result = [char_set[j] for j in index]
+
+        print(''.join(x_str), ' -> ', ''.join(result))
+
+    print(result)
