@@ -1,4 +1,7 @@
-# Lab 6 Softmax Classifier
+# http://blog.aloni.org/posts/backprop-with-tensorflow/
+# https://medium.com/@karpathy/yes-you-should-understand-backprop-e2f06eab496b#.b3rvzhx89
+# WIP
+#
 import tensorflow as tf
 import numpy as np
 tf.set_random_seed(777)  # for reproducibility
