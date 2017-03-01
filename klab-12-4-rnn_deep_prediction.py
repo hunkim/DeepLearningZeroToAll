@@ -31,7 +31,7 @@ dataX = []
 dataY = []
 for i in range(0, len(y) - seq_length):
     _x = x[i:i + seq_length]
-    _y = y[i + 1]  # Next close price
+    _y = y[i + seq_length]  # Next close price
     print(_x, "->", _y)
     dataX.append(_x)
     dataY.append(_y)
