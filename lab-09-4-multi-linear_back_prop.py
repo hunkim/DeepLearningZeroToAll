@@ -24,7 +24,7 @@ hypothesis = tf.matmul(X, W) + b
 print(hypothesis.shape, Y.shape)
 
 # diff
-# assert hypothesis.shape == Y.shape
+assert hypothesis.shape.as_list() == Y.shape.as_list()
 diff = (hypothesis - Y)
 
 # Back prop (chain rule)

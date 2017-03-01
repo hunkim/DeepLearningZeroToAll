@@ -44,6 +44,7 @@ print(y_pred, Y_one_hot)
 
 
 # diff
+assert y_pred.shape.as_list() == Y_one_hot.shape.as_list()
 diff = (y_pred - Y_one_hot)
 
 # Back prop (chain rule)

@@ -35,7 +35,7 @@ l2 = tf.add(tf.matmul(a1, w2), b2)
 y_pred = sigma(l2)
 
 # diff
-assert y_pred.shape == Y.shape
+assert y_pred.shape.as_list() == Y.shape.as_list()
 diff = (y_pred - Y)
 
 

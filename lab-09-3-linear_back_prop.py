@@ -22,6 +22,7 @@ b = tf.Variable(5.)
 hypothesis = tf.matmul(X, W) + b
 
 # diff
+assert hypothesis.shape.as_list() == Y.shape.as_list()
 diff = (hypothesis - Y)
 
 # Back prop (chain rule)
