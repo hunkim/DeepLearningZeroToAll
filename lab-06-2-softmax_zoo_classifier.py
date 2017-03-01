@@ -6,16 +6,17 @@ tf.set_random_seed(777)  # for reproducibility
 # Predicting animal type based on various features
 xy = np.loadtxt('data-04-zoo.csv', delimiter=',', dtype=np.float32)
 x_data = xy[:, 0:-1]
-
 y_data = xy[:, [-1]]
-y_one_hot = tf.one_hot(y_data, 7)  # one hot
 
 print(x_data.shape, y_data.shape)
 
 nb_classes = 7  # 1 ~ 7
 
 X = tf.placeholder("float", [None, 16])
-Y = tf.placeholder("float", [None, 1])  # 1 ~ 7
+Y = tf.placeholder("int32", [None, 1])  # 1 ~ 7
+Y_one_hot = tf.one_hot(Y, nb_classes)  # one hot
+Y_one_hot = tf.reshape(Y_one_hot, [-1, nb_classes])
+print(Y_one_hot)
 
 W = tf.Variable(tf.random_normal([16, nb_classes]), name='weight')
 b = tf.Variable(tf.random_normal([nb_classes]), name='bias')
@@ -28,7 +29,7 @@ hypothesis = tf.nn.softmax(tf.matmul(X, W) + b)
 # cost = tf.reduce_mean(-tf.reduce_sum(Y *
 #        tf.log(hypothesis), axis=1))
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
-    labels=y_one_hot, logits=hypothesis))
+    labels=Y_one_hot, logits=hypothesis))
 
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
 
