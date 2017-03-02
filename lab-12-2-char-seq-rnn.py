@@ -1,3 +1,4 @@
+# Lab 12 Character Sequence RNN
 import tensorflow as tf
 import numpy as np
 tf.set_random_seed(777)  # reproducibility
