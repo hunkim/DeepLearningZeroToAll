@@ -25,7 +25,7 @@ b = tf.Variable(tf.random_normal([nb_classes]), name='bias')
 # softmax = exp(logits) / reduce_sum(exp(logits), dim)
 hypothesis = tf.matmul(X, W) + b
 
-# Cross entropy cost
+# Cross entropy cost/loss
 # cost = tf.reduce_mean(-tf.reduce_sum(Y * tf.log(hypothesis), axis=1))
 cost_i = tf.nn.softmax_cross_entropy_with_logits(logits=hypothesis,
                                                  labels=Y_one_hot)

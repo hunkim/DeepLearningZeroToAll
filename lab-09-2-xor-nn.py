@@ -18,7 +18,7 @@ W2 = tf.Variable(tf.random_normal([2, 1]), name='weight2')
 b2 = tf.Variable(tf.random_normal([1]), name='bias2')
 hypothesis = tf.sigmoid(tf.matmul(layer1, W2) + b2)
 
-# Cost function
+# cost/loss function
 cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) *
                        tf.log(1 - hypothesis))
 

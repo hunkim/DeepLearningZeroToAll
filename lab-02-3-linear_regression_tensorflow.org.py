@@ -8,7 +8,7 @@ b = tf.Variable([-.3], tf.float32)
 x = tf.placeholder(tf.float32)
 linear_model = x * W + b
 y = tf.placeholder(tf.float32)
-# loss
+# cost/loss function
 loss = tf.reduce_sum(tf.square(linear_model - y))  # sum of the squares
 # optimizer
 optimizer = tf.train.GradientDescentOptimizer(0.01)

@@ -51,7 +51,7 @@ softmax_w = tf.get_variable("softmax_w", [output_dim, 1])
 softmax_b = tf.get_variable("softmax_b", [1])
 Y_pred = tf.matmul(last_output,  softmax_w) + softmax_b
 
-# loss
+# cost/loss
 loss = tf.reduce_sum(tf.square(Y_pred - Y))  # sum of the squares
 # optimizer
 optimizer = tf.train.GradientDescentOptimizer(0.001)

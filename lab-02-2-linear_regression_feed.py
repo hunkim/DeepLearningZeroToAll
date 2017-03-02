@@ -20,7 +20,7 @@ Y = tf.placeholder(tf.float32)
 # Our hypothesis XW+b
 hypothesis = X * W + b
 
-# Cost/loss function
+# cost/loss function
 cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
 # Minimize

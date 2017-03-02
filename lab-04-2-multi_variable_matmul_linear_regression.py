@@ -17,7 +17,7 @@ b = tf.Variable(tf.random_normal([1]), name='bias')
 # Hypothesis
 hypothesis = tf.matmul(X, W) + b
 
-# Simplified cost function
+# Simplified cost/loss function
 cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
 # Minimize

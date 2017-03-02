@@ -11,7 +11,7 @@ W = tf.placeholder(tf.float32)
 # Our hypothesis for linear model X * W
 hypothesis = X * W
 
-# Cost function
+# cost/loss function
 cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
 # Launch the graph in a session.

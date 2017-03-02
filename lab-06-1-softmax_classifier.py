@@ -18,7 +18,7 @@ b = tf.Variable(tf.random_normal([nb_classes]), name='bias')
 # softmax = exp(logits) / reduce_sum(exp(logits), dim)
 hypothesis = tf.nn.softmax(tf.matmul(X, W) + b)
 
-# Cross entropy cost
+# Cross entropy cost/loss
 cost = tf.reduce_mean(-tf.reduce_sum(Y * tf.log(hypothesis), axis=1))
 
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
