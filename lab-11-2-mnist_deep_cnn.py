@@ -1,8 +1,7 @@
-# Lab 7 Learning rate and Evaluation
+# Lab 10 MNIST and Deep learning CNN
 import tensorflow as tf
-import numpy as np
 import random
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 from tensorflow.examples.tutorials.mnist import input_data
 
