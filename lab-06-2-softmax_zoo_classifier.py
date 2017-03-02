@@ -40,11 +40,12 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 # Launch graph
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
+    feed = {X: x_data, Y: y_data}
 
     for step in range(2000):
-        sess.run(optimizer, feed_dict={X: x_data, Y: y_data})
+        sess.run(optimizer, feed_dict=feed)
         if step % 100 == 0:
-            loss, acc = sess.run([cost, accuracy], feed_dict={X: x_data, Y: y_data})
+            loss, acc = sess.run([cost, accuracy], feed_dict=feed)
             print("Step: {:5}\tLoss: {:.3f}\tAcc: {:.2%}".format(step, loss, acc))
 
     # Let's see if we can predict
