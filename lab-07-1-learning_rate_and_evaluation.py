@@ -1,6 +1,5 @@
 # Lab 7 Learning rate and Evaluation
 import tensorflow as tf
-import numpy as np
 tf.set_random_seed(777)  # for reproducibility
 
 x_data = [[1, 2, 1], [1, 3, 2], [1, 3, 4], [1, 5, 5],
@@ -36,12 +35,12 @@ accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
 with tf.Session() as sess:
     # Initialize TensorFlow variables
     sess.run(tf.global_variables_initializer())
+    feed = {X: x_data, Y: y_data}
 
     for step in range(2001):
-        sess.run(optimizer, feed_dict={X: x_data, Y: y_data})
+        sess.run(optimizer, feed_dict=feed)
         if step % 200 == 0:
-            print(step, sess.run(cost, feed_dict={
-                  X: x_data, Y: y_data}), sess.run(W))
+            print(step, sess.run(cost, feed_dict=feed), sess.run(W))
 
     # predict
     print("Prediction:", sess.run(prediction, feed_dict={X: x_test}))
