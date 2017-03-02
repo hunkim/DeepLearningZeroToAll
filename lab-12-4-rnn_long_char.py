@@ -27,38 +27,45 @@ for i in range(0, len(sentence) - seq_length):
     dataX.append(x)
     dataY.append(y)
 
-# dataX = np.asarray(dataX, dtype=np.float32)
-# datay = np.asarray(dataY, dtype=np.float32)
-
 batch_size = len(dataX) #170
 
 X = tf.placeholder(tf.int32, [None, seq_length])
-Y = tf.placeholder(tf.int32, [None, seq_length])
+Y = tf.placeholder(tf.int64, [None, seq_length])
 
 # One-hot encoding
 x_one_hot = tf.one_hot(X, num_classes)
-# One-hot encoding
-y_one_hot = tf.one_hot(Y, num_classes)
+dropout = 0.5
 
 cell = tf.contrib.rnn.BasicLSTMCell(num_units=num_classes, state_is_tuple=True)
+# cell = tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=dropout)
 cell = tf.contrib.rnn.MultiRNNCell([cell] * 2, state_is_tuple=True)
 initial_state = cell.zero_state(batch_size, tf.float32)
 
-outputs, _states = tf.nn.dynamic_rnn(cell, x_one_hot, initial_state=initial_state, dtype=tf.float32)
+outputs, _states = tf.nn.dynamic_rnn(cell, x_one_hot, dtype=tf.float32)
 
 weights = tf.ones([batch_size, seq_length])
-loss = tf.reduce_mean(tf.contrib.seq2seq.sequence_loss(logits=outputs, targets=Y, weights=weights))
-train = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(loss)
-
+sequence_loss = tf.contrib.seq2seq.sequence_loss(logits=outputs, targets=Y, weights=weights)
+loss = tf.reduce_mean(sequence_loss)
+train = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(loss)
 predict = tf.argmax(outputs, axis=-1)
+accuracy = tf.reduce_mean(tf.cast(tf.equal(predict, Y), dtype=tf.float32))
+
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
-    for x in range(50):
-        l, _ = sess.run([loss, train], feed_dict={X: dataX, Y: dataY})
+    for x in range(2000):
+        l, _, a = sess.run([loss, train, accuracy], feed_dict={X: dataX, Y: dataY})
         result = sess.run(predict, feed_dict={X: dataX})
-    
-        print(x, "loss: ", l)
+        x_index = dataX[0]
+        x_str = [char_set[j] for j in x_index]
+
+        index = result[0]
+        result = [char_set[j] for j in index]
+        print(''.join(x_str), ' -> ', ''.join(result))
+
+
+
+        print(x, "loss: ", l, "accuracy: ", a)
 
     for i, prediction in enumerate(result):
         x_index = dataX[i]
@@ -68,5 +75,3 @@ with tf.Session() as sess:
         result = [char_set[j] for j in index]
 
         print(''.join(x_str), ' -> ', ''.join(result))
-
-    print(result)
