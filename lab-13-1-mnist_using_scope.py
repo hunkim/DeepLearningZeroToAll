@@ -1,8 +1,7 @@
-# Lab 7 Learning rate and Evaluation
+# Lab 13 Using Scope
 import tensorflow as tf
-import numpy as np
 import random
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -26,35 +25,35 @@ keep_prob = tf.placeholder(tf.float32)
 
 # weights & bias for nn layers
 # http://stackoverflow.com/questions/33640581/how-to-do-xavier-initialization-on-tensorflow
-with tf.variable_scope('layer1') as scope:
+with tf.variable_scope('layer1'):
     W1 = tf.get_variable("W", shape=[784, 512],
                          initializer=tf.contrib.layers.xavier_initializer())
     b1 = tf.Variable(tf.random_normal([512]))
     L1 = tf.nn.relu(tf.matmul(X, W1) + b1)
     L1 = tf.nn.dropout(L1, keep_prob=keep_prob)
 
-with tf.variable_scope('layer2') as scope:
+with tf.variable_scope('layer2'):
     W2 = tf.get_variable("W", shape=[512, 512],
                          initializer=tf.contrib.layers.xavier_initializer())
     b2 = tf.Variable(tf.random_normal([512]))
     L2 = tf.nn.relu(tf.matmul(L1, W2) + b2)
     L2 = tf.nn.dropout(L2, keep_prob=keep_prob)
 
-with tf.variable_scope('layer3') as scope:
+with tf.variable_scope('layer3'):
     W3 = tf.get_variable("W", shape=[512, 512],
                          initializer=tf.contrib.layers.xavier_initializer())
     b3 = tf.Variable(tf.random_normal([512]))
     L3 = tf.nn.relu(tf.matmul(L2, W3) + b3)
     L3 = tf.nn.dropout(L3, keep_prob=keep_prob)
 
-with tf.variable_scope('layer4') as scope:
+with tf.variable_scope('layer4'):
     W4 = tf.get_variable("W", shape=[512, 512],
                          initializer=tf.contrib.layers.xavier_initializer())
     b4 = tf.Variable(tf.random_normal([512]))
     L4 = tf.nn.relu(tf.matmul(L3, W4) + b4)
     L4 = tf.nn.dropout(L4, keep_prob=keep_prob)
 
-with tf.variable_scope('layer5') as scope:
+with tf.variable_scope('layer5'):
     W5 = tf.get_variable("W", shape=[512, 10],
                          initializer=tf.contrib.layers.xavier_initializer())
     b5 = tf.Variable(tf.random_normal([10]))
