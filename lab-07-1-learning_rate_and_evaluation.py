@@ -22,7 +22,7 @@ W = tf.Variable(tf.zeros([3, 3]))
 # softmax = exp(logits) / reduce_sum(exp(logits), dim)
 hypothesis = tf.nn.softmax(tf.matmul(X, W))
 
-# Cross entropy cost/loss function
+# Cross entropy cost/loss
 cost = tf.reduce_mean(-tf.reduce_sum(Y * tf.log(hypothesis), axis=1))
 # Try to change learning_rate to small numbers
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)

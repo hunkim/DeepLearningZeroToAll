@@ -23,7 +23,6 @@ Y = tf.placeholder(tf.float32, [None, nb_classes])
 # Hypothesis (using softmax)
 hypothesis = tf.nn.softmax(tf.matmul(X, W) + b)
 
-# Cross entropy cost/loss function
 cost = tf.reduce_mean(-tf.reduce_sum(Y * tf.log(hypothesis), axis=1))
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=1.).minimize(cost)
 
