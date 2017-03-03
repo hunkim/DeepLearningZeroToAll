@@ -20,5 +20,5 @@ script:
   # run all python files in parallel, http://stackoverflow.com/questions/5015316
   # The log length has exceeded the limit of 4 MB (this usually means that the test suite is raising the same exception over and over).
   #- ls lab-*.py|xargs -n 1 -P 1 python > /dev/null
-  - for f in *lab-*.py; do echo "$f"; python "$f" > /dev/null; done
+  - for f in lab-*.py; do echo "$f"; python "$f" > /dev/null; done
   - pytest
