@@ -30,7 +30,7 @@ for i in range(0, len(sentence) - seq_length):
 batch_size = len(dataX) #170
 
 X = tf.placeholder(tf.int32, [None, seq_length])
-Y = tf.placeholder(tf.int64, [None, seq_length])
+Y = tf.placeholder(tf.float32, [None, seq_length])
 
 # One-hot encoding
 x_one_hot = tf.one_hot(X, num_classes)
@@ -42,14 +42,24 @@ cell = tf.contrib.rnn.MultiRNNCell([cell] * 2, state_is_tuple=True)
 initial_state = cell.zero_state(batch_size, tf.float32)
 
 outputs, _states = tf.nn.dynamic_rnn(cell, x_one_hot, dtype=tf.float32)
+last_output = outputs[:,-1]
 
-weights = tf.ones([batch_size, seq_length])
-sequence_loss = tf.contrib.seq2seq.sequence_loss(logits=outputs, targets=Y, weights=weights)
+#softmax
+softmax= tf.get_variable("softmax", [num_classes, 1])
+softmax_output = tf.matmul(last_output,  softmax)
+
+#weights = tf.ones([batch_size, seq_length])
+
+#sequence_loss = tf.contrib.seq2seq.sequence_loss(logits=softmax_output, targets=Y, weights=weights)
+sequence_loss = tf.reduce_sum(tf.square(softmax_output - Y))
+
 loss = tf.reduce_mean(sequence_loss)
-train = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(loss)
-predict = tf.argmax(outputs, axis=-1)
-accuracy = tf.reduce_mean(tf.cast(tf.equal(predict, Y), dtype=tf.float32))
 
+train = tf.train.GradientDescentOptimizer(learning_rate=0.0001).minimize(loss)
+
+predict = tf.cast(tf.argmax(outputs, axis=-1), dtype=tf.float32)
+
+accuracy = tf.reduce_mean(tf.cast(tf.equal(predict, Y), dtype=tf.float32))
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
@@ -59,19 +69,19 @@ with tf.Session() as sess:
         x_index = dataX[0]
         x_str = [char_set[j] for j in x_index]
 
-        index = result[0]
-        result = [char_set[j] for j in index]
-        print(''.join(x_str), ' -> ', ''.join(result))
+        # index = result[0]
+        # result = [char_set[j] for j in index]
+        # print(''.join(x_str), ' -> ', ''.join(result))
 
 
 
         print(x, "loss: ", l, "accuracy: ", a)
 
-    for i, prediction in enumerate(result):
-        x_index = dataX[i]
-        x_str = [char_set[j] for j in x_index]
+    # for i, prediction in enumerate(result):
+    #     x_index = dataX[i]
+    #     x_str = [char_set[j] for j in x_index]
 
-        index = prediction
-        result = [char_set[j] for j in index]
+    #     index = prediction
+    #     result = [char_set[j] for j in index]
 
-        print(''.join(x_str), ' -> ', ''.join(result))
+    #     print(''.join(x_str), ' -> ', ''.join(result))
