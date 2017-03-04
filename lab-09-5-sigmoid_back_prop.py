@@ -9,7 +9,7 @@ This is equivalent to tf.nn.sigmoid_softmax_with_logits(logits, labels)
 1) Tensorflow Document (tf.nn.sigmoid_softmax_with_logits)
     https://www.tensorflow.org/api_docs/python/tf/nn/sigmoid_cross_entropy_with_logits
 
-2) Neural Net Backprop in one slide! by Prof. Sung KIM
+2) Neural Net Backprop in one slide! by Sung Kim
     https://docs.google.com/presentation/d/1_ZmtfEjLmhbuM_PqbDYMXXLAqeWN0HwuhcSKnUQZ6MM/edit#slide=id.g1ec1d04b5a_1_83
 
 3) Back Propagation with Tensorflow by Dan Aloni
@@ -33,7 +33,7 @@ We want to compute that
 dLoss/dW = ???
 dLoss/db = ???
 
-please read Prof. Sung KIM's slides for each steps
+please read "Neural Net Backprop in one slide!" for deriving formulas
 
 """
 import tensorflow as tf
@@ -93,7 +93,7 @@ assert y_pred.shape.as_list() == y_one_hot.shape.as_list()
 
 
 # Back prop (chain rule)
-# How to derive? please read Prof. Kim's slides
+# How to derive? please read "Neural Net Backprop in one slide!"
 d_loss = (y_pred - y_one_hot) / (y_pred * (1. - y_pred) + 1e-7)
 d_sigma = sigma_prime(layer_1)
 d_layer1 = d_loss * d_sigma
