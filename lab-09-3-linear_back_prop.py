@@ -50,3 +50,12 @@ for i in range(1000):
     print(i, sess.run([step, RMSE], feed_dict={X: x_data, Y: y_data}))
 
 print(sess.run(hypothesis, feed_dict={X: x_data}))
+
+'''
+997 [[array([[ 0.9999972]], dtype=float32), 6.3574607e-06], 5.7838179e-12]
+998 [[array([[ 0.99999726]], dtype=float32), 6.2779877e-06], 5.6464464e-12]
+999 [[array([[ 0.99999732]], dtype=float32), 6.1985147e-06], 5.6464464e-12]
+[[ 1.00000346]
+ [ 2.00000072]
+ [ 2.99999809]]
+'''
