@@ -45,7 +45,8 @@ step = [
 RMSE = tf.reduce_mean(tf.square((Y - hypothesis)))
 
 sess = tf.InteractiveSession()
-sess.run(tf.initialize_all_variables())
+init = tf.global_variables_initializer()
+sess.run(init)
 
 for i in range(10000):
     print(i, sess.run([step, RMSE], feed_dict={X: x_data, Y: y_data}))
