@@ -23,16 +23,14 @@ b = tf.Variable(tf.random_normal([nb_classes]), name='bias')
 
 # tf.nn.softmax computes softmax activations
 # softmax = exp(logits) / reduce_sum(exp(logits), dim)
-hypothesis = tf.matmul(X, W) + b
+logits = tf.matmul(X, W) + b
+hypothesis = tf.nn.softmax(logits)
 
 # Cross entropy cost/loss
-# cost = tf.reduce_mean(-tf.reduce_sum(Y * tf.log(hypothesis), axis=1))
-cost_i = tf.nn.softmax_cross_entropy_with_logits(logits=hypothesis,
+cost_i = tf.nn.softmax_cross_entropy_with_logits(logits=logits,
                                                  labels=Y_one_hot)
 cost = tf.reduce_mean(cost_i)
-
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
-
 
 prediction = tf.argmax(hypothesis, 1)
 correct_prediction = tf.equal(prediction, tf.argmax(Y_one_hot, 1))

@@ -2,13 +2,11 @@
 import tensorflow as tf
 import random
 import matplotlib.pyplot as plt
-from sys import platform
 
 from tensorflow.examples.tutorials.mnist import input_data
-
-mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 # Check out https://www.tensorflow.org/get_started/mnist/beginners for
 # more information about the mnist dataset
+mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 nb_classes = 10
 
@@ -56,6 +54,26 @@ with tf.Session() as sess:
     print("Prediction: ", sess.run(
         tf.argmax(hypothesis, 1), {X: mnist.test.images[r:r + 1]}))
 
-    # plt.imshow(mnist.test.images[r:r + 1].
-    #           reshape(28, 28), cmap='Greys', interpolation='nearest')
-    # plt.show()
+    plt.imshow(mnist.test.images[r:r + 1].
+               reshape(28, 28), cmap='Greys', interpolation='nearest')
+    plt.show()
+
+
+'''
+Epoch:  0001 cost= 2.302585363
+Epoch:  0101 cost= 0.232252389
+Epoch:  0201 cost= 0.263057202
+Epoch:  0301 cost= 0.319312871
+Epoch:  0401 cost= 0.572987258
+
+...
+
+Epoch:  1501 cost= 0.391383678
+Epoch:  1601 cost= 0.251548856
+Epoch:  1701 cost= 0.296876758
+Epoch:  1801 cost= 0.209258422
+Epoch:  1901 cost= 0.381276697
+Epoch:  2001 cost= 0.432298064
+Learning finished
+Accuracy:  0.8865
+'''
