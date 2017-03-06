@@ -122,8 +122,10 @@ with tf.Session() as sess:
 
         if step % 10 == 0:
             # Within 300 steps, you should see an accuracy of 100%
-            step_loss, acc = sess.run([loss, acct_res], feed_dict={X: X_data, y: y_data})
-            print("Step: {:5}\t Loss: {:10.5f}\t Acc: {:.2%}" .format(step, step_loss, acc))
+            step_loss, acc = sess.run([loss, acct_res], feed_dict={
+                                      X: X_data, y: y_data})
+            print("Step: {:5}\t Loss: {:10.5f}\t Acc: {:.2%}" .format(
+                step, step_loss, acc))
 
     # Let's see if we can predict
     pred = sess.run(prediction, feed_dict={X: X_data})

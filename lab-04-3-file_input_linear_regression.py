@@ -7,7 +7,7 @@ xy = np.loadtxt('data-01-test-score.csv', delimiter=',', dtype=np.float32)
 x_data = xy[:, 0:-1]
 y_data = xy[:, [-1]]
 
-# Make sure the sape and data are OK
+# Make sure the shape and data are OK
 print(x_data.shape, x_data, len(x_data))
 print(y_data.shape, y_data)
 
@@ -42,11 +42,11 @@ for step in range(2001):
               "\nPrediction:\n", sess.run(hypothesis, feed_dict=feed))
 
 # Ask my score
-score = np.array([[100, 70, 101]])
-print("Your score will be ", sess.run(hypothesis, feed_dict={X: score}))
+print("Your score will be ", sess.run(
+    hypothesis, feed_dict={X: [[100, 70, 101]]}))
 
-score = np.array([[60, 70, 110], [90, 100, 80]])
-print("Other scores will be ", sess.run(hypothesis, feed_dict={X: score}))
+print("Other scores will be ", sess.run(hypothesis,
+                                        feed_dict={X: [[60, 70, 110], [90, 100, 80]]}))
 
 '''
 Your score will be  [[ 181.73277283]]

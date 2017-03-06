@@ -44,8 +44,10 @@ with tf.Session() as sess:
     for step in range(2000):
         sess.run(optimizer, feed_dict={X: x_data, Y: y_data})
         if step % 100 == 0:
-            loss, acc = sess.run([cost, accuracy], feed_dict={X: x_data, Y: y_data})
-            print("Step: {:5}\tLoss: {:.3f}\tAcc: {:.2%}".format(step, loss, acc))
+            loss, acc = sess.run([cost, accuracy], feed_dict={
+                                 X: x_data, Y: y_data})
+            print("Step: {:5}\tLoss: {:.3f}\tAcc: {:.2%}".format(
+                step, loss, acc))
 
     # Let's see if we can predict
     pred = sess.run(prediction, feed_dict={X: x_data})
