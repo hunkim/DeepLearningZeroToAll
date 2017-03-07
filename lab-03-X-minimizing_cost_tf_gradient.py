@@ -1,4 +1,5 @@
 # Lab 3 Minimizing Cost
+# This is optional
 import tensorflow as tf
 tf.set_random_seed(777)  # for reproducibility
 
