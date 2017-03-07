@@ -36,7 +36,7 @@ Y = tf.placeholder(tf.int32, [None, seq_length])
 x_one_hot = tf.one_hot(X, num_classes)
 
 cell = tf.contrib.rnn.BasicLSTMCell(num_units=num_classes, state_is_tuple=True)
-cell = tf.contrib.rnn.MultiRNNCell([cell] * 2, state_is_tuple=True)
+# cell = tf.contrib.rnn.MultiRNNCell([cell] * 2, state_is_tuple=True)
 initial_state = cell.zero_state(batch_size, tf.float32)
 
 outputs, _states = tf.nn.dynamic_rnn(cell, x_one_hot, dtype=tf.float32)
@@ -57,14 +57,22 @@ loss = tf.reduce_mean(sequence_loss)
 train = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(loss)
 
 predict = tf.argmax(softmax_output, axis=-1)
+accuracy = tf.reduce_mean(tf.cast(tf.equal(predict, tf.cast(Y, dtype=tf.int64)), dtype=tf.float32))
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     for x in range(2000):
-        l, _ = sess.run([loss, train], feed_dict={X: dataX, Y: dataY})
+        l, _, a = sess.run([loss, train, accuracy], feed_dict={X: dataX, Y: dataY})
         result = sess.run(predict, feed_dict={X: dataX})
-     
-        print(x, "loss: ", l)
+
+        x_index = dataX[0]
+        x_str = [char_set[j] for j in x_index]
+
+        index = result[0]       
+        result = [char_set[j] for j in index]       
+        print(''.join(x_str), ' -> ', ''.join(result))
+
+        print(x, "loss: ", l, "accuracy: ", a)
 
     for i, prediction in enumerate(result):
         x_index = dataX[i]
