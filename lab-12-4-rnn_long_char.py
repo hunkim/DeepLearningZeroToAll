@@ -10,46 +10,48 @@ sentence = ("if you want to build a ship, don't drum up people together to "
 char_set = list(set(sentence))
 char_dic = {w: i for i, w in enumerate(char_set)}
 
-data_dim = hidden_size = len(char_set) #25
-seq_length = timesteps = 10
-num_classes = len(char_set) #25
+data_dim = len(char_set)
+hidden_size = len(char_set)
+num_classes = len(char_set)
+seq_length = 10  # Any arbitrary number
 
 dataX = []
 dataY = []
-
 for i in range(0, len(sentence) - seq_length):
     x_str = sentence[i:i + seq_length]
     y_str = sentence[i + 1: i + seq_length + 1]
 
-    x = [char_dic[c] for c in x_str]  # char to index
-    y = [char_dic[c] for c in y_str]  # char to index
+    x = [char_dic[c] for c in x_str]  # x str to index
+    y = [char_dic[c] for c in y_str]  # y str to index
 
     dataX.append(x)
     dataY.append(y)
 
-batch_size = len(dataX) #170
+batch_size = len(dataX)
 
 X = tf.placeholder(tf.int32, [None, seq_length])
 Y = tf.placeholder(tf.int32, [None, seq_length])
 
 # One-hot encoding
-x_one_hot = tf.one_hot(X, num_classes)
-print(x_one_hot)
+X_one_hot = tf.one_hot(X, num_classes)
+print(X_one_hot)  # check out the shape
 
-# Make lstm with rnn_hidden_size (each unit input vector size)
-lstm = rnn.BasicLSTMCell(hidden_size, state_is_tuple=True)
-lstm = rnn.MultiRNNCell([lstm] * 2, state_is_tuple=True)
+# Make a lstm cell with hidden_size (each unit output vector size)
+cell = rnn.BasicLSTMCell(hidden_size, state_is_tuple=True)
+cell = rnn.MultiRNNCell([cell] * 2, state_is_tuple=True)
 
-# outputs: unrolling size x hidden size, state = hidden size
-outputs, _states = tf.nn.dynamic_rnn(lstm, x_one_hot, dtype=tf.float32)
+# outputs: unfolding size x hidden size, state = hidden size
+outputs, _states = tf.nn.dynamic_rnn(cell, X_one_hot, dtype=tf.float32)
 
 # (optional) softmax layer
-x_for_softmax = tf.reshape(outputs, [-1, hidden_size])
+X_for_softmax = tf.reshape(outputs, [-1, hidden_size])
 softmax_w = tf.get_variable("softmax_w", [hidden_size, num_classes])
 softmax_b = tf.get_variable("softmax_b", [num_classes])
-outputs = tf.matmul(x_for_softmax, softmax_w) + softmax_b
+outputs = tf.matmul(X_for_softmax, softmax_w) + softmax_b
 
+# reshape out for sequence_loss
 outputs = tf.reshape(outputs, [batch_size, seq_length, num_classes])
+# All weights are 1 (equal weights)
 weights = tf.ones([batch_size, seq_length])
 
 sequence_loss = tf.contrib.seq2seq.sequence_loss(outputs, Y, weights)
@@ -65,8 +67,11 @@ for i in range(500):
         index = np.argmax(result, axis=1)
         print(i, j, ''.join([char_set[t] for t in index]), l)
 
-# Let's print the last char of each result
+# Let's print the last char of each result to check it works
 results = sess.run(outputs, feed_dict={X: dataX})
 for j, result in enumerate(results):
     index = np.argmax(result, axis=1)
-    print(char_set[index[-1]], end='')
+    if j is 0: # print all for the first result to make a sentence
+        print(''.join([char_set[t] for t in index]), end='')
+    else:
+        print(char_set[index[-1]], end='')

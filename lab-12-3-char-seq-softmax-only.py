@@ -22,13 +22,13 @@ X = tf.placeholder(tf.int32, [None, sequence_length])  # X data
 Y = tf.placeholder(tf.int32, [None, sequence_length])  # Y label
 
 # flatten the data (ignore batches for now). No effect if the batch size is 1
-x_one_hot = tf.one_hot(X, num_classes)  # one hot: 1 -> 0 1 0 0 0 0 0 0 0 0
-x_for_softmax = tf.reshape(x_one_hot, [-1, rnn_hidden_size])
+X_one_hot = tf.one_hot(X, num_classes)  # one hot: 1 -> 0 1 0 0 0 0 0 0 0 0
+X_for_softmax = tf.reshape(X_one_hot, [-1, rnn_hidden_size])
 
 # softmax layer (rnn_hidden_size -> num_classes)
 softmax_w = tf.get_variable("softmax_w", [rnn_hidden_size, num_classes])
 softmax_b = tf.get_variable("softmax_b", [num_classes])
-outputs = tf.matmul(x_for_softmax,  softmax_w) + softmax_b
+outputs = tf.matmul(X_for_softmax, softmax_w) + softmax_b
 
 # expend the data (revive the batches)
 outputs = tf.reshape(outputs, [batch_size, sequence_length, num_classes])
