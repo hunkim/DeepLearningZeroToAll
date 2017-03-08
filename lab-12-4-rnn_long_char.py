@@ -34,51 +34,39 @@ Y = tf.placeholder(tf.int32, [None, seq_length])
 
 # One-hot encoding
 x_one_hot = tf.one_hot(X, num_classes)
+print(x_one_hot)
 
-cell = tf.contrib.rnn.BasicLSTMCell(num_units=num_classes, state_is_tuple=True)
-cell = tf.contrib.rnn.MultiRNNCell([cell] * 2, state_is_tuple=True)
-initial_state = cell.zero_state(batch_size, tf.float32)
+# Make lstm with rnn_hidden_size (each unit input vector size)
+lstm = rnn.BasicLSTMCell(hidden_size, state_is_tuple=True)
+lstm = rnn.MultiRNNCell([lstm] * 2, state_is_tuple=True)
 
-outputs, _states = tf.nn.dynamic_rnn(cell, x_one_hot, dtype=tf.float32)
-# outputs = tf.reshape(outputs, [batch_size * seq_length, num_classes])
-outputs = tf.reshape(outputs, [-1, num_classes])
+# outputs: unrolling size x hidden size, state = hidden size
+outputs, _states = tf.nn.dynamic_rnn(lstm, x_one_hot, dtype=tf.float32)
 
-w_softmax = tf.get_variable("w_softmax", [hidden_size, num_classes])
-b_softmax = tf.get_variable("b_softmax", [num_classes])
+# (optional) softmax layer
+x_for_softmax = tf.reshape(outputs, [-1, hidden_size])
+softmax_w = tf.get_variable("softmax_w", [hidden_size, num_classes])
+softmax_b = tf.get_variable("softmax_b", [num_classes])
+outputs = tf.matmul(x_for_softmax, softmax_w) + softmax_b
 
-softmax_output = tf.matmul(outputs, w_softmax) + b_softmax
-softmax_output = tf.reshape(softmax_output, [batch_size, seq_length, num_classes])
-
+outputs = tf.reshape(outputs, [batch_size, seq_length, num_classes])
 weights = tf.ones([batch_size, seq_length])
 
-sequence_loss = tf.contrib.seq2seq.sequence_loss(logits=softmax_output, targets=Y, weights=weights)
-loss = tf.reduce_mean(sequence_loss)
+sequence_loss = tf.contrib.seq2seq.sequence_loss(outputs, Y, weights)
+mean_loss = tf.reduce_mean(sequence_loss)
+train_op = tf.train.AdamOptimizer(learning_rate=0.1).minimize(mean_loss)
 
-train = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(loss)
+sess = tf.Session()
+sess.run(tf.global_variables_initializer())
 
-predict = tf.argmax(softmax_output, axis=-1)
-accuracy = tf.reduce_mean(tf.cast(tf.equal(predict, tf.cast(Y, dtype=tf.int64)), dtype=tf.float32))
+for i in range(500):
+    _, l, results = sess.run([train_op, mean_loss, outputs], feed_dict={X: dataX, Y:dataY})
+    for j, result in enumerate(results):
+        index = np.argmax(result, axis=1)
+        print(i, j, ''.join([char_set[t] for t in index]), l)
 
-with tf.Session() as sess:
-    sess.run(tf.global_variables_initializer())
-    for x in range(2000):
-        l, _, a = sess.run([loss, train, accuracy], feed_dict={X: dataX, Y: dataY})
-        result = sess.run(predict, feed_dict={X: dataX})
-
-        x_index = dataX[0]
-        x_str = [char_set[j] for j in x_index]
-
-        index = result[0]       
-        result = [char_set[j] for j in index]       
-        print(''.join(x_str), ' -> ', ''.join(result))
-
-        print(x, "loss: ", l, "accuracy: ", a)
-
-    for i, prediction in enumerate(result):
-        x_index = dataX[i]
-        x_str = [char_set[j] for j in x_index]
-
-        index = prediction
-        result = [char_set[j] for j in index]
-
-        print(''.join(x_str), ' -> ', ''.join(result))
+# Let's print the last char of each result
+results = sess.run(outputs, feed_dict={X: dataX})
+for j, result in enumerate(results):
+    index = np.argmax(result, axis=1)
+    print(char_set[index[-1]], end='')

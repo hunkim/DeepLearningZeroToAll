@@ -4,14 +4,6 @@ import matplotlib.pyplot as plt
 
 tf.set_random_seed(777)  # reproducibility
 
-timesteps = seq_length = 7
-data_dim = 5
-output_dim = 1
-
-# Open,High,Low,Close,Volume
-xy = np.loadtxt('data-02-stock_daily.csv', delimiter=',')
-xy = xy[::-1]  # reverse order (chronically ordered)
-
 def MinMaxScaler(data):
     num_row = np.shape(data)[0]
     num_col = np.shape(data)[1]
@@ -21,8 +13,14 @@ def MinMaxScaler(data):
         array[:,i] = (input - np.min(input)) / (np.max(input) - np.min(input))
     return array
 
-xy = MinMaxScaler(xy)
+timesteps = seq_length = 7
+data_dim = 5
+output_dim = 1
 
+# Open,High,Low,Close,Volume
+xy = np.loadtxt('data-02-stock_daily.csv', delimiter=',')
+xy = xy[::-1]  # reverse order (chronically ordered)
+xy = MinMaxScaler(xy)
 x = xy
 y = xy[:, [-1]]  # Close as label
 
