@@ -36,7 +36,7 @@ Y = tf.placeholder(tf.int32, [None, seq_length])
 x_one_hot = tf.one_hot(X, num_classes)
 
 cell = tf.contrib.rnn.BasicLSTMCell(num_units=num_classes, state_is_tuple=True)
-# cell = tf.contrib.rnn.MultiRNNCell([cell] * 2, state_is_tuple=True)
+cell = tf.contrib.rnn.MultiRNNCell([cell] * 2, state_is_tuple=True)
 initial_state = cell.zero_state(batch_size, tf.float32)
 
 outputs, _states = tf.nn.dynamic_rnn(cell, x_one_hot, dtype=tf.float32)
