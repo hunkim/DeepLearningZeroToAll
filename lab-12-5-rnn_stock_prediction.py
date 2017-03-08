@@ -1,16 +1,16 @@
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
-
 tf.set_random_seed(777)  # reproducibility
+
 
 def MinMaxScaler(data):
     num_row = np.shape(data)[0]
     num_col = np.shape(data)[1]
     array = np.zeros((num_row, num_col))
     for i in range(num_col):
-        input = data[:,i]
-        array[:,i] = (input - np.min(input)) / (np.max(input) - np.min(input))
+        input = data[:, i]
+        array[:, i] = (input - np.min(input)) / (np.max(input) - np.min(input))
     return array
 
 timesteps = seq_length = 7
@@ -65,7 +65,7 @@ rmse = tf.sqrt(tf.reduce_mean(tf.square(targets - predictions)))
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
-for i in range(1000):
+for i in range(500):
     _, l = sess.run([train, loss], feed_dict={X: trainX, Y: trainY})
     print(i, l)
 

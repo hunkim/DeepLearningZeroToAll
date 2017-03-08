@@ -2,6 +2,7 @@
 import tensorflow as tf
 import numpy as np
 from tensorflow.contrib import rnn
+tf.set_random_seed(777)  # reproducibility
 
 sentence = ("if you want to build a ship, don't drum up people together to "
             "collect wood and don't assign them tasks and work, but rather "
@@ -20,6 +21,7 @@ dataY = []
 for i in range(0, len(sentence) - seq_length):
     x_str = sentence[i:i + seq_length]
     y_str = sentence[i + 1: i + seq_length + 1]
+    print(i, x_str, '->', y_str)
 
     x = [char_dic[c] for c in x_str]  # x str to index
     y = [char_dic[c] for c in y_str]  # y str to index
@@ -54,7 +56,8 @@ outputs = tf.reshape(outputs, [batch_size, seq_length, num_classes])
 # All weights are 1 (equal weights)
 weights = tf.ones([batch_size, seq_length])
 
-sequence_loss = tf.contrib.seq2seq.sequence_loss(outputs, Y, weights)
+sequence_loss = tf.contrib.seq2seq.sequence_loss(
+    logits=outputs, targets=Y, weights=weights)
 mean_loss = tf.reduce_mean(sequence_loss)
 train_op = tf.train.AdamOptimizer(learning_rate=0.1).minimize(mean_loss)
 
@@ -62,7 +65,8 @@ sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 for i in range(500):
-    _, l, results = sess.run([train_op, mean_loss, outputs], feed_dict={X: dataX, Y:dataY})
+    _, l, results = sess.run(
+        [train_op, mean_loss, outputs], feed_dict={X: dataX, Y: dataY})
     for j, result in enumerate(results):
         index = np.argmax(result, axis=1)
         print(i, j, ''.join([char_set[t] for t in index]), l)
@@ -71,7 +75,20 @@ for i in range(500):
 results = sess.run(outputs, feed_dict={X: dataX})
 for j, result in enumerate(results):
     index = np.argmax(result, axis=1)
-    if j is 0: # print all for the first result to make a sentence
+    if j is 0:  # print all for the first result to make a sentence
         print(''.join([char_set[t] for t in index]), end='')
     else:
         print(char_set[index[-1]], end='')
+
+'''
+0 167 tttttttttt 3.23111
+0 168 tttttttttt 3.23111
+0 169 tttttttttt 3.23111
+…
+499 167  of the se 0.229616
+499 168 tf the sea 0.229616
+499 169   the sea. 0.229616
+
+g you want to build a ship, don't drum up people together to collect wood and don't assign them tasks and work, but rather teach them to long for the endless immensity of the sea.
+
+'''

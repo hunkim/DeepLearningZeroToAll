@@ -4,6 +4,16 @@ import matplotlib.pyplot as plt
 
 tf.set_random_seed(777)  # reproducibility
 
+
+def MinMaxScaler(data):
+    num_row = np.shape(data)[0]
+    num_col = np.shape(data)[1]
+    array = np.zeros((num_row, num_col))
+    for i in range(num_col):
+        input = data[:, i]
+        array[:, i] = (input - np.min(input)) / (np.max(input) - np.min(input))
+    return array
+
 timesteps = seq_length = 7
 data_dim = 5
 output_dim = 3
@@ -11,16 +21,6 @@ output_dim = 3
 # Open,High,Low,Close,Volume
 xy = np.loadtxt('data-02-stock_daily.csv', delimiter=',')
 xy = xy[::-1]  # reverse order (chronically ordered)
-
-def MinMaxScaler(data):
-    num_row = np.shape(data)[0]
-    num_col = np.shape(data)[1]
-    array = np.zeros((num_row, num_col))
-    for i in range(num_col):
-        input = data[:,i]
-        array[:,i] = (input - np.min(input)) / (np.max(input) - np.min(input))
-    return array
-
 xy = MinMaxScaler(xy)
 
 x = xy

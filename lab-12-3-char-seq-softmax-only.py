@@ -35,7 +35,8 @@ outputs = tf.reshape(outputs, [batch_size, sequence_length, num_classes])
 weights = tf.ones([batch_size, sequence_length])
 
 # Compute sequence cost/loss
-sequence_loss = tf.contrib.seq2seq.sequence_loss(outputs, Y, weights)
+sequence_loss = tf.contrib.seq2seq.sequence_loss(
+    logits=outputs, targets=Y, weights=weights)
 loss = tf.reduce_mean(sequence_loss)  # mean all sequence loss
 train = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
 
