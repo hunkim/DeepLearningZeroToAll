@@ -1,9 +1,17 @@
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import MinMaxScaler
-
 tf.set_random_seed(777)  # reproducibility
+
+
+def MinMaxScaler(data):
+    num_row = np.shape(data)[0]
+    num_col = np.shape(data)[1]
+    array = np.zeros((num_row, num_col))
+    for i in range(num_col):
+        input = data[:, i]
+        array[:, i] = (input - np.min(input)) / (np.max(input) - np.min(input))
+    return array
 
 timesteps = seq_length = 7
 data_dim = 5
@@ -12,11 +20,7 @@ output_dim = 1
 # Open,High,Low,Close,Volume
 xy = np.loadtxt('data-02-stock_daily.csv', delimiter=',')
 xy = xy[::-1]  # reverse order (chronically ordered)
-
-# very important. It does not work without it.
-scaler = MinMaxScaler(feature_range=(0, 1))
-xy = scaler.fit_transform(xy)
-
+xy = MinMaxScaler(xy)
 x = xy
 y = xy[:, [-1]]  # Close as label
 
@@ -61,7 +65,7 @@ rmse = tf.sqrt(tf.reduce_mean(tf.square(targets - predictions)))
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
-for i in range(1000):
+for i in range(500):
     _, l = sess.run([train, loss], feed_dict={X: trainX, Y: trainY})
     print(i, l)
 

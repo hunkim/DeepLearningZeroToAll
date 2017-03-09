@@ -16,7 +16,7 @@ x_one_hot = [[[1, 0, 0, 0, 0],   # h 0
 y_data = [[1, 0, 2, 3, 3, 4]]    # ihello
 
 input_dim = 5  # one-hot size
-hidden_size = 5  # output from the LSTM 4 to directly predict onehot
+hidden_size = 5  # output from the LSTM. 5 to directly predict one-hot
 batch_size = 1   # one sentence
 sequence_length = 6  # |ihello| == 6
 
