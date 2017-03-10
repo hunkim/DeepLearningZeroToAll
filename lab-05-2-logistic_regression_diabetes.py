@@ -34,8 +34,8 @@ accuracy = tf.reduce_mean(tf.cast(tf.equal(predicted, Y), dtype=tf.float32))
 with tf.Session() as sess:
     # Initialize TensorFlow variables
     sess.run(tf.global_variables_initializer())
-
     feed = {X: x_data, Y: y_data}
+    
     for step in range(10001):
         sess.run(train, feed_dict=feed)
         if step % 200 == 0:
