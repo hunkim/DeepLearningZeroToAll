@@ -39,7 +39,7 @@ with tf.Session() as sess:
         c, _ = sess.run([cost, optimizer], feed_dict={
                         X: batch_xs, Y: batch_ys})
         if step % 100 == 0:
-            print("Epoch: ", '%04d' % (step + 1),
+            print("step: ", '%04d' % (step + 1),
                   "cost=", "{:.9f}".format(c))
 
     print("Learning finished")
