@@ -7,23 +7,30 @@ tf.set_random_seed(777)  # for reproducibility
 x_data = np.array([[0, 0], [0, 1], [1, 0], [1, 1]], dtype=np.float32)
 y_data = np.array([[0], [1], [1], [0]], dtype=np.float32)
 
+# set layer's input/output size
+layer1_input_size = np.shape(x_data)[1]
+layer1_output_size = 10
+layer2_output_size = 10
+layer3_output_size = 10
+layerLast_output_size = np.shape(y_data)[1]
+
 X = tf.placeholder(tf.float32)
 Y = tf.placeholder(tf.float32)
 
-W1 = tf.Variable(tf.random_normal([2, 10]), name='weight1')
-b1 = tf.Variable(tf.random_normal([10]), name='bias1')
+W1 = tf.Variable(tf.random_normal([layer1_input_size, layer1_output_size]), name='weight1')
+b1 = tf.Variable(tf.random_normal([layer1_output_size]), name='bias1')
 layer1 = tf.sigmoid(tf.matmul(X, W1) + b1)
 
-W2 = tf.Variable(tf.random_normal([10, 10]), name='weight2')
-b2 = tf.Variable(tf.random_normal([10]), name='bias2')
+W2 = tf.Variable(tf.random_normal([layer1_output_size, layer2_output_size]), name='weight2')
+b2 = tf.Variable(tf.random_normal([layer2_output_size]), name='bias2')
 layer2 = tf.sigmoid(tf.matmul(layer1, W2) + b2)
 
-W3 = tf.Variable(tf.random_normal([10, 10]), name='weight3')
-b3 = tf.Variable(tf.random_normal([10]), name='bias3')
+W3 = tf.Variable(tf.random_normal([layer2_output_size, layer3_output_size]), name='weight3')
+b3 = tf.Variable(tf.random_normal([layer3_output_size]), name='bias3')
 layer3 = tf.sigmoid(tf.matmul(layer2, W3) + b3)
 
-W4 = tf.Variable(tf.random_normal([10, 1]), name='weight4')
-b4 = tf.Variable(tf.random_normal([1]), name='bias4')
+W4 = tf.Variable(tf.random_normal([layer3_output_size, layerLast_output_size]), name='weight4')
+b4 = tf.Variable(tf.random_normal([layerLast_output_size]), name='bias4')
 hypothesis = tf.sigmoid(tf.matmul(layer3, W4) + b4)
 
 # cost/loss function
