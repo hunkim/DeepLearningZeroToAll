@@ -33,7 +33,7 @@ weights = tf.ones([batch_size, sequence_length])
 sequence_loss = tf.contrib.seq2seq.sequence_loss(
     logits=outputs, targets=Y, weights=weights)
 loss = tf.reduce_mean(sequence_loss)
-train = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(loss)
+train = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
 
 prediction = tf.argmax(outputs, axis=2)
 
