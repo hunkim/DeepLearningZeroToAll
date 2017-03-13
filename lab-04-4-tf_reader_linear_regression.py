@@ -64,8 +64,8 @@ print("Other scores will be ",
       sess.run(hypothesis, feed_dict={X: [[60, 70, 110], [90, 100, 80]]}))
 
 '''
-Your score will be  [[ 181.73277283]]
-Other scores will be  [[ 145.86265564]
- [ 187.23129272]]
+Your score will be  [[ 177.78144836]]
+Other scores will be  [[ 141.10997009]
+ [ 191.17378235]]
 
 '''
