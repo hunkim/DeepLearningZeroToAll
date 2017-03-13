@@ -7,7 +7,8 @@ tf.set_random_seed(777)  # reproducibility
 def MinMaxScaler(data):
     numerator = data - np.min(data, 0)
     denominator = np.max(data, 0) - np.min(data, 0)
-    return numerator / (denominator + 1e-7)  # noise term prevents the zero division
+    # noise term prevents the zero division
+    return numerator / (denominator + 1e-7)
 
 
 timesteps = seq_length = 7
@@ -33,8 +34,10 @@ for i in range(0, len(y) - seq_length):
 # split to train and testing
 train_size = int(len(dataY) * 0.7)
 test_size = len(dataY) - train_size
-trainX, testX = np.array(dataX[0:train_size]), np.array(dataX[train_size:len(dataX)])
-trainY, testY = np.array(dataY[0:train_size]), np.array(dataY[train_size:len(dataY)])
+trainX, testX = np.array(dataX[0:train_size]), np.array(
+    dataX[train_size:len(dataX)])
+trainY, testY = np.array(dataY[0:train_size]), np.array(
+    dataY[train_size:len(dataY)])
 
 # input place holders
 X = tf.placeholder(tf.float32, [None, seq_length, data_dim])
@@ -65,7 +68,8 @@ for i in range(500):
     print(i, step_loss)
 
 testPredict = sess.run(Y_pred, feed_dict={X: testX})
-print("RMSE", sess.run(rmse, feed_dict={targets: testY, predictions: testPredict}))
+print("RMSE", sess.run(rmse, feed_dict={
+      targets: testY, predictions: testPredict}))
 plt.plot(testY)
 plt.plot(testPredict)
 plt.xlabel("Time Period")
