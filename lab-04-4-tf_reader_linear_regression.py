@@ -2,7 +2,6 @@
 # https://www.tensorflow.org/programmers_guide/reading_data
 
 import tensorflow as tf
-import numpy as np
 tf.set_random_seed(777)  # for reproducibility
 
 filename_queue = tf.train.string_input_producer(
@@ -16,7 +15,7 @@ key, value = reader.read(filename_queue)
 record_defaults = [[0.], [0.], [0.], [0.]]
 xy = tf.decode_csv(value, record_defaults=record_defaults)
 
-# collect batches of cvs in
+# collect batches of csv in
 train_x_batch, train_y_batch = \
     tf.train.batch([xy[0:-1], xy[-1:]], batch_size=10)
 
