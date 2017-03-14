@@ -52,7 +52,7 @@ Tensor("Reshape_1:0", shape=(?, 3136), dtype=float32)
 '''
 
 # Final FC 7x7x64 inputs -> 10 outputs
-W3 = tf.get_variable("W2", shape=[7 * 7 * 64, 10],
+W3 = tf.get_variable("W3", shape=[7 * 7 * 64, 10],
                      initializer=tf.contrib.layers.xavier_initializer())
 b = tf.Variable(tf.random_normal([10]))
 hypothesis = tf.matmul(L2, W3) + b
