@@ -116,6 +116,56 @@ array([[[ 0,  1,  2],
         [ 9, 10, 11]]])
 '''
 
+t1 = tf.transpose(t, [1,0,2])
+pp.pprint(sess.run(t1).shape)
+pp.pprint(sess.run(t1))
+'''
+(2, 2, 3)
+array([[[ 0,  1,  2],
+        [ 6,  7,  8]],
+
+       [[ 3,  4,  5],
+        [ 9, 10, 11]]])
+'''
+
+t = tf.transpose(t1, [1,0,2])
+pp.pprint(sess.run(t).shape)
+pp.pprint(sess.run(t))
+'''
+(2, 2, 3)
+array([[[ 0,  1,  2],
+        [ 3,  4,  5]],
+
+       [[ 6,  7,  8],
+        [ 9, 10, 11]]])
+'''
+
+t2 = tf.transpose(t, [1,2,0])
+pp.pprint(sess.run(t2).shape)
+pp.pprint(sess.run(t2))
+'''
+(2, 3, 2)
+array([[[ 0,  6],
+        [ 1,  7],
+        [ 2,  8]],
+
+       [[ 3,  9],
+        [ 4, 10],
+        [ 5, 11]]])
+'''
+
+t = tf.transpose(t2, [2,0,1])
+pp.pprint(sess.run(t).shape)
+pp.pprint(sess.run(t))
+'''
+(2, 2, 3)
+array([[[ 0,  1,  2],
+        [ 3,  4,  5]],
+
+       [[ 6,  7,  8],
+        [ 9, 10, 11]]])
+'''
+
 t = tf.reshape(t, shape=[-1, 3])
 pp.pprint(sess.run(t).shape)
 pp.pprint(sess.run(t))
