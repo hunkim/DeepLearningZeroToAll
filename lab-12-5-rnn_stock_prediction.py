@@ -5,19 +5,17 @@ tf.set_random_seed(777)  # reproducibility
 
 
 def MinMaxScaler(data):
-    num_row = np.shape(data)[0]
-    num_col = np.shape(data)[1]
-    array = np.zeros((num_row, num_col))
-    for i in range(num_col):
-        input = data[:, i]
-        array[:, i] = (input - np.min(input)) / (np.max(input) - np.min(input))
-    return array
+    numerator = data - np.min(data, 0)
+    denominator = np.max(data, 0) - np.min(data, 0)
+    # noise term prevents the zero division
+    return numerator / (denominator + 1e-7)
+
 
 timesteps = seq_length = 7
 data_dim = 5
 output_dim = 1
 
-# Open,High,Low,Close,Volume
+# Open, High, Low, Volume, Close
 xy = np.loadtxt('data-02-stock_daily.csv', delimiter=',')
 xy = xy[::-1]  # reverse order (chronically ordered)
 xy = MinMaxScaler(xy)
@@ -66,12 +64,14 @@ sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 for i in range(500):
-    _, l = sess.run([train, loss], feed_dict={X: trainX, Y: trainY})
-    print(i, l)
+    _, step_loss = sess.run([train, loss], feed_dict={X: trainX, Y: trainY})
+    print(i, step_loss)
 
 testPredict = sess.run(Y_pred, feed_dict={X: testX})
 print("RMSE", sess.run(rmse, feed_dict={
       targets: testY, predictions: testPredict}))
 plt.plot(testY)
 plt.plot(testPredict)
+plt.xlabel("Time Period")
+plt.ylabel("Stock Price")
 plt.show()
