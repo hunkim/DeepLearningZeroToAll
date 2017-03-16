@@ -37,8 +37,81 @@ sess = tf.Session()
 # Initializes global variables in the graph.
 sess.run(tf.global_variables_initializer())
 
-for step in range(2001):
+for step in range(101):
     cost_val, hy_val, _ = sess.run(
         [cost, hypothesis, train], feed_dict={X: x_data, Y: y_data})
-    if step % 10 == 0:
-        print(step, "Cost: ", cost_val, "\nPrediction:\n", hy_val)
+    print(step, "Cost: ", cost_val, "\nPrediction:\n", hy_val)
+
+
+'''
+0 Cost:  2.45533e+12
+Prediction:
+ [[-1104436.375]
+ [-2224342.75 ]
+ [-1749606.75 ]
+ [-1226179.375]
+ [-1445287.125]
+ [-1457459.5  ]
+ [-1335740.5  ]
+ [-1700924.625]]
+1 Cost:  2.69762e+27
+Prediction:
+ [[  3.66371490e+13]
+ [  7.37543360e+13]
+ [  5.80198785e+13]
+ [  4.06716290e+13]
+ [  4.79336847e+13]
+ [  4.83371348e+13]
+ [  4.43026590e+13]
+ [  5.64060907e+13]]
+2 Cost:  inf
+Prediction:
+ [[ -1.21438790e+21]
+ [ -2.44468702e+21]
+ [ -1.92314724e+21]
+ [ -1.34811610e+21]
+ [ -1.58882674e+21]
+ [ -1.60219962e+21]
+ [ -1.46847142e+21]
+ [ -1.86965602e+21]]
+3 Cost:  inf
+Prediction:
+ [[  4.02525216e+28]
+ [  8.10324465e+28]
+ [  6.37453079e+28]
+ [  4.46851237e+28]
+ [  5.26638074e+28]
+ [  5.31070676e+28]
+ [  4.86744608e+28]
+ [  6.19722623e+28]]
+4 Cost:  inf
+Prediction:
+ [[ -1.33422428e+36]
+ [ -2.68593010e+36]
+ [ -2.11292430e+36]
+ [ -1.48114879e+36]
+ [ -1.74561303e+36]
+ [ -1.76030542e+36]
+ [ -1.61338091e+36]
+ [ -2.05415459e+36]]
+5 Cost:  inf
+Prediction:
+ [[ inf]
+ [ inf]
+ [ inf]
+ [ inf]
+ [ inf]
+ [ inf]
+ [ inf]
+ [ inf]]
+6 Cost:  nan
+Prediction:
+ [[ nan]
+ [ nan]
+ [ nan]
+ [ nan]
+ [ nan]
+ [ nan]
+ [ nan]
+ [ nan]]
+'''

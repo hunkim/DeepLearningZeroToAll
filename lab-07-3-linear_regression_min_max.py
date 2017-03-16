@@ -48,8 +48,21 @@ sess = tf.Session()
 # Initializes global variables in the graph.
 sess.run(tf.global_variables_initializer())
 
-for step in range(2001):
+for step in range(101):
     cost_val, hy_val, _ = sess.run(
         [cost, hypothesis, train], feed_dict={X: x_data, Y: y_data})
-    if step % 10 == 0:
-        print(step, "Cost: ", cost_val, "\nPrediction:\n", hy_val)
+    print(step, "Cost: ", cost_val, "\nPrediction:\n", hy_val)
+
+'''
+100 Cost:  0.152254
+Prediction:
+ [[ 1.63450289]
+ [ 0.06628087]
+ [ 0.35014752]
+ [ 0.67070574]
+ [ 0.61131608]
+ [ 0.61466062]
+ [ 0.23175186]
+ [-0.13716528]]
+
+'''
