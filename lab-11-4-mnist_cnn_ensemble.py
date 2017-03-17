@@ -12,9 +12,8 @@ mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 # hyper parameters
 learning_rate = 0.001
-training_epochs = 15
+training_epochs = 20
 batch_size = 100
-
 
 
 class Model:
@@ -131,7 +130,7 @@ class Model:
 sess = tf.Session()
 
 models = []
-num_models = 10
+num_models = 7
 for m in range(num_models):
     models.append(Model(sess, "model" + str(m)))
 
@@ -167,3 +166,15 @@ ensemble_correct_prediction = tf.equal(
 ensemble_accuracy = tf.reduce_mean(
     tf.cast(ensemble_correct_prediction, tf.float32))
 print('Ensemble accuracy:', sess.run(ensemble_accuracy))
+
+'''
+0 Accuracy: 0.9933
+1 Accuracy: 0.9946
+2 Accuracy: 0.9934
+3 Accuracy: 0.9935
+4 Accuracy: 0.9935
+5 Accuracy: 0.9949
+6 Accuracy: 0.9941
+
+Ensemble accuracy: 0.9952
+'''
