@@ -17,7 +17,7 @@ Y = tf.placeholder(tf.float32)
 hypothesis = X * W
 
 # cost/loss function
-cost = tf.reduce_sum(tf.square(hypothesis - Y))
+cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
 # Minimize: Gradient Descent using derivative: W -= learning_rate * derivative
 learning_rate = 0.1
