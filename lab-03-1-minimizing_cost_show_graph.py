@@ -25,7 +25,7 @@ cost_val = []
 
 for i in range(-30, 50):
     feed_W = i * 0.1
-    curr_cost, _ = sess.run([cost, W], feed_dict={W: feed_W})
+    curr_cost = sess.run(cost, feed_dict={W: feed_W})
     W_val.append(feed_W)
     cost_val.append(curr_cost)
 
