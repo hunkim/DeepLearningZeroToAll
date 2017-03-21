@@ -1,4 +1,4 @@
-# Lab 10 MNIST and Deep learning CNN
+# Lab 11 MNIST and Deep learning CNN
 import tensorflow as tf
 import random
 # import matplotlib.pyplot as plt
