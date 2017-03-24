@@ -52,10 +52,10 @@ cell = tf.contrib.rnn.MultiRNNCell([cell] * 2, state_is_tuple=True)
 outputs, _states = tf.nn.dynamic_rnn(cell, X, dtype=tf.float32)
 last_output = outputs[:, -1]  # We use the last cell's output
 
-# Softmax layer (rnn_hidden_size -> num_classes)
-softmax_w = tf.get_variable("softmax_w", [output_dim, 1])
-softmax_b = tf.get_variable("softmax_b", [1])
-Y_pred = tf.matmul(last_output,  softmax_w) + softmax_b
+# Fully connected layer (rnn_hidden_size -> num_classes)
+fc_w = tf.get_variable("fc_w", [output_dim, 1])
+fc_b = tf.get_variable("fc_b", [1])
+Y_pred = tf.matmul(last_output, fc_w) + fc_b
 
 # cost/loss
 loss = tf.reduce_sum(tf.square(Y_pred - Y))  # sum of the squares
