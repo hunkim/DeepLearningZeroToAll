@@ -78,7 +78,8 @@ class Model:
             L3 = tf.nn.max_pool(L3, ksize=[1, 2, 2, 1], strides=[
                                 1, 2, 2, 1], padding='SAME')
             L3 = tf.nn.dropout(L3, keep_prob=self.keep_prob)
-            L3 = tf.reshape(L3, [-1, 128 * 4 * 4])
+
+            L3_flat = tf.reshape(L3, [-1, 128 * 4 * 4])
             '''
             Tensor("Conv2D_2:0", shape=(?, 7, 7, 128), dtype=float32)
             Tensor("Relu_2:0", shape=(?, 7, 7, 128), dtype=float32)
@@ -91,7 +92,7 @@ class Model:
             W4 = tf.get_variable("W4", shape=[128 * 4 * 4, 625],
                                  initializer=tf.contrib.layers.xavier_initializer())
             b4 = tf.Variable(tf.random_normal([625]))
-            L4 = tf.nn.relu(tf.matmul(L3, W4) + b4)
+            L4 = tf.nn.relu(tf.matmul(L3_flat, W4) + b4)
             L4 = tf.nn.dropout(L4, keep_prob=self.keep_prob)
             '''
             Tensor("Relu_3:0", shape=(?, 625), dtype=float32)
@@ -102,23 +103,23 @@ class Model:
             W5 = tf.get_variable("W5", shape=[625, 10],
                                  initializer=tf.contrib.layers.xavier_initializer())
             b5 = tf.Variable(tf.random_normal([10]))
-            self.logit = tf.matmul(L4, W5) + b5
+            self.logits = tf.matmul(L4, W5) + b5
             '''
             Tensor("add_1:0", shape=(?, 10), dtype=float32)
             '''
 
         # define cost/loss & optimizer
         self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
-            logits=self.logit, labels=self.Y))
+            logits=self.logits, labels=self.Y))
         self.optimizer = tf.train.AdamOptimizer(
             learning_rate=learning_rate).minimize(self.cost)
 
         correct_prediction = tf.equal(
-            tf.argmax(self.logit, 1), tf.argmax(self.Y, 1))
+            tf.argmax(self.logits, 1), tf.argmax(self.Y, 1))
         self.accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
     def predict(self, x_test, keep_prop=1.0):
-        return self.sess.run(self.logit, feed_dict={self.X: x_test, self.keep_prob: keep_prop})
+        return self.sess.run(self.logits, feed_dict={self.X: x_test, self.keep_prob: keep_prop})
 
     def get_accuracy(self, x_test, y_test, keep_prop=1.0):
         return self.sess.run(self.accuracy, feed_dict={self.X: x_test, self.Y: y_test, self.keep_prob: keep_prop})

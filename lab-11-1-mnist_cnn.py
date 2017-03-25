@@ -43,7 +43,7 @@ L2 = tf.nn.conv2d(L1, W2, strides=[1, 1, 1, 1], padding='SAME')
 L2 = tf.nn.relu(L2)
 L2 = tf.nn.max_pool(L2, ksize=[1, 2, 2, 1],
                     strides=[1, 2, 2, 1], padding='SAME')
-L2 = tf.reshape(L2, [-1, 7 * 7 * 64])
+L2_flat = tf.reshape(L2, [-1, 7 * 7 * 64])
 '''
 Tensor("Conv2D_1:0", shape=(?, 14, 14, 64), dtype=float32)
 Tensor("Relu_1:0", shape=(?, 14, 14, 64), dtype=float32)
@@ -55,11 +55,11 @@ Tensor("Reshape_1:0", shape=(?, 3136), dtype=float32)
 W3 = tf.get_variable("W3", shape=[7 * 7 * 64, 10],
                      initializer=tf.contrib.layers.xavier_initializer())
 b = tf.Variable(tf.random_normal([10]))
-hypothesis = tf.matmul(L2, W3) + b
+logits = tf.matmul(L2_flat, W3) + b
 
 # define cost/loss & optimizer
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
-    logits=hypothesis, labels=Y))
+    logits=logits, labels=Y))
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 
 # initialize
@@ -83,7 +83,7 @@ for epoch in range(training_epochs):
 print('Learning Finished!')
 
 # Test model and check accuracy
-correct_prediction = tf.equal(tf.argmax(hypothesis, 1), tf.argmax(Y, 1))
+correct_prediction = tf.equal(tf.argmax(logits, 1), tf.argmax(Y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 print('Accuracy:', sess.run(accuracy, feed_dict={
       X: mnist.test.images, Y: mnist.test.labels}))
@@ -92,7 +92,7 @@ print('Accuracy:', sess.run(accuracy, feed_dict={
 r = random.randint(0, mnist.test.num_examples - 1)
 print("Label: ", sess.run(tf.argmax(mnist.test.labels[r:r + 1], 1)))
 print("Prediction: ", sess.run(
-    tf.argmax(hypothesis, 1), feed_dict={X: mnist.test.images[r:r + 1]}))
+    tf.argmax(logits, 1), feed_dict={X: mnist.test.images[r:r + 1]}))
 
 # plt.imshow(mnist.test.images[r:r + 1].
 #           reshape(28, 28), cmap='Greys', interpolation='nearest')
