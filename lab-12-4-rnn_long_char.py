@@ -14,13 +14,13 @@ char_dic = {w: i for i, w in enumerate(char_set)}
 data_dim = len(char_set)
 hidden_size = len(char_set)
 num_classes = len(char_set)
-seq_length = 10  # Any arbitrary number
+sequence_length = 10  # Any arbitrary number
 
 dataX = []
 dataY = []
-for i in range(0, len(sentence) - seq_length):
-    x_str = sentence[i:i + seq_length]
-    y_str = sentence[i + 1: i + seq_length + 1]
+for i in range(0, len(sentence) - sequence_length):
+    x_str = sentence[i:i + sequence_length]
+    y_str = sentence[i + 1: i + sequence_length + 1]
     print(i, x_str, '->', y_str)
 
     x = [char_dic[c] for c in x_str]  # x str to index
@@ -31,8 +31,8 @@ for i in range(0, len(sentence) - seq_length):
 
 batch_size = len(dataX)
 
-X = tf.placeholder(tf.int32, [None, seq_length])
-Y = tf.placeholder(tf.int32, [None, seq_length])
+X = tf.placeholder(tf.int32, [None, sequence_length])
+Y = tf.placeholder(tf.int32, [None, sequence_length])
 
 # One-hot encoding
 X_one_hot = tf.one_hot(X, num_classes)
@@ -45,16 +45,17 @@ cell = rnn.MultiRNNCell([cell] * 2, state_is_tuple=True)
 # outputs: unfolding size x hidden size, state = hidden size
 outputs, _states = tf.nn.dynamic_rnn(cell, X_one_hot, dtype=tf.float32)
 
-# (optional) softmax layer
-X_for_softmax = tf.reshape(outputs, [-1, hidden_size])
-softmax_w = tf.get_variable("softmax_w", [hidden_size, num_classes])
-softmax_b = tf.get_variable("softmax_b", [num_classes])
-outputs = tf.matmul(X_for_softmax, softmax_w) + softmax_b
+# FC layer
+X_for_fc = tf.reshape(outputs, [-1, hidden_size])
+fc_w = tf.get_variable("fc_w", [hidden_size, num_classes])
+fc_b = tf.get_variable("fc_b", [num_classes])
+outputs = tf.matmul(X_for_fc, fc_w) + fc_b
 
 # reshape out for sequence_loss
-outputs = tf.reshape(outputs, [batch_size, seq_length, num_classes])
+outputs = tf.reshape(outputs, [batch_size, sequence_length, num_classes])
+
 # All weights are 1 (equal weights)
-weights = tf.ones([batch_size, seq_length])
+weights = tf.ones([batch_size, sequence_length])
 
 sequence_loss = tf.contrib.seq2seq.sequence_loss(
     logits=outputs, targets=Y, weights=weights)

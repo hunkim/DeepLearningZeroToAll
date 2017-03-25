@@ -9,7 +9,7 @@ char2idx = {c: i for i, c in enumerate(idx2char)}  # char -> idex
 
 # hyper parameters
 dic_size = len(char2idx)  # RNN input size (one hot size)
-rnn_hidden_size = len(char2idx)  # RNN output size
+hidden_size = len(char2idx)  # RNN output size
 num_classes = len(char2idx)  # final output size (RNN or softmax, etc.)
 batch_size = 1  # one sample data, one batch
 sequence_length = len(sample) - 1  # number of lstm rollings (unit #)
@@ -23,10 +23,19 @@ Y = tf.placeholder(tf.int32, [None, sequence_length])  # Y label
 
 x_one_hot = tf.one_hot(X, num_classes)  # one hot: 1 -> 0 1 0 0 0 0 0 0 0 0
 cell = tf.contrib.rnn.BasicLSTMCell(
-    num_units=rnn_hidden_size, state_is_tuple=True)
+    num_units=hidden_size, state_is_tuple=True)
 initial_state = cell.zero_state(batch_size, tf.float32)
 outputs, _states = tf.nn.dynamic_rnn(
     cell, x_one_hot, initial_state=initial_state, dtype=tf.float32)
+
+# FC layer
+X_for_fc = tf.reshape(outputs, [-1, hidden_size])
+fc_w = tf.get_variable("fc_w", [hidden_size, num_classes])
+fc_b = tf.get_variable("fc_b", [num_classes])
+outputs = tf.matmul(X_for_fc, fc_w) + fc_b
+
+# reshape out for sequence_loss
+outputs = tf.reshape(outputs, [batch_size, sequence_length, num_classes])
 
 weights = tf.ones([batch_size, sequence_length])
 sequence_loss = tf.contrib.seq2seq.sequence_loss(
@@ -38,7 +47,7 @@ prediction = tf.argmax(outputs, axis=2)
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
-    for i in range(3000):
+    for i in range(50):
         l, _ = sess.run([loss, train], feed_dict={X: x_data, Y: y_data})
         result = sess.run(prediction, feed_dict={X: x_data})
 
@@ -49,18 +58,20 @@ with tf.Session() as sess:
 
 
 '''
-0 loss: 2.29895 Prediction: nnuffuunnuuuyuy
-1 loss: 2.29675 Prediction: nnuffuunnuuuyuy
-2 loss: 2.29459 Prediction: nnuffuunnuuuyuy
-3 loss: 2.29247 Prediction: nnuffuunnuuuyuy
+0 loss: 2.35377 Prediction: uuuuuuuuuuuuuuu
+1 loss: 2.21383 Prediction: yy you y    you
+2 loss: 2.04317 Prediction: yy yoo       ou
+3 loss: 1.85869 Prediction: yy  ou      uou
+4 loss: 1.65096 Prediction: yy you  a   you
+5 loss: 1.40243 Prediction: yy you yan  you
+6 loss: 1.12986 Prediction: yy you wann you
+7 loss: 0.907699 Prediction: yy you want you
+8 loss: 0.687401 Prediction: yf you want you
+9 loss: 0.508868 Prediction: yf you want you
+10 loss: 0.379423 Prediction: yf you want you
+11 loss: 0.282956 Prediction: if you want you
+12 loss: 0.208561 Prediction: if you want you
 
 ...
 
-1413 loss: 1.3745 Prediction: if you want you
-1414 loss: 1.3743 Prediction: if you want you
-1415 loss: 1.3741 Prediction: if you want you
-1416 loss: 1.3739 Prediction: if you want you
-1417 loss: 1.3737 Prediction: if you want you
-1418 loss: 1.37351 Prediction: if you want you
-1419 loss: 1.37331 Prediction: if you want you
 '''
