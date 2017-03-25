@@ -13,12 +13,14 @@ def MinMaxScaler(data):
     Parameters
     ----------
     data : numpy.ndarray
-        input data to be normalized (shape: [Batch size, dimension])
+        input data to be normalized 
+        shape: [Batch size, dimension]
 
     Returns
     ----------
     data : numpy.ndarry
-        normalized data (shape: [Batch size, dimension])
+        normalized data
+        shape: [Batch size, dimension]
 
     References
     ----------
@@ -67,7 +69,7 @@ X = tf.placeholder(tf.float32, [None, seq_length, data_dim])
 Y = tf.placeholder(tf.float32, [None, 1])
 
 # build a LSTM network
-cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_dim, state_is_tuple=True, activation=tf.nn.tanh)
+cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_dim, state_is_tuple=True, activation=tf.tanh)
 outputs, _states = tf.nn.dynamic_rnn(cell, X, dtype=tf.float32)
 Y_pred = tf.contrib.layers.fully_connected(outputs[:, -1], output_dim, activation_fn=None)  # We use the last cell's output
 
