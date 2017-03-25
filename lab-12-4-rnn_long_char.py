@@ -47,9 +47,7 @@ outputs, _states = tf.nn.dynamic_rnn(cell, X_one_hot, dtype=tf.float32)
 
 # FC layer
 X_for_fc = tf.reshape(outputs, [-1, hidden_size])
-fc_w = tf.get_variable("fc_w", [hidden_size, num_classes])
-fc_b = tf.get_variable("fc_b", [num_classes])
-outputs = tf.matmul(X_for_fc, fc_w) + fc_b
+outputs = tf.contrib.layers.fully_connected(outputs, num_classes, activation_fn=None)
 
 # reshape out for sequence_loss
 outputs = tf.reshape(outputs, [batch_size, sequence_length, num_classes])
