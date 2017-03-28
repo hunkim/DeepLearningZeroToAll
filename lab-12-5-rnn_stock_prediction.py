@@ -61,17 +61,21 @@ for i in range(0, len(y) - seq_length):
 # train/test split
 train_size = int(len(dataY) * 0.7)
 test_size = len(dataY) - train_size
-trainX, testX = np.array(dataX[0:train_size]), np.array(dataX[train_size:len(dataX)])
-trainY, testY = np.array(dataY[0:train_size]), np.array(dataY[train_size:len(dataY)])
+trainX, testX = np.array(dataX[0:train_size]), np.array(
+    dataX[train_size:len(dataX)])
+trainY, testY = np.array(dataY[0:train_size]), np.array(
+    dataY[train_size:len(dataY)])
 
 # input place holders
 X = tf.placeholder(tf.float32, [None, seq_length, data_dim])
 Y = tf.placeholder(tf.float32, [None, 1])
 
 # build a LSTM network
-cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_dim, state_is_tuple=True, activation=tf.tanh)
+cell = tf.contrib.rnn.BasicLSTMCell(
+    num_units=hidden_dim, state_is_tuple=True, activation=tf.tanh)
 outputs, _states = tf.nn.dynamic_rnn(cell, X, dtype=tf.float32)
-Y_pred = tf.contrib.layers.fully_connected(outputs[:, -1], output_dim, activation_fn=None)  # We use the last cell's output
+Y_pred = tf.contrib.layers.fully_connected(
+    outputs[:, -1], output_dim, activation_fn=None)  # We use the last cell's output
 
 # cost/loss
 loss = tf.reduce_sum(tf.square(Y_pred - Y))  # sum of the squares
@@ -90,12 +94,14 @@ with tf.Session() as sess:
 
     # Training step
     for i in range(iterations):
-        _, step_loss = sess.run([train, loss], feed_dict={X: trainX, Y: trainY})
+        _, step_loss = sess.run([train, loss], feed_dict={
+                                X: trainX, Y: trainY})
         print("[step: {}] loss: {}".format(i, step_loss))
 
     # Test step
     test_predict = sess.run(Y_pred, feed_dict={X: testX})
-    rmse = sess.run(rmse, feed_dict={targets: testY, predictions: test_predict})
+    rmse = sess.run(rmse, feed_dict={
+                    targets: testY, predictions: test_predict})
     print("RMSE: {}".format(rmse))
 
     # Plot predictions
