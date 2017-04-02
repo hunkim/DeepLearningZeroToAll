@@ -13,7 +13,7 @@ model.compile(loss='mse', optimizer='sgd')
 # prints summary of the model to the terminal
 model.summary()
 
-model.fit(x_train, y_train, nb_epoch=1000)
+model.fit(x_train, y_train, epochs=1000)
 
 y_predict = model.predict(np.array([4]))
 print(y_predict)

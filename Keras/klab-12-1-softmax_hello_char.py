@@ -7,8 +7,8 @@ import os
 
 # brew install graphviz
 # pip3 install graphviz
-# pip3 install pydot
-from keras.utils.visualize_util import plot
+# pip3 install pydot-ng
+from keras.utils.vis_utils import plot_model
 
 # sample text
 sample = "hihello"
@@ -21,7 +21,7 @@ y_str = sample[1:]
 
 data_dim = len(char_set)
 timesteps = len(y_str)
-nb_classes = len(char_set)
+num_classes = len(char_set)
 
 print(x_str, y_str)
 
@@ -29,28 +29,29 @@ x = [char_dic[c] for c in x_str]  # char to index
 y = [char_dic[c] for c in y_str]  # char to index
 
 # One-hot encoding
-x = np_utils.to_categorical(x, nb_classes=nb_classes)
+x = np_utils.to_categorical(x, num_classes=num_classes)
 # reshape X to be [samples, time steps, features]
 x = np.reshape(x, (-1, len(x), data_dim))
 print(x.shape)
 
 # One-hot encoding
-y = np_utils.to_categorical(y, nb_classes=nb_classes)
+y = np_utils.to_categorical(y, num_classes=num_classes)
 # time steps
 y = np.reshape(y, (-1, len(y), data_dim))
 print(y.shape)
 
 model = Sequential()
-model.add(Dense(nb_classes, input_shape=(
+model.add(Dense(num_classes, input_shape=(
     timesteps, data_dim)))
 model.add(Activation('softmax'))
 model.summary()
 # Store model graph in png
-# plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
+# (Error occurs on in python interactive shell)
+plot_model(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
 model.compile(loss='categorical_crossentropy',
               optimizer='rmsprop', metrics=['accuracy'])
-model.fit(x, y, nb_epoch=100)
+model.fit(x, y, epochs=100)
 
 predictions = model.predict(x, verbose=0)
 for i, prediction in enumerate(predictions):
