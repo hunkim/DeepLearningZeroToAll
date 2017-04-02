@@ -6,7 +6,7 @@ x_train = [1, 2, 3, 4]
 y_train = [0, -1, -2, -3]
 
 model = Sequential()
-model.add(Dense(output_dim=1, input_dim=1))
+model.add(Dense(1, input_dim=1))
 
 model.compile(loss='mse', optimizer='sgd')
 
