@@ -23,7 +23,7 @@ model.compile(loss='categorical_crossentropy',
               optimizer='sgd',
               metrics=['accuracy'])
 
-history = model.fit(x_data, y_one_hot, nb_epoch=1000)
+history = model.fit(x_data, y_one_hot, epochs=1000)
 
 # Let's see if we can predict
 pred = model.predict_classes(x_data)

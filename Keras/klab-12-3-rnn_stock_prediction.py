@@ -7,8 +7,8 @@ import os
 
 # brew install graphviz
 # pip3 install graphviz
-# pip3 install pydot
-from keras.utils.visualize_util import plot
+# pip3 install pydot-ng
+from keras.utils.vis_utils import plot_model
 
 import matplotlib.pyplot as plt
 
@@ -52,10 +52,11 @@ model.compile(loss='mean_squared_error', optimizer='adam')
 model.summary()
 
 # Store model graph in png
-# plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
+# (Error occurs on in python interactive shell)
+plot_model(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
 print(trainX.shape, trainY.shape)
-model.fit(trainX, trainY, nb_epoch=200)
+model.fit(trainX, trainY, epochs=200)
 
 # make predictions
 testPredict = model.predict(testX)
