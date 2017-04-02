@@ -3,8 +3,16 @@ This script shows how to predict stock prices using a basic RNN
 '''
 import tensorflow as tf
 import numpy as np
-import matplotlib.pyplot as plt
+import matplotlib
+import os
+
 tf.set_random_seed(777)  # reproducibility
+
+if "DISPLAY" not in os.environ:
+    # remove Travis CI Error
+    matplotlib.use('Agg')
+
+import matplotlib.pyplot as plt
 
 
 def MinMaxScaler(data):
@@ -13,7 +21,7 @@ def MinMaxScaler(data):
     Parameters
     ----------
     data : numpy.ndarray
-        input data to be normalized 
+        input data to be normalized
         shape: [Batch size, dimension]
 
     Returns

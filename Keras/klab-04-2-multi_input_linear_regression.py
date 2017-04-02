@@ -7,7 +7,7 @@ x_data = [[73., 80., 75.], [93., 88., 93.], [
 y_data = [[152.], [185.], [180.], [196.], [142.]]
 
 model = Sequential()
-model.add(Dense(input_dim=3, output_dim=1))
+model.add(Dense(input_dim=3, units=1))
 
 model.compile(loss='mse', optimizer='rmsprop')
 model.fit(x_data, y_data)
