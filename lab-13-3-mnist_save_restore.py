@@ -1,7 +1,7 @@
-# Lab 7 Learning rate and Evaluation
+# Lab 13 Saver and Restore
 import tensorflow as tf
 import random
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import os
 
 from tensorflow.examples.tutorials.mnist import input_data
@@ -33,7 +33,7 @@ keep_prob = tf.placeholder(tf.float32)
 
 # weights & bias for nn layers
 # http://stackoverflow.com/questions/33640581/how-to-do-xavier-initialization-on-tensorflow
-with tf.variable_scope('layer1') as scope:
+with tf.variable_scope('layer1'):
     W1 = tf.get_variable("W", shape=[784, 512],
                          initializer=tf.contrib.layers.xavier_initializer())
     b1 = tf.Variable(tf.random_normal([512]))
@@ -45,7 +45,7 @@ with tf.variable_scope('layer1') as scope:
     tf.summary.histogram("bias", b1)
     tf.summary.histogram("layer", L1)
 
-with tf.variable_scope('layer2') as scope:
+with tf.variable_scope('layer2'):
     W2 = tf.get_variable("W", shape=[512, 512],
                          initializer=tf.contrib.layers.xavier_initializer())
     b2 = tf.Variable(tf.random_normal([512]))
@@ -56,7 +56,7 @@ with tf.variable_scope('layer2') as scope:
     tf.summary.histogram("bias", b2)
     tf.summary.histogram("layer", L2)
 
-with tf.variable_scope('layer3') as scope:
+with tf.variable_scope('layer3'):
     W3 = tf.get_variable("W", shape=[512, 512],
                          initializer=tf.contrib.layers.xavier_initializer())
     b3 = tf.Variable(tf.random_normal([512]))
@@ -67,7 +67,7 @@ with tf.variable_scope('layer3') as scope:
     tf.summary.histogram("bias", b3)
     tf.summary.histogram("layer", L3)
 
-with tf.variable_scope('layer4') as scope:
+with tf.variable_scope('layer4'):
     W4 = tf.get_variable("W", shape=[512, 512],
                          initializer=tf.contrib.layers.xavier_initializer())
     b4 = tf.Variable(tf.random_normal([512]))
@@ -78,7 +78,7 @@ with tf.variable_scope('layer4') as scope:
     tf.summary.histogram("bias", b4)
     tf.summary.histogram("layer", L4)
 
-with tf.variable_scope('layer5') as scope:
+with tf.variable_scope('layer5'):
     W5 = tf.get_variable("W", shape=[512, 10],
                          initializer=tf.contrib.layers.xavier_initializer())
     b5 = tf.Variable(tf.random_normal([10]))
@@ -110,7 +110,7 @@ writer = tf.summary.FileWriter(TB_SUMMARY_DIR)
 writer.add_graph(sess.graph)
 global_step = 0
 
-# Savor and Restore
+# Saver and Restore
 saver = tf.train.Saver()
 checkpoint = tf.train.get_checkpoint_state(CHECK_POINT_DIR)
 
