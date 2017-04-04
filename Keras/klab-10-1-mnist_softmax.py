@@ -41,7 +41,7 @@ Y_train = np_utils.to_categorical(y_train, nb_classes)
 Y_test = np_utils.to_categorical(y_test, nb_classes)
 
 model = Sequential()
-model.add(Dense(output_dim=nb_classes, input_dim=img_rows * img_cols,
+model.add(Dense(units=nb_classes, input_dim=img_rows * img_cols,
                 kernel_initializer=initializers.random_normal(stddev=0.01),
                 use_bias=True))
 model.add(Activation('softmax'))
@@ -52,8 +52,8 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam', learning_rate = learning_rate,
               metrics=['accuracy'])
 
-model.fit(X_train, Y_train, batch_size=batch_size, nb_epoch=training_epochs,
-          verbose=1, validation_data=(X_test, Y_test))
+model.fit(X_train, Y_train, batch_size=batch_size, epochs=training_epochs)
+
 score = model.evaluate(X_test, Y_test, verbose=0)
 print('Test score:', score[0])
 print('Test accuracy:', score[1])
