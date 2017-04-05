@@ -30,18 +30,30 @@ accuracy = tf.reduce_mean(tf.cast(tf.equal(predicted, Y), dtype=tf.float32))
 with tf.Session() as sess:
     # Initialize TensorFlow variables
     sess.run(tf.global_variables_initializer())
-    feed = {X: x_data, Y: y_data}
 
     for step in range(10001):
-        sess.run(train, feed_dict=feed)
+        cost_val, _ = sess.run([cost, train], feed_dict={X: x_data, Y: y_data})
         if step % 200 == 0:
-            print(step, sess.run(cost, feed_dict=feed), sess.run(W))
+            print(step, cost_val)
 
     # Accuracy report
-    h, c, a = sess.run([hypothesis, predicted, accuracy], feed_dict=feed)
+    h, c, a = sess.run([hypothesis, predicted, accuracy],
+                       feed_dict={X: x_data, Y: y_data})
     print("\nHypothesis: ", h, "\nCorrect (Y): ", c, "\nAccuracy: ", a)
 
 '''
+0 1.73078
+200 0.571512
+400 0.507414
+600 0.471824
+800 0.447585
+...
+9200 0.159066
+9400 0.15656
+9600 0.154132
+9800 0.151778
+10000 0.149496
+
 Hypothesis:  [[ 0.03074029]
  [ 0.15884677]
  [ 0.30486736]

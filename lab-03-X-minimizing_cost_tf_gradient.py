@@ -1,4 +1,5 @@
 # Lab 3 Minimizing Cost
+# This is optional
 import tensorflow as tf
 tf.set_random_seed(777)  # for reproducibility
 
@@ -24,9 +25,10 @@ train = optimizer.minimize(cost)
 
 # Get gradients
 gvs = optimizer.compute_gradients(cost)
+# Optional: modify gradient if necessary
+# gvs = [(tf.clip_by_value(grad, -1., 1.), var) for grad, var in gvs]
 # Apply gradients
-capped_gvs = [(tf.clip_by_value(grad, -1., 1.), var) for grad, var in gvs]
-apply_gradients = optimizer.apply_gradients(capped_gvs)
+apply_gradients = optimizer.apply_gradients(gvs)
 
 # Launch the graph in a session.
 sess = tf.Session()
@@ -34,12 +36,13 @@ sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 for step in range(100):
-    print(step, sess.run([gradient, W, gvs, capped_gvs]))
+    print(step, sess.run([gradient, W, gvs]))
     sess.run(apply_gradients)
     # Same as sess.run(train)
 
 
 '''
+# Apply gradients
 0 [37.333332, 5.0, [(37.333336, 5.0)]]
 1 [33.848888, 4.6266665, [(33.848888, 4.6266665)]]
 2 [30.689657, 4.2881775, [(30.689657, 4.2881775)]]

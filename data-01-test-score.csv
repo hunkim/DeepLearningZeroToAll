@@ -1,11 +1,3 @@
-# Test Scores for General Psychology
-# http://college.cengage.com/mathematics/brase/understandable_statistics/7e/students/datasets/mlr/frames/frame.html
-# The data (X1, X2, X3, X4) are for each student.
-# X1 = score on exam #1
-# X2 = score on exam #2
-# X3 = score on exam #3
-# X4 = score on final exam
-# EXAM1,EXAM2,EXAM3,FINAL
 73,80,75,152
 93,88,93,185
 89,91,90,180

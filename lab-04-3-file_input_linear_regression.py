@@ -7,7 +7,7 @@ xy = np.loadtxt('data-01-test-score.csv', delimiter=',', dtype=np.float32)
 x_data = xy[:, 0:-1]
 y_data = xy[:, [-1]]
 
-# Make sure the sape and data are OK
+# Make sure the shape and data are OK
 print(x_data.shape, x_data, len(x_data))
 print(y_data.shape, y_data)
 
@@ -32,21 +32,19 @@ train = optimizer.minimize(cost)
 sess = tf.Session()
 # Initializes global variables in the graph.
 sess.run(tf.global_variables_initializer())
-# Set up feed_dict variables inside the loop.
-feed = {X: x_data, Y: y_data}
 
 for step in range(2001):
-    sess.run(train, feed_dict=feed)
+    cost_val, hy_val, _ = sess.run(
+        [cost, hypothesis, train], feed_dict={X: x_data, Y: y_data})
     if step % 10 == 0:
-        print(step, "Cost: ", sess.run(cost, feed_dict=feed),
-              "\nPrediction:\n", sess.run(hypothesis, feed_dict=feed))
+        print(step, "Cost: ", cost_val, "\nPrediction:\n", hy_val)
 
 # Ask my score
-score = np.array([[100, 70, 101]])
-print("Your score will be ", sess.run(hypothesis, feed_dict={X: score}))
+print("Your score will be ", sess.run(
+    hypothesis, feed_dict={X: [[100, 70, 101]]}))
 
-score = np.array([[60, 70, 110], [90, 100, 80]])
-print("Other scores will be ", sess.run(hypothesis, feed_dict={X: score}))
+print("Other scores will be ", sess.run(hypothesis,
+                                        feed_dict={X: [[60, 70, 110], [90, 100, 80]]}))
 
 '''
 Your score will be  [[ 181.73277283]]

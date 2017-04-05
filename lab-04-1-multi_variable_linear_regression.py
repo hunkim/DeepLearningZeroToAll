@@ -34,14 +34,12 @@ train = optimizer.minimize(cost)
 sess = tf.Session()
 # Initializes global variables in the graph.
 sess.run(tf.global_variables_initializer())
-# Set up feed_dict variables inside the loop.
-feed = {x1: x1_data, x2: x2_data, x3: x3_data, Y: y_data}
 
 for step in range(2001):
-    sess.run(train, feed_dict=feed)
+    cost_val, hy_val, _ = sess.run([cost, hypothesis, train],
+                                   feed_dict={x1: x1_data, x2: x2_data, x3: x3_data, Y: y_data})
     if step % 10 == 0:
-        print(step, "Cost: ", sess.run(cost, feed_dict=feed),
-              "\nPrediction:\n", sess.run(hypothesis, feed_dict=feed))
+        print(step, "Cost: ", cost_val, "\nPrediction:\n", hy_val)
 
 '''
 0 Cost:  19614.8

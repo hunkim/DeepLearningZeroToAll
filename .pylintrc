@@ -1,0 +1,4 @@
+[TYPECHECK]
+
+ignored-modules=numpy,numpy.random
+ignored-classes=numpy,tuple,SparseTensor

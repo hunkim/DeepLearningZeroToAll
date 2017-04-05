@@ -1,14 +1,15 @@
 # http://machinelearningmastery.com/time-series-prediction-lstm-recurrent-neural-networks-python-keras/
+# Video: https://www.youtube.com/watch?v=ftMq5ps503w
 import numpy as np
 from keras.models import Sequential
-from keras.layers import Dense, LSTM, Activation
+from keras.layers import Dense, LSTM, Dropout, Activation
 from sklearn.preprocessing import MinMaxScaler
 import os
 
 # brew install graphviz
 # pip3 install graphviz
-# pip3 install pydot
-from keras.utils.visualize_util import plot
+# pip3 install pydot-ng
+from keras.utils.vis_utils import plot_model
 
 import matplotlib.pyplot as plt
 
@@ -44,18 +45,22 @@ trainY, testY = np.array(dataY[0:train_size]), np.array(
     dataY[train_size:len(dataY)])
 
 model = Sequential()
-model.add(LSTM(1, input_shape=(seq_length, data_dim), return_sequences=False))
-# model.add(Dense(1))
-model.add(Activation("linear"))
-model.compile(loss='mean_squared_error', optimizer='adam')
+model.add(LSTM(5, input_shape=(timesteps, data_dim), return_sequences=True))
+model.add(Dropout(0.2))
+model.add(LSTM(10, return_sequences=False))
+model.add(Dense(1))
+model.add(Activation('linear'))
 
 model.summary()
 
 # Store model graph in png
-# plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
+# (Error occurs on in python interactive shell)
+plot_model(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
+
+model.compile(loss='mean_squared_error', optimizer='adam')
 
 print(trainX.shape, trainY.shape)
-model.fit(trainX, trainY, nb_epoch=200)
+model.fit(trainX, trainY, epochs=200)
 
 # make predictions
 testPredict = model.predict(testX)
@@ -64,7 +69,7 @@ testPredict = model.predict(testX)
 # testPredict = scaler.transform(testPredict)
 # testY = scaler.transform(testY)
 
-# print(testPredict)
+print(testPredict)
 plt.plot(testY)
 plt.plot(testPredict)
 plt.show()
