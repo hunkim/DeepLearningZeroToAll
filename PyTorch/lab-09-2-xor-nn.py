@@ -1,8 +1,3 @@
-
-# coding: utf-8
-
-# In[1]:
-
 # Lab 9 XOR
 import torch
 from torch.autograd import Variable
@@ -39,4 +34,3 @@ for step in range(10001):
 predicted = (model(X).data > 0.5).float()
 accuracy = (predicted == Y.data).float().mean()
 print("\nHypothesis: ", hypothesis.data.numpy(), "\nCorrect: ", predicted.numpy(), "\nAccuracy: ", accuracy)
-
