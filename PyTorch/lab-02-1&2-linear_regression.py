@@ -1,8 +1,4 @@
-
-# coding: utf-8
-
-# In[1]:
-
+# Lab 2 Linear Regression
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
