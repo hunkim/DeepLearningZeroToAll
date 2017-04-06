@@ -6,20 +6,11 @@ python: # Only two versions for now
   - "2.7"
   - "3.5"
 # command to install dependencies
-# command to install dependencies
 install: "pip install -r requirements.txt"
 
 script:
-  - sed -i -- 's/range(total_batch)/range(1)/g' *lab-*.py # change range to 1 for quick testing
-  - sed -i -- 's/plt.show/#plt.show/g' *lab-*.py # no plt
-  - sed -i -- 's/plt.plot/#plt.plot/g' *lab-*.py # no plt
-  - sed -i -- 's/plt.imshow/#plt.imshow/g' *lab-*.py # no plt
-  - sed -i -- 's/nb_epoch = 12/nb_epoch = 1/g' *lab-*.py # change range to 1 for quick testing
-  - sed -i -- 's/plot(/# plot (/g' *lab-*.py # change range to 1 for quick testing
-  - sed -i -- 's/from keras.utils.visualize_util import plot/#/g' *lab-*.py
-  - python lab-07-2-learning_rate_and_evaluation.py # run this first to download the MNIST file
-  # run all python files in parallel, http://stackoverflow.com/questions/5015316
-  # The log length has exceeded the limit of 4 MB (this usually means that the test suite is raising the same exception over and over).
-  #- ls lab-*.py|xargs -n 1 -P 1 python > /dev/null
-  - for f in lab-*.py; do echo "$f"; python "$f" > /dev/null; done
+  - python -m pylint *.py -E
+  - python -m pylint Keras/*.py -E
+  - python -m compileall .
+  - python -m compileall Keras/
   - pytest
