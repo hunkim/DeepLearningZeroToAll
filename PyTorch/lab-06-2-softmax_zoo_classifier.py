@@ -1,13 +1,9 @@
-
-# coding: utf-8
-
-# In[87]:
-
+# Lab 6 Softmax Classifier
 import torch
 from torch.autograd import Variable 
 import numpy as np
 
-torch.manual_seed(777)
+torch.manual_seed(777)  # for reproducibility
 
 # Predicting animal type based on various features
 xy = np.loadtxt('data-04-zoo.csv', delimiter=',', dtype=np.float32)
@@ -30,7 +26,7 @@ print("one_hot", Y_one_hot.data)
 softmax = torch.nn.Softmax()
 model = torch.nn.Linear(16,nb_classes,bias=True)
 
-
+# Cross entropy cost/loss
 criterion = torch.nn.CrossEntropyLoss()    # Softmax is internally computed.
 optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
 
@@ -53,7 +49,6 @@ for step in range(2001):
 # Let's see if we can predict
 pred = torch.max(softmax(hypothesis),1)[1].float()
 
-# y_data: (N,1) = flatten => (N, ) matches pred.shape
 for p, y in zip(pred, Y):
     print("[{}] Prediction: {} True Y: {}".format(bool(p.data[0] == y.data[0]), p.data.int()[0], y.data.int()[0]))
 
