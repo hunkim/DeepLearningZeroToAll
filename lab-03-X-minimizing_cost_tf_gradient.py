@@ -24,7 +24,7 @@ optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01)
 train = optimizer.minimize(cost)
 
 # Get gradients
-gvs = optimizer.compute_gradients(cost)
+gvs = optimizer.compute_gradients(cost, [W])
 # Optional: modify gradient if necessary
 # gvs = [(tf.clip_by_value(grad, -1., 1.), var) for grad, var in gvs]
 # Apply gradients
