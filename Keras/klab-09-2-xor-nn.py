@@ -11,7 +11,7 @@ model.compile(loss='binary_crossentropy', optimizer='sgd',
               lr=0.1, metrics=['accuracy'])
 
 model.summary()
-model.fit(x_data, y_data, nb_epoch=50000)
+model.fit(x_data, y_data, epochs=50000)
 
 print(model.predict_classes(x_data))
 
