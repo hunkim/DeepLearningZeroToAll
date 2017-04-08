@@ -20,8 +20,8 @@ sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 # Variables for plotting cost function
-W_vals = []
-cost_vals = []
+W_record = []
+cost_record = []
 
 for i in range(-30, 50):
     curr_W = i * 0.1
