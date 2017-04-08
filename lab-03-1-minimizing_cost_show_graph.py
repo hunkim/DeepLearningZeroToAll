@@ -26,9 +26,9 @@ cost_record = []
 for i in range(-30, 50):
     curr_W = i * 0.1
     curr_cost = sess.run(cost, feed_dict={W: curr_W})
-    W_vals.append(curr_W)
-    cost_vals.append(curr_cost)
+    W_record.append(curr_W)
+    cost_record.append(curr_cost)
 
 # Show the cost function
-plt.plot(W_vals, cost_vals)
+plt.plot(W_record, cost_record)
 plt.show()
