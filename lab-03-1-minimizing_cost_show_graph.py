@@ -20,15 +20,15 @@ sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 # Variables for plotting cost function
-W_record = []
-cost_record = []
+W_history = []
+cost_history = []
 
 for i in range(-30, 50):
     curr_W = i * 0.1
     curr_cost = sess.run(cost, feed_dict={W: curr_W})
-    W_record.append(curr_W)
-    cost_record.append(curr_cost)
+    W_history.append(curr_W)
+    cost_history.append(curr_cost)
 
 # Show the cost function
-plt.plot(W_record, cost_record)
+plt.plot(W_history, cost_history)
 plt.show()
