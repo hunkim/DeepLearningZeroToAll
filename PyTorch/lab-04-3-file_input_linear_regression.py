@@ -18,7 +18,7 @@ x_data = Variable(torch.from_numpy(x_data))
 y_data = Variable(torch.from_numpy(y_data))
 
 # Our hypothesis XW+b
-model = nn.Linear(3,1,bias=True)
+model = nn.Linear(3, 1, bias=True)
 
 # cost criterion
 criterion = nn.MSELoss()
@@ -29,16 +29,18 @@ optimizer = torch.optim.SGD(model.parameters(), lr=1e-5)
 # Train the model
 for step in range(2001):
     optimizer.zero_grad()
-    # Our hypothesis 
+    # Our hypothesis
     hypothesis = model(x_data)
-    cost = criterion(hypothesis,y_data)
+    cost = criterion(hypothesis, y_data)
     cost.backward()
     optimizer.step()
-    
-    if step % 10 == 0:
-        print(step, "Cost: ",cost.data.numpy(), "\nPrediction:\n", hypothesis.data.numpy())
-    
-# Ask my score
-print("Your score will be ", model(Variable(torch.Tensor([[100, 70, 101]]))).data.numpy())
-print("Other scores will be ", model(Variable(torch.Tensor([[60, 70, 110], [90, 100, 80]]))).data.numpy())
 
+    if step % 10 == 0:
+        print(step, "Cost: ", cost.data.numpy(),
+              "\nPrediction:\n", hypothesis.data.numpy())
+
+# Ask my score
+print("Your score will be ", model(
+    Variable(torch.Tensor([[100, 70, 101]]))).data.numpy())
+print("Other scores will be ", model(
+    Variable(torch.Tensor([[60, 70, 110], [90, 100, 80]]))).data.numpy())
