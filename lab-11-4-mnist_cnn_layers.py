@@ -1,7 +1,7 @@
 # Lab 11 MNIST and Deep learning CNN
-# https://www.tensorflow.org/tutorials/layers
 import tensorflow as tf
-import numpy as np
+import random
+# import matplotlib.pyplot as plt
 
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -13,7 +13,7 @@ mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 # hyper parameters
 learning_rate = 0.001
-training_epochs = 20
+training_epochs = 15
 batch_size = 100
 
 
@@ -97,11 +97,7 @@ class Model:
 
 # initialize
 sess = tf.Session()
-
-models = []
-num_models = 2
-for m in range(num_models):
-    models.append(Model(sess, "model" + str(m)))
+m1 = Model(sess, "m1")
 
 sess.run(tf.global_variables_initializer())
 
@@ -109,43 +105,17 @@ print('Learning Started!')
 
 # train my model
 for epoch in range(training_epochs):
-    avg_cost_list = np.zeros(len(models))
+    avg_cost = 0
     total_batch = int(mnist.train.num_examples / batch_size)
+
     for i in range(total_batch):
         batch_xs, batch_ys = mnist.train.next_batch(batch_size)
+        c, _ = m1.train(batch_xs, batch_ys)
+        avg_cost += c / total_batch
 
-        # train each model
-        for m_idx, m in enumerate(models):
-            c, _ = m.train(batch_xs, batch_ys)
-            avg_cost_list[m_idx] += c / total_batch
-
-    print('Epoch:', '%04d' % (epoch + 1), 'cost =', avg_cost_list)
+    print('Epoch:', '%04d' % (epoch + 1), 'cost =', '{:.9f}'.format(avg_cost))
 
 print('Learning Finished!')
 
 # Test model and check accuracy
-test_size = len(mnist.test.labels)
-predictions = np.zeros(test_size * 10).reshape(test_size, 10)
-for m_idx, m in enumerate(models):
-    print(m_idx, 'Accuracy:', m.get_accuracy(
-        mnist.test.images, mnist.test.labels))
-    p = m.predict(mnist.test.images)
-    predictions += p
-
-ensemble_correct_prediction = tf.equal(
-    tf.argmax(predictions, 1), tf.argmax(mnist.test.labels, 1))
-ensemble_accuracy = tf.reduce_mean(
-    tf.cast(ensemble_correct_prediction, tf.float32))
-print('Ensemble accuracy:', sess.run(ensemble_accuracy))
-
-'''
-0 Accuracy: 0.9933
-1 Accuracy: 0.9946
-2 Accuracy: 0.9934
-3 Accuracy: 0.9935
-4 Accuracy: 0.9935
-5 Accuracy: 0.9949
-6 Accuracy: 0.9941
-
-Ensemble accuracy: 0.9952
-'''
+print('Accuracy:', m1.get_accuracy(mnist.test.images, mnist.test.labels))
