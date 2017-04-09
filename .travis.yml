@@ -1,8 +1,6 @@
 # code below is taken from https://github.com/fchollet/keras/blob/master/.travis.yml
 sudo: required
 dist: trusty
-env:
-  - LD_PRELOAD="/usr/lib/libtcmalloc.so.4"
 language: python
 python: # Only two versions for now
   - "2.7"
