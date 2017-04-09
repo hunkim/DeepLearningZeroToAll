@@ -3,9 +3,6 @@ See extensive documentation at
 https://www.tensorflow.org/get_started/mnist/beginners
 """
 
-import argparse
-import sys
-
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -23,14 +20,13 @@ image_pixels = image_size * image_size
 # Network Parameters
 hidden1_size = 256  # 1st layer number of features
 hidden2_size = 256  # 2nd layer number of features
-# hidden3_size = 256  # 3nd layer number of features
 
 # input place holders
 images = tf.placeholder(tf.float32, [None, image_pixels])
 labels = tf.placeholder(tf.float32, [None, label_size])
 
 
-def multilayer_perceptron(x, weights, biases):
+def multilayer_perceptron_model(x, weights, biases):
     # 1st Hidden layer with RELU activation
     hidden_layer_1 = tf.add(tf.matmul(x, weights['h1']), biases['b1'])
     hidden_layer_1 = tf.nn.relu(hidden_layer_1)
@@ -59,7 +55,7 @@ biases = {
 }
 
 # Construct model
-model = multilayer_perceptron(images, weights, biases)
+model = multilayer_perceptron_model(images, weights, biases)
 
 # Define loss and optimizer
 loss = tf.reduce_mean(
