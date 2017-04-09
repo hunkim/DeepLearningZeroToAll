@@ -1,8 +1,14 @@
 from keras.models import Sequential
 from keras.layers import Dense
 
-x_data = [[0., 0.], [0., 1.], [1., 0.], [1., 1.]]
-y_data = [[0.], [1.], [1.], [0.]]
+x_data = [[0., 0.],
+          [0., 1.],
+          [1., 0.],
+          [1., 1.]]
+y_data = [[0.],
+          [1.],
+          [1.],
+          [0.]]
 
 model = Sequential()
 model.add(Dense(1, input_dim=2, activation='sigmoid'))
