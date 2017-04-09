@@ -15,29 +15,30 @@ batch_size = 100
 keep_prob = 0.7
 
 # MNIST dataset
-mnist_train = dsets.MNIST(root='MNIST_data/', 
-                            train=True, 
-                            transform=transforms.ToTensor(),
-                            download=True)
+mnist_train = dsets.MNIST(root='MNIST_data/',
+                          train=True,
+                          transform=transforms.ToTensor(),
+                          download=True)
 
-mnist_test = dsets.MNIST(root='MNIST_data/', 
-                           train=False, 
-                           transform=transforms.ToTensor(),
-                           download=True)
+mnist_test = dsets.MNIST(root='MNIST_data/',
+                         train=False,
+                         transform=transforms.ToTensor(),
+                         download=True)
 
 # dataset loader
-data_loader = torch.utils.data.DataLoader(dataset=mnist_train, 
-                                           batch_size=batch_size, 
-                                           shuffle=True)
+data_loader = torch.utils.data.DataLoader(dataset=mnist_train,
+                                          batch_size=batch_size,
+                                          shuffle=True)
 # nn layers
-linear1 = torch.nn.Linear(784,512,bias=True)
-linear2 = torch.nn.Linear(512,512,bias=True)
-linear3 = torch.nn.Linear(512,512,bias=True)
-linear4 = torch.nn.Linear(512,512,bias=True)
-linear5 = torch.nn.Linear(512,10,bias=True)
+linear1 = torch.nn.Linear(784, 512, bias=True)
+linear2 = torch.nn.Linear(512, 512, bias=True)
+linear3 = torch.nn.Linear(512, 512, bias=True)
+linear4 = torch.nn.Linear(512, 512, bias=True)
+linear5 = torch.nn.Linear(512, 10, bias=True)
 
 relu = torch.nn.ReLU()
-dropout = torch.nn.Dropout(p=1-keep_prob)   # p is the probability of being dropped in PyTorch
+# p is the probability of being dropped in PyTorch
+dropout = torch.nn.Dropout(p=1 - keep_prob)
 
 # xavier initializer
 torch.nn.init.xavier_uniform(linear1.weight)
@@ -47,15 +48,15 @@ torch.nn.init.xavier_uniform(linear4.weight)
 torch.nn.init.xavier_uniform(linear5.weight)
 
 # model
-model = torch.nn.Sequential(linear1,relu,dropout,
-                            linear2,relu,dropout,
-                            linear3,relu,dropout,
-                            linear4,relu,dropout,
+model = torch.nn.Sequential(linear1, relu, dropout,
+                            linear2, relu, dropout,
+                            linear3, relu, dropout,
+                            linear4, relu, dropout,
                             linear5)
 
 # define cost/loss & optimizer
 criterion = torch.nn.CrossEntropyLoss()    # Softmax is internally computed.
-optimizer = torch.optim.Adam(model.parameters(),lr=learning_rate)
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
 # train my model
 for epoch in range(training_epochs):
@@ -63,25 +64,26 @@ for epoch in range(training_epochs):
     total_batch = len(mnist_train) // batch_size
 
     for i, (batch_xs, batch_ys) in enumerate(data_loader):
-        X = Variable(batch_xs.view(-1, 28*28))    # reshape input image into [batch_size by 784]
+        # reshape input image into [batch_size by 784]
+        X = Variable(batch_xs.view(-1, 28 * 28))
         Y = Variable(batch_ys)    # label is not one-hot encoded
-        
+
         optimizer.zero_grad()
         hypothesis = model(X)
         cost = criterion(hypothesis, Y)
         cost.backward()
         optimizer.step()
-        
+
         avg_cost += cost / total_batch
 
     print("[Epoch: {:>4}] cost = {:>.9}".format(epoch + 1, avg_cost.data[0]))
 
 print('Learning Finished!')
 
-# Test model and check accuracy   
+# Test model and check accuracy
 model.eval()    # set the model to evaluation mode (dropout=False)
 
-X_test = Variable(mnist_test.test_data.view(-1,28*28).float())
+X_test = Variable(mnist_test.test_data.view(-1, 28 * 28).float())
 Y_test = Variable(mnist_test.test_labels)
 
 prediction = model(X_test)
@@ -91,10 +93,10 @@ print('Accuracy:', accuracy)
 
 # Get one and predict
 r = random.randint(0, len(mnist_test) - 1)
-X_single_data = Variable(mnist_test.test_data[r:r+1].view(-1,28*28).float())
-Y_single_data = Variable(mnist_test.test_labels[r:r+1])
+X_single_data = Variable(
+    mnist_test.test_data[r:r + 1].view(-1, 28 * 28).float())
+Y_single_data = Variable(mnist_test.test_labels[r:r + 1])
 
 print("Label: ", Y_single_data.data)
 single_prediction = model(X_single_data)
 print("Prediction: ", torch.max(single_prediction.data, 1)[1])
-
