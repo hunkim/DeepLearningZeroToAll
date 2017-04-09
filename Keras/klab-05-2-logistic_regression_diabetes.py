@@ -11,7 +11,7 @@ model.add(Dense(1, input_dim=2, activation='sigmoid'))
 model.compile(loss='binary_crossentropy', optimizer='sgd', lr=0.1)
 
 model.summary()
-model.fit(x_data, y_data, nb_epoch=2000)
+model.fit(x_data, y_data, epochs=2000)
 
 print("2,1", model.predict_classes(np.array([[2, 1]])))
 print("6,5", model.predict_classes(np.array([[6, 5]])))
