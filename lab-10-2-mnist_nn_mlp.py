@@ -1,6 +1,6 @@
 """A very simple MNIST classifier.
-See extensive documentation at
-https://www.tensorflow.org/get_started/mnist/beginners
+Design patter inspired by
+https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/3_NeuralNetworks/multilayer_perceptron.py
 """
 
 import tensorflow as tf
