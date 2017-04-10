@@ -47,6 +47,5 @@ c = model(Variable(torch.Tensor([[1, 1, 0, 1]])))
 print(c.data.numpy(), torch.max(c, 1)[1].data.numpy())
 
 print('--------------')
-all = model(Variable(torch.Tensor(
-    [[1, 11, 7, 9], [1, 3, 4, 3], [1, 1, 0, 1]])))
+all = model(Variable(torch.Tensor([[1, 11, 7, 9], [1, 3, 4, 3], [1, 1, 0, 1]])))
 print(all.data.numpy(), torch.max(all, 1)[1].data.numpy())

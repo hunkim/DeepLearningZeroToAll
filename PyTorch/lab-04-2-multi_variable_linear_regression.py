@@ -32,5 +32,4 @@ for step in range(2001):
     optimizer.step()
 
     if step % 10 == 0:
-        print(step, "Cost: ", cost.data.numpy(),
-              "\nPrediction:\n", hypothesis.data.numpy())
+        print(step, "Cost: ", cost.data.numpy(), "\nPrediction:\n", hypothesis.data.numpy())

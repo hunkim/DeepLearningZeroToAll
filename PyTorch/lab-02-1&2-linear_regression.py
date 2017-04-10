@@ -30,8 +30,7 @@ for step in range(2001):
     optimizer.step()
 
     if step % 20 == 0:
-        print(step, cost.data.numpy(),
-              model.weight.data.numpy(), model.bias.data.numpy())
+        print(step, cost.data.numpy(), model.weight.data.numpy(), model.bias.data.numpy())
 
 
 # Testing our model

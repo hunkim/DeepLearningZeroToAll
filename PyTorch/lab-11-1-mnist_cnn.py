@@ -1,9 +1,8 @@
-# Lab 10 MNIST and Deep learning
+# Lab 11 MNIST and Convolutional Neural Network
 import torch
 from torch.autograd import Variable
 import torchvision.datasets as dsets
 import torchvision.transforms as transforms
-import random
 from torch.nn import init
 
 torch.manual_seed(777)  # reproducibility
@@ -28,40 +27,54 @@ mnist_test = dsets.MNIST(root='MNIST_data/',
 data_loader = torch.utils.data.DataLoader(dataset=mnist_train,
                                           batch_size=batch_size,
                                           shuffle=True)
-# nn layers
-linear1 = torch.nn.Linear(784, 512, bias=True)
-linear2 = torch.nn.Linear(512, 512, bias=True)
-linear3 = torch.nn.Linear(512, 512, bias=True)
-linear4 = torch.nn.Linear(512, 512, bias=True)
-linear5 = torch.nn.Linear(512, 10, bias=True)
-relu = torch.nn.ReLU()
 
-# xavier initializer
-torch.nn.init.xavier_uniform(linear1.weight)
-torch.nn.init.xavier_uniform(linear2.weight)
-torch.nn.init.xavier_uniform(linear3.weight)
-torch.nn.init.xavier_uniform(linear4.weight)
-torch.nn.init.xavier_uniform(linear5.weight)
+# CNN Model (2 conv layers)
 
-# model
-model = torch.nn.Sequential(linear1, relu,
-                            linear2, relu,
-                            linear3, relu,
-                            linear4, relu,
-                            linear5)
+
+class CNN(torch.nn.Module):
+    def __init__(self):
+        super(CNN, self).__init__()
+        # L1 ImgIn shape=(?, 28, 28, 1)
+        #    Conv     -> (?, 28, 28, 32)
+        #    Pool     -> (?, 14, 14, 32)
+        self.layer1 = torch.nn.Sequential(
+            torch.nn.Conv2d(1, 32, kernel_size=3, stride=1, padding=1),
+            torch.nn.ReLU(),
+            torch.nn.MaxPool2d(kernel_size=2, stride=2))
+        # L2 ImgIn shape=(?, 14, 14, 32)
+        #    Conv      ->(?, 14, 14, 64)
+        #    Pool      ->(?, 7, 7, 64)
+        self.layer2 = torch.nn.Sequential(
+            torch.nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1),
+            torch.nn.ReLU(),
+            torch.nn.MaxPool2d(kernel_size=2, stride=2))
+        # Final FC 7x7x64 inputs -> 10 outputs
+        self.fc = torch.nn.Linear(7 * 7 * 64, 10, bias=True)
+        torch.nn.init.xavier_uniform(self.fc.weight)
+
+    def forward(self, x):
+        out = self.layer1(x)
+        out = self.layer2(out)
+        out = out.view(out.size(0), -1)   # Flatten them for FC
+        out = self.fc(out)
+        return out
+
+
+# instantiate CNN model
+model = CNN()
 
 # define cost/loss & optimizer
 criterion = torch.nn.CrossEntropyLoss()    # Softmax is internally computed.
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
 # train my model
+print('Learning started. It takes sometime.')
 for epoch in range(training_epochs):
     avg_cost = 0
     total_batch = len(mnist_train) // batch_size
 
     for i, (batch_xs, batch_ys) in enumerate(data_loader):
-        # reshape input image into [batch_size by 784]
-        X = Variable(batch_xs.view(-1, 28 * 28))
+        X = Variable(batch_xs)    # image is already size of (28x28), no reshape
         Y = Variable(batch_ys)    # label is not one-hot encoded
 
         optimizer.zero_grad()
@@ -70,26 +83,19 @@ for epoch in range(training_epochs):
         cost.backward()
         optimizer.step()
 
-        avg_cost += cost / total_batch
+        avg_cost += cost.data / total_batch
 
-    print("[Epoch: {:>4}] cost = {:>.9}".format(epoch + 1, avg_cost.data[0]))
+    print("[Epoch: {:>4}] cost = {:>.9}".format(epoch + 1, avg_cost[0]))
 
 print('Learning Finished!')
 
 # Test model and check accuracy
-X_test = Variable(mnist_test.test_data.view(-1, 28 * 28).float())
+model.eval()    # set the model to evaluation mode (dropout=False)
+
+X_test = Variable(mnist_test.test_data.view(len(mnist_test), 1, 28, 28).float())
 Y_test = Variable(mnist_test.test_labels)
 
 prediction = model(X_test)
 correct_prediction = (torch.max(prediction.data, 1)[1] == Y_test.data)
 accuracy = correct_prediction.float().mean()
 print('Accuracy:', accuracy)
-
-# Get one and predict
-r = random.randint(0, len(mnist_test) - 1)
-X_single_data = Variable(mnist_test.test_data[r:r + 1].view(-1, 28 * 28).float())
-Y_single_data = Variable(mnist_test.test_labels[r:r + 1])
-
-print("Label: ", Y_single_data.data)
-single_prediction = model(X_single_data)
-print("Prediction: ", torch.max(single_prediction.data, 1)[1])

@@ -34,5 +34,4 @@ for step in range(10001):
 # True if hypothesis>0.5 else False
 predicted = (model(X).data > 0.5).float()
 accuracy = (predicted == Y.data).float().mean()
-print("\nHypothesis: ", hypothesis.data.numpy(), "\nCorrect: ",
-      predicted.numpy(), "\nAccuracy: ", accuracy)
+print("\nHypothesis: ", hypothesis.data.numpy(), "\nCorrect: ", predicted.numpy(), "\nAccuracy: ", accuracy)

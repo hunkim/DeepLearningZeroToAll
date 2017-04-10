@@ -68,8 +68,7 @@ print('Accuracy:', accuracy)
 
 # Get one and predict
 r = random.randint(0, len(mnist_test) - 1)
-X_single_data = Variable(
-    mnist_test.test_data[r:r + 1].view(-1, 28 * 28).float())
+X_single_data = Variable(mnist_test.test_data[r:r + 1].view(-1, 28 * 28).float())
 Y_single_data = Variable(mnist_test.test_labels[r:r + 1])
 
 print("Label: ", Y_single_data.data)
