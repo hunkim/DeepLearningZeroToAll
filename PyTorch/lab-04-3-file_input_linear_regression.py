@@ -36,11 +36,8 @@ for step in range(2001):
     optimizer.step()
 
     if step % 10 == 0:
-        print(step, "Cost: ", cost.data.numpy(),
-              "\nPrediction:\n", hypothesis.data.numpy())
+        print(step, "Cost: ", cost.data.numpy(), "\nPrediction:\n", hypothesis.data.numpy())
 
 # Ask my score
-print("Your score will be ", model(
-    Variable(torch.Tensor([[100, 70, 101]]))).data.numpy())
-print("Other scores will be ", model(
-    Variable(torch.Tensor([[60, 70, 110], [90, 100, 80]]))).data.numpy())
+print("Your score will be ", model(Variable(torch.Tensor([[100, 70, 101]]))).data.numpy())
+print("Other scores will be ", model(Variable(torch.Tensor([[60, 70, 110], [90, 100, 80]]))).data.numpy())

@@ -5,8 +5,7 @@ import numpy as np
 
 torch.manual_seed(777)
 
-x_data = np.array([[1, 2], [2, 3], [3, 1], [4, 3], [
-                  5, 3], [6, 2]], dtype=np.float32)
+x_data = np.array([[1, 2], [2, 3], [3, 1], [4, 3], [5, 3], [6, 2]], dtype=np.float32)
 y_data = np.array([[0], [0], [0], [1], [1], [1]], dtype=np.float32)
 
 X = Variable(torch.from_numpy(x_data))
@@ -34,5 +33,4 @@ for step in range(10001):
 # Accuracy computation
 predicted = (model(X).data > 0.5).float()
 accuracy = (predicted == Y.data).float().mean()
-print("\nHypothesis: ", hypothesis.data.numpy(), "\nCorrect (Y): ",
-      predicted.numpy(), "\nAccuracy: ", accuracy)
+print("\nHypothesis: ", hypothesis.data.numpy(), "\nCorrect (Y): ", predicted.numpy(), "\nAccuracy: ", accuracy)

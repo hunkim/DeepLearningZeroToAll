@@ -37,5 +37,4 @@ for step in range(10001):
 # Accuracy computation
 predicted = (model(X).data > 0.5).float()
 accuracy = (predicted == Y.data).float().mean()
-print("\nHypothesis: ", hypothesis.data.numpy(), "\nCorrect (Y): ",
-      predicted.numpy(), "\nAccuracy: ", accuracy)
+print("\nHypothesis: ", hypothesis.data.numpy(), "\nCorrect (Y): ", predicted.numpy(), "\nAccuracy: ", accuracy)
