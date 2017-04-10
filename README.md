@@ -2,10 +2,10 @@
 
 [![Build Status](https://travis-ci.org/hunkim/DeepLearningZeroToAll.svg?branch=master)](https://travis-ci.org/hunkim/DeepLearningZeroToAll)
 
-This is code for labs covered in TensorFlow basic tutorials (in Korean) at https://www.youtube.com/watch?v=BS6O0zOGX4E&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm. 
+This is code for labs covered in TensorFlow basic tutorials (in Korean) at https://www.youtube.com/watch?v=BS6O0zOGX4E&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm.
 (We also have a plan to record videos in English.)
 
-This is work in progress, and may have bugs. 
+This is work in progress, and may have bugs.
 However, we call for your comments and pull requests. Check out our style guide line:
 
 * More TF (1.0) style: use more recent and decent TF APIs.
@@ -18,7 +18,7 @@ However, we call for your comments and pull requests. Check out our style guide 
 
 * https://goo.gl/jPtWNt  
 
-We welcome your comments on slides. 
+We welcome your comments on slides.
 
 ## File naming rule:
 
@@ -26,9 +26,34 @@ We welcome your comments on slides.
 * lab-XX-X-[name].py: TensorFlow lab code
 
 ## Install requirements
+
+## Basic
 ```bash
 pip install -r requirements.txt
 ```
+### Virtualenv
+```bash
+virtualenv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+in case you got trouble when installing tensoflow 1.0.0 (for mac user only)
+
+run:
+```bash
+pip install --upgrade https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.0.0-py2-none-any.whl
+```
+
+before
+```bash
+pip install -r requirements.txt
+```
+
+for more details, please refers to:
+
+https://www.tensorflow.org/install/install_mac#TF_BINARY_URL
+
 
 ## Run test and autopep8
 TODO: Need to add more test cases
@@ -52,7 +77,7 @@ http://stackoverflow.com/questions/31684375
 ## Contributions/Comments
 We always welcome your comments and pull requests.
 
-## Reference Implementations 
+## Reference Implementations
 * https://github.com/nlintz/TensorFlow-Tutorials/
 * https://github.com/golbin/TensorFlow-ML-Exercises
 * https://github.com/FuZer/Study_TensorFlow
