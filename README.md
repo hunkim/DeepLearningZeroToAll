@@ -24,6 +24,7 @@ We welcome your comments on slides.
 
 * klab-XX-X-[name].py: Keras labs code
 * lab-XX-X-[name].py: TensorFlow lab code
+* mxlab-XX-X-[name].py: MXNet lab code
 
 ## Install requirements
 ```bash
