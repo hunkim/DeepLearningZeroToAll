@@ -1,3 +1,4 @@
+# Lab 11 MNIST and Deep learning CNN
 import math
 import mxnet as mx
 import mxnet.ndarray as nd
@@ -5,11 +6,11 @@ import numpy as np
 import random
 from sklearn.datasets import fetch_mldata
 
-# set the seeds. However, this does not guarantee that the result will always be the same
-#   since CUDNN is non-deterministic
+# set the seeds. However, this does not guarantee that the result will always be the same since CUDNN is non-deterministic
 np.random.seed(777)
 mx.random.seed(77)
 random.seed(7777)
+
 # 1. Loading MNIST
 mnist = fetch_mldata(dataname='MNIST original')
 X, y = mnist.data, mnist.target
@@ -23,7 +24,7 @@ y_train, y_valid, y_test = y[:55000], y[55000:60000], y[60000:]
 learning_rate = 0.001
 training_epochs = 15
 batch_size = 100
-drop_out_prob = 0.3 # The keep probability is 0.7
+drop_out_prob = 0.3  # The keep probability is 0.7
 
 # 2. Build symbol
 data = mx.sym.var(name="data")
@@ -129,7 +130,6 @@ for i in range(total_batch):
     logits_nd = test_net.get_outputs()[0]
     pred_cls = nd.argmax(logits_nd, axis=-1).asnumpy()
     correct_count += (pred_cls[:num_valid] == label_npy[:num_valid]).sum()
-    total_num += num_valid
 acc = correct_count / float(X_test.shape[0])
 print('Accuracy:', acc)
 
