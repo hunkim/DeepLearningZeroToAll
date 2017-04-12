@@ -1,5 +1,4 @@
 # Lab 11 MNIST and Deep learning CNN
-# https://www.tensorflow.org/tutorials/layers
 import math
 import mxnet as mx
 import mxnet.ndarray as nd
