@@ -135,3 +135,7 @@ plt.plot(cudnn_pred, label='With cuDNN')
 plt.plot(normal_pred, label='Without cuDNN')
 plt.legend()
 plt.show()
+'''
+CUDNN time spent: 10.0955, test mse: 0.00721571
+NoCUDNN time spent: 38.9882, test mse: 0.00565724
+'''
