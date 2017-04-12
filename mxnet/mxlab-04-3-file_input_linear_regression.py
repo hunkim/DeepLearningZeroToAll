@@ -52,8 +52,7 @@ for idx in range(2000):
         y_batch = y_data[batch_id*batch_size:(batch_id+1)*batch_size , :]
         data_batch = mx.io.DataBatch(data=[mx.nd.array(x_batch)],
                                      label=[mx.nd.array(y_batch)])
-        net.forward(data_batch, is_train=True)
-        net.backward()
+        net.forward_backward(data_batch)
         net.update()
     test_net.forward(mx.io.DataBatch(data=[mx.nd.array(x_data)], label=None), is_train=False)
     pred_nd = test_net.get_outputs()[0]
