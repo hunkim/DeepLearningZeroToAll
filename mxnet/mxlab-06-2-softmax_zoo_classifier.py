@@ -84,3 +84,11 @@ test_net.bind(data_shapes=[mx.io.DataDesc(name='data', shape=(batch_size, dimens
               shared_module=net)
 out = test_net.predict(eval_data=test_iter)
 print(out.asnumpy())
+'''
+[ 0.  0.  3.  0.  0.  0.  0.  3.  3.  0.  0.  1.  3.  6.  6.  6.  1.  0.
+  3.  0.  1.  1.  0.  1.  5.  4.  4.  0.  0.  0.  5.  0.  0.  1.  3.  0.
+  0.  1.  3.  5.  5.  1.  5.  1.  0.  0.  6.  0.  0.  0.  0.  5.  4.  6.
+  0.  0.  1.  1.  1.  1.  3.  3.  2.  0.  0.  0.  0.  0.  0.  0.  0.  1.
+  6.  3.  0.  0.  2.  6.  1.  1.  2.  6.  3.  1.  0.  6.  3.  1.  5.  4.
+  2.  2.  3.  0.  0.  1.  0.  5.  0.  6.  1.]
+'''
