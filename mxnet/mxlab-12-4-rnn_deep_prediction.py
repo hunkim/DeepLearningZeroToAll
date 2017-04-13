@@ -12,6 +12,7 @@ from sklearn.preprocessing import MinMaxScaler
 from mxnet.visualization import plot_network
 import matplotlib.pyplot as plt
 
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)  # Config the logging
 np.random.seed(777)
 mx.random.seed(777)
 
@@ -54,7 +55,6 @@ def build_sym(seq_len, use_cudnn=False):
     pred = mx.sym.LinearRegressionOutput(data=pred, label=target)
     return pred
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 # Open,High,Low,Close,Volume
 xy = np.loadtxt('data-02-stock_daily.csv', delimiter=',')
 xy = xy[::-1]  # reverse order (chronically ordered)
