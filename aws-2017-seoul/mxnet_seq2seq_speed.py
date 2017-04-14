@@ -1,14 +1,12 @@
 # https://gist.github.com/rouseguy/1122811f2375064d009dac797d59bae9
 import numpy as np
 import math
+import time
 import mxnet as mx
 import mxnet.ndarray as nd
 import logging
 import sys
 import os
-
-# pip3 install tqdm
-from tqdm import *
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)  # Config the logging
 np.random.seed(777)
@@ -80,14 +78,14 @@ test_net.bind(data_shapes=[data_desc],
               grad_req='null',
               shared_module=net)
 
-
+begin = time.time()
 for epoch in range(100):
     avg_cost = 0
     total_batch = int(math.ceil(dataX.shape[0] / batch_size))
     shuffle_ind = np.random.permutation(np.arange(dataX.shape[0]))
     dataX = dataX[shuffle_ind, :]
     dataY = dataY[shuffle_ind]
-    for i in tqdm(range(total_batch)):
+    for i in range(total_batch):
         # Slice the data batch and target batch.
         # Note that we use np.take to ensure that the batch will be padded correctly.
         data_npy = np.take(dataX,
@@ -105,3 +103,5 @@ for epoch in range(100):
         net.update()
     print('Epoch:', '%04d' % (epoch + 1), 'cost =', '{:.9f}'.format(avg_cost))
 print('Learning Finished!')
+end = time.time()
+print("Total Time Spent: %gs" %(end - begin))
