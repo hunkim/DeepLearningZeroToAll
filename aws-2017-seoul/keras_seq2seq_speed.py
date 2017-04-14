@@ -63,6 +63,6 @@ model.add(Activation('softmax'))
 model.compile(loss='categorical_crossentropy',
               optimizer='adam')
 begin = time.time()
-model.fit(dataX, dataY, epochs=100)
+model.fit(dataX, dataY, epochs=100, verbose=2)
 end = time.time()
 print("Total Time Spent: %gs" %(end - begin))
