@@ -1,6 +1,9 @@
-Keras==2.0.2
+Keras==2.0.3
 matplotlib==2.0.0
 numpy==1.12.1
 tensorflow==1.0.0
+tqdm==4.11.2
+chainer==2.0.0b1
 scikit_learn==0.18.1
-pylint
+torch==0.1.2.post1
+torchvision==0.1.8
