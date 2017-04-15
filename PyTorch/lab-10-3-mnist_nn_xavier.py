@@ -4,7 +4,7 @@ from torch.autograd import Variable
 import torchvision.datasets as dsets
 import torchvision.transforms as transforms
 import random
-from torch.nn import init
+import torch.nn.init
 
 torch.manual_seed(777)  # reproducibility
 

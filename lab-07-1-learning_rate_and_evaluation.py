@@ -1,6 +1,5 @@
 # Lab 7 Learning rate and Evaluation
 import tensorflow as tf
-import numpy as np
 tf.set_random_seed(777)  # for reproducibility
 
 x_data = [[1, 2, 1], [1, 3, 2], [1, 3, 4], [1, 5, 5],

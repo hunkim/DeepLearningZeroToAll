@@ -3,9 +3,8 @@
 
 import numpy as np
 import chainer
-from chainer import training, Variable
-from chainer import datasets, iterators, optimizers
-from chainer import Chain
+from chainer import training
+from chainer import datasets
 from chainer.training import extensions
 
 import chainer.functions as F

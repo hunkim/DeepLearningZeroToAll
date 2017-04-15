@@ -1,6 +1,5 @@
 # Lab 6 Softmax Classifier
 import mxnet as mx
-import mxnet.ndarray as nd
 import numpy as np
 import logging
 import sys
@@ -32,10 +31,10 @@ net = mx.mod.Module(symbol=pred,
                     data_names=['data'],
                     label_names=['target'],
                     context=mx.gpu(0))
-net.bind(data_shapes = [mx.io.DataDesc(name='data', shape=(batch_size, dimension), layout='NC')],
-         label_shapes= [mx.io.DataDesc(name='target', shape=(batch_size,), layout='NC')])
+net.bind(data_shapes=[mx.io.DataDesc(name='data', shape=(batch_size, dimension), layout='NC')],
+         label_shapes=[mx.io.DataDesc(name='target', shape=(batch_size,), layout='NC')])
 net.init_params(initializer=mx.init.Normal(sigma=0.01))
-net.init_optimizer(optimizer='sgd', optimizer_params={'learning_rate': 1E-1, 'momentum':0.9})
+net.init_optimizer(optimizer='sgd', optimizer_params={'learning_rate': 1E-1, 'momentum': 0.9})
 
 # 4. Train the model
 # First constructing the training iterator and then fit the model

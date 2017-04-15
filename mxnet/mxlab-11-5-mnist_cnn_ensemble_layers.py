@@ -16,8 +16,8 @@ mnist = fetch_mldata(dataname='MNIST original')
 X, y = mnist.data, mnist.target
 X = X.astype(np.float32) / 255.0
 X_train, X_valid, X_test = X[:55000].reshape((-1, 1, 28, 28)),\
-                           X[55000:60000].reshape((-1, 1, 28, 28)),\
-                           X[60000:].reshape((-1, 1, 28, 28))
+    X[55000:60000].reshape((-1, 1, 28, 28)),\
+    X[60000:].reshape((-1, 1, 28, 28))
 y_train, y_valid, y_test = y[:55000], y[55000:60000], y[60000:]
 
 # hyper parameters
@@ -25,6 +25,7 @@ learning_rate = 0.001
 training_epochs = 20
 batch_size = 100
 num_models = 2
+
 
 def build_symbol():
     data = mx.sym.var(name="data")
@@ -134,7 +135,7 @@ ensemble_correct_count = 0
 total_num = 0
 for i in range(total_batch):
     num_valid = batch_size if (i + 1) * batch_size <= X_test.shape[0]\
-                           else X_test.shape[0] - i * batch_size
+        else X_test.shape[0] - i * batch_size
     data_npy, label_npy, num_valid = get_batch(i, batch_size, X_test, y_test)
     prob_ensemble = nd.zeros(shape=(label_npy.shape[0], 10), ctx=mx.gpu())
     for i, test_net in enumerate(test_nets):

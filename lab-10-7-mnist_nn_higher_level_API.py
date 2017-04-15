@@ -77,7 +77,7 @@ for epoch in range(training_epochs):
         c = sess.run(cost, feed_dict=feed_dict_cost)
         avg_cost += c / total_batch
 
-    print("[Epoch: {:>4}] cost = {:>.9}".format(epoch+1, avg_cost))
+    print("[Epoch: {:>4}] cost = {:>.9}".format(epoch + 1, avg_cost))
     #print('Epoch:', '%04d' % (epoch + 1), 'cost =', '{:.9f}'.format(avg_cost))
 
 print('Learning Finished!')

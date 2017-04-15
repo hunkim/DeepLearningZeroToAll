@@ -49,7 +49,7 @@ with tf.Session() as sess:
     # tensorboard --logdir=./logs/xor_logs
     merged_summary = tf.summary.merge_all()
     writer = tf.summary.FileWriter("./logs/xor_logs_r0_01")
-    writer.add_graph(sess.graph) # Show the graph
+    writer.add_graph(sess.graph)  # Show the graph
 
     # Initialize TensorFlow variables
     sess.run(tf.global_variables_initializer())

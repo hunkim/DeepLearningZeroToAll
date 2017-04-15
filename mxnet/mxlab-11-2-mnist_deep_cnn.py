@@ -16,8 +16,8 @@ mnist = fetch_mldata(dataname='MNIST original')
 X, y = mnist.data, mnist.target
 X = X.astype(np.float32) / 255.0
 X_train, X_valid, X_test = X[:55000].reshape((-1, 1, 28, 28)),\
-                           X[55000:60000].reshape((-1, 1, 28, 28)),\
-                           X[60000:].reshape((-1, 1, 28, 28))
+    X[55000:60000].reshape((-1, 1, 28, 28)),\
+    X[60000:].reshape((-1, 1, 28, 28))
 y_train, y_valid, y_test = y[:55000], y[55000:60000], y[60000:]
 
 # hyper parameters
@@ -92,7 +92,7 @@ for epoch in range(training_epochs):
         # Slice the data batch and label batch.
         # Note that we use np.take to ensure that the batch will be padded correctly.
         data_npy = np.take(X_train,
-                           indices=np.arange(i * batch_size, (i+1) * batch_size),
+                           indices=np.arange(i * batch_size, (i + 1) * batch_size),
                            axis=0,
                            mode="clip")
         label_npy = np.take(y_train,
@@ -115,7 +115,7 @@ correct_count = 0
 total_num = 0
 for i in range(total_batch):
     num_valid = batch_size if (i + 1) * batch_size <= X_test.shape[0]\
-                           else X_test.shape[0] - i * batch_size
+        else X_test.shape[0] - i * batch_size
     data_npy = np.take(X_test,
                        indices=np.arange(i * batch_size, (i + 1) * batch_size),
                        axis=0,
@@ -137,7 +137,7 @@ print('Accuracy:', acc)
 test_net.reshape(data_shapes=[mx.io.DataDesc(name='data', shape=(1, 1, 28, 28), layout='NCHW')],
                  label_shapes=None)
 r = np.random.randint(0, X_test.shape[0])
-test_net.forward(data_batch=mx.io.DataBatch(data=[nd.array(X_test[r:r+1])],
+test_net.forward(data_batch=mx.io.DataBatch(data=[nd.array(X_test[r:r + 1])],
                                             label=None))
 logits_nd = test_net.get_outputs()[0]
 print("Label: ", int(y_test[r]))

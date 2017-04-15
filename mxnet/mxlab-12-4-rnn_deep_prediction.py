@@ -9,7 +9,6 @@ from sklearn.preprocessing import MinMaxScaler
 # brew install graphviz
 # pip3 install graphviz
 # pip3 install pydot-ng
-from mxnet.visualization import plot_network
 import matplotlib.pyplot as plt
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)  # Config the logging
@@ -125,8 +124,8 @@ normal_time_spent = end - begin
 print("Done!")
 
 
-print("CUDNN time spent: %g, test mse: %g" %(cudnn_time_spent, cudnn_mse))
-print("NoCUDNN time spent: %g, test mse: %g" %(normal_time_spent, normal_mse))
+print("CUDNN time spent: %g, test mse: %g" % (cudnn_time_spent, cudnn_mse))
+print("NoCUDNN time spent: %g, test mse: %g" % (normal_time_spent, normal_mse))
 
 plt.close('all')
 fig = plt.figure()

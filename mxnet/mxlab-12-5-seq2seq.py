@@ -5,7 +5,6 @@ import mxnet as mx
 import mxnet.ndarray as nd
 import logging
 import sys
-import os
 
 # pip3 install tqdm
 from tqdm import *
@@ -91,7 +90,7 @@ for epoch in range(1000):
         # Slice the data batch and target batch.
         # Note that we use np.take to ensure that the batch will be padded correctly.
         data_npy = np.take(dataX,
-                           indices=np.arange(i * batch_size, (i+1) * batch_size),
+                           indices=np.arange(i * batch_size, (i + 1) * batch_size),
                            axis=0,
                            mode="clip")
         target_npy = np.take(dataY,
