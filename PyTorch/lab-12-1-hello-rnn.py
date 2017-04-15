@@ -2,7 +2,6 @@
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
-import numpy as np
 
 torch.manual_seed(777)  # reproducibility
 
@@ -39,6 +38,7 @@ num_layers = 1  # one-layer rnn
 
 
 class RNN(nn.Module):
+
     def __init__(self, num_classes, input_size, hidden_size, num_layers):
         super(RNN, self).__init__()
         self.num_classes = num_classes

@@ -1,6 +1,5 @@
 # Lab 11 MNIST and Deep learning CNN
 import tensorflow as tf
-import random
 # import matplotlib.pyplot as plt
 
 from tensorflow.examples.tutorials.mnist import input_data

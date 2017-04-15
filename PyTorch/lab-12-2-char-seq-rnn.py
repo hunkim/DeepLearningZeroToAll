@@ -2,7 +2,6 @@
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
-import numpy as np
 
 torch.manual_seed(777)  # reproducibility
 
@@ -46,6 +45,7 @@ labels = Variable(y_data)
 
 
 class LSTM(nn.Module):
+
     def __init__(self, num_classes, input_size, hidden_size, num_layers):
         super(LSTM, self).__init__()
         self.num_classes = num_classes

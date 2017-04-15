@@ -49,7 +49,7 @@ model.add(Activation('softmax'))
 model.summary()
 
 model.compile(loss='categorical_crossentropy',
-              optimizer='adam', learning_rate = learning_rate,
+              optimizer='adam', learning_rate=learning_rate,
               metrics=['accuracy'])
 
 model.fit(X_train, Y_train, batch_size=batch_size, epochs=training_epochs)

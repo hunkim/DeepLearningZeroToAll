@@ -3,7 +3,7 @@ import torch
 from torch.autograd import Variable
 import torchvision.datasets as dsets
 import torchvision.transforms as transforms
-from torch.nn import init
+import torch.nn.init
 
 torch.manual_seed(777)  # reproducibility
 
@@ -33,6 +33,7 @@ data_loader = torch.utils.data.DataLoader(dataset=mnist_train,
 
 
 class CNN(torch.nn.Module):
+
     def __init__(self):
         super(CNN, self).__init__()
         # L1 ImgIn shape=(?, 28, 28, 1)

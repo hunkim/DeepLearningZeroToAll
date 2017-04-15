@@ -32,8 +32,8 @@ net = mx.mod.Module(symbol=pred,
                     data_names=['data'],
                     label_names=['target'],
                     context=mx.gpu(0))
-net.bind(data_shapes = [mx.io.DataDesc(name='data', shape=(batch_size, dimension), layout='NC')],
-         label_shapes= [mx.io.DataDesc(name='target', shape=(batch_size, 1), layout='NC')])
+net.bind(data_shapes=[mx.io.DataDesc(name='data', shape=(batch_size, dimension), layout='NC')],
+         label_shapes=[mx.io.DataDesc(name='target', shape=(batch_size, 1), layout='NC')])
 net.init_params(initializer=mx.init.Normal(sigma=0.01))
 net.init_optimizer(optimizer='sgd', optimizer_params={'learning_rate': 1E-4, 'momentum': 0.9})
 
