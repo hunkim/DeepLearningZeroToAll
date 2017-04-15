@@ -1,14 +1,8 @@
 from keras.models import Sequential
 from keras.layers import Dense, Activation
+from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 np.random.seed(777)  # for reproducibility
-
-
-def MinMaxScaler(data):
-    numerator = data - np.min(data, 0)
-    denominator = np.max(data, 0) - np.min(data, 0)
-    # noise term prevents the zero division
-    return numerator / (denominator + 1e-7)
 
 
 xy = np.array([[828.659973, 833.450012, 908100, 828.349976, 831.659973],
@@ -21,7 +15,8 @@ xy = np.array([[828.659973, 833.450012, 908100, 828.349976, 831.659973],
                [809.51001, 816.659973, 1398100, 804.539978, 809.559998]])
 
 # very important. It does not work without it.
-xy = MinMaxScaler(xy)
+scaler = MinMaxScaler(feature_range=(0, 1))
+xy = scaler.fit_transform(xy)
 print(xy)
 
 x_data = xy[:, 0:-1]
