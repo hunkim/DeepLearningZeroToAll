@@ -126,6 +126,27 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 print('Accuracy:', sess.run(accuracy, feed_dict={
       X: mnist.test.images, Y: mnist.test.labels, keep_prob: 1}))
 
+'''
+if you encounter below message,
+    "ResourceExhaustedError (see above for traceback): OOM when allocating tensor with shape[10000,32,28,28]"
+use codes below, instead of above print()
+'''
+
+'''
+# start code from here
+test_divide_num = 10
+accuracy_sum = 0
+
+for i in range(test_divide_num):
+    index = i * (mnist.test.num_examples // test_divide_num)
+    print("index", index, mnist.test.num_examples)
+
+    accuracy_sum += sess.run(accuracy, feed_dict={
+        X: mnist.test.images[index:index+1000], Y: mnist.test.labels[index:index+1000], keep_prob: 1})
+
+print('Accuracy:', accuracy_sum / 10)
+'''
+
 # Get one and predict
 r = random.randint(0, mnist.test.num_examples - 1)
 print("Label: ", sess.run(tf.argmax(mnist.test.labels[r:r + 1], 1)))
