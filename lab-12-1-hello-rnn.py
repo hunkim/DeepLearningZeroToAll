@@ -22,7 +22,7 @@ batch_size = 1   # one sentence
 sequence_length = 6  # |ihello| == 6
 
 X = tf.placeholder(
-    tf.float32, [None, sequence_length, hidden_size])  # X one-hot
+    tf.float32, [None, sequence_length, input_dim])  # X one-hot
 Y = tf.placeholder(tf.int32, [None, sequence_length])  # Y label
 
 cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_size, state_is_tuple=True)
