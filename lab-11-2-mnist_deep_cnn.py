@@ -121,6 +121,7 @@ for epoch in range(training_epochs):
 print('Learning Finished!')
 
 # Test model and check accuracy
+# if you have a OOM error, please refer to lab-11-X-mnist_deep_cnn_low_memory.py
 correct_prediction = tf.equal(tf.argmax(logits, 1), tf.argmax(Y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 print('Accuracy:', sess.run(accuracy, feed_dict={
