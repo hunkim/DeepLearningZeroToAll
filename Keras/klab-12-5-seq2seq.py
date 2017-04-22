@@ -3,9 +3,13 @@ import numpy as np
 from keras.models import Sequential
 from keras.layers import Activation, TimeDistributed, Dense, RepeatVector, LSTM
 from keras.utils import np_utils
-from keras.utils.visualize_util import plot
 from keras.callbacks import TensorBoard
 import os
+
+# brew install graphviz
+# pip3 install graphviz
+# pip3 install pydot-ng
+from keras.utils.vis_utils import plot_model
 
 digit = "0123456789"
 alpha = "abcdefghij"
@@ -15,7 +19,7 @@ char_dic = {w: i for i, w in enumerate(char_set)}
 
 data_dim = len(char_set)  # one hot encoding size
 seq_length = time_steps = 7
-nb_classes = len(char_set)
+num_classes = len(char_set)
 
 # Build training date set
 dataX = []
@@ -29,12 +33,12 @@ for i in range(1000):
     dataY.append(y)
 
 # One-hot encoding
-dataX = np_utils.to_categorical(dataX, nb_classes=nb_classes)
+dataX = np_utils.to_categorical(dataX, num_classes=num_classes)
 # reshape X to be [samples, time steps, features]
 dataX = np.reshape(dataX, (-1, seq_length, data_dim))
 
 # One-hot encoding
-dataY = np_utils.to_categorical(dataY, nb_classes=nb_classes)
+dataY = np_utils.to_categorical(dataY, num_classes=num_classes)
 # time steps
 dataY = np.reshape(dataY, (-1, seq_length, data_dim))
 
@@ -62,10 +66,11 @@ model.add(Activation('softmax'))
 model.compile(loss='categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
-model.fit(dataX, dataY, nb_epoch=1000)
+model.fit(dataX, dataY, epochs=1000)
 
 # Store model graph in png
-plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
+# (Error occurs on in python interactive shell)
+plot_model(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
 
 # Create test data set for fun
@@ -80,7 +85,7 @@ for i in range(10):
 
 
 # One-hot encoding
-testX = np_utils.to_categorical(testX, nb_classes=nb_classes)
+testX = np_utils.to_categorical(testX, num_classes=num_classes)
 # reshape X to be [samples, time steps, features]
 testX = np.reshape(testX, (-1, seq_length, data_dim))
 

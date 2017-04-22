@@ -66,7 +66,7 @@ acct_mat = tf.equal(tf.argmax(y_pred, 1), tf.argmax(Y, 1))
 acct_res = tf.reduce_sum(tf.cast(acct_mat, tf.float32))
 
 sess = tf.InteractiveSession()
-sess.run(tf.initialize_all_variables())
+sess.run(tf.global_variables_initializer())
 
 for i in range(10000):
     batch_xs, batch_ys = mnist.train.next_batch(10)

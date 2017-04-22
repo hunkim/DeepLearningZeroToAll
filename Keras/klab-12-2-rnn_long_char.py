@@ -7,8 +7,8 @@ import os
 
 # brew install graphviz
 # pip3 install graphviz
-# pip3 install pydot
-from keras.utils.visualize_util import plot
+# pip3 install pydot-ng
+from keras.utils.vis_utils import plot_model
 
 # sample sentence
 sentence = ("if you want to build a ship, don't drum up people together to "
@@ -20,7 +20,7 @@ char_dic = {w: i for i, w in enumerate(char_set)}
 
 data_dim = len(char_set)
 seq_length = timesteps = 10
-nb_classes = len(char_set)
+num_classes = len(char_set)
 
 dataX = []
 dataY = []
@@ -36,32 +36,33 @@ for i in range(0, len(sentence) - seq_length):
     dataY.append(y)
 
 # One-hot encoding
-dataX = np_utils.to_categorical(dataX, nb_classes=nb_classes)
+dataX = np_utils.to_categorical(dataX, num_classes=num_classes)
 # reshape X to be [samples, time steps, features]
 dataX = np.reshape(dataX, (-1, seq_length, data_dim))
 print(dataX.shape)
 
 # One-hot encoding
-dataY = np_utils.to_categorical(dataY, nb_classes=nb_classes)
+dataY = np_utils.to_categorical(dataY, num_classes=num_classes)
 # time steps
 dataY = np.reshape(dataY, (-1, seq_length, data_dim))
 print(dataY.shape)
 
 model = Sequential()
-model.add(LSTM(nb_classes, input_shape=(
+model.add(LSTM(num_classes, input_shape=(
     timesteps, data_dim), return_sequences=True))
-model.add(LSTM(nb_classes, return_sequences=True))
-model.add(TimeDistributed(Dense(nb_classes)))
+model.add(LSTM(num_classes, return_sequences=True))
+model.add(TimeDistributed(Dense(num_classes)))
 
 model.add(Activation('softmax'))
 model.summary()
 
 # Store model graph in png
-# plot(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
+# (Error occurs on in python interactive shell)
+plot_model(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 
 model.compile(loss='categorical_crossentropy',
               optimizer='rmsprop', metrics=['accuracy'])
-model.fit(dataX, dataY, nb_epoch=1000)
+model.fit(dataX, dataY, epochs=1000)
 
 predictions = model.predict(dataX, verbose=0)
 for i, prediction in enumerate(predictions):

@@ -1,9 +1,14 @@
 from keras.models import Sequential
 from keras.layers import Dense
-from keras.optimizers import SGD
 
-x_data = [[0., 0.], [0., 1.], [1., 0.], [1., 1.]]
-y_data = [[0.], [1.], [1.], [0.]]
+x_data = [[0., 0.],
+          [0., 1.],
+          [1., 0.],
+          [1., 1.]]
+y_data = [[0.],
+          [1.],
+          [1.],
+          [0.]]
 
 model = Sequential()
 model.add(Dense(2, input_dim=2, activation='sigmoid'))
@@ -12,7 +17,7 @@ model.compile(loss='binary_crossentropy', optimizer='sgd',
               lr=0.1, metrics=['accuracy'])
 
 model.summary()
-model.fit(x_data, y_data, nb_epoch=50000)
+model.fit(x_data, y_data, epochs=50000)
 
 print(model.predict_classes(x_data))
 

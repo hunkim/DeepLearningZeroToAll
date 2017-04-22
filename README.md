@@ -13,11 +13,18 @@ However, we call for your comments and pull requests. Check out our style guide 
 * Readability (over efficiency): Since it's for instruction purposes, we prefer *readability* over others.  
 * Understandability (over everything): Understanding TF key concepts is the main goal of this code.
 * KISS: Keep It Simple Stupid! https://www.techopedia.com/definition/20262/keep-it-simple-stupid-principle-kiss-principle
- 
+
+## Lab slides:
+
+* https://goo.gl/jPtWNt  
+
+We welcome your comments on slides. 
+
 ## File naming rule:
 
 * klab-XX-X-[name].py: Keras labs code
 * lab-XX-X-[name].py: TensorFlow lab code
+* mxlab-XX-X-[name].py: MXNet lab code
 
 ## Install requirements
 ```bash

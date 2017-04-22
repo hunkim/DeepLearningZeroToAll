@@ -1,8 +1,6 @@
 # Lab 7 Learning rate and Evaluation
 import tensorflow as tf
-import numpy as np
 import random
-import matplotlib.pyplot as plt
 
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -96,7 +94,7 @@ print('Accuracy:', sess.run(accuracy, feed_dict={
 r = random.randint(0, mnist.test.num_examples - 1)
 print("Label: ", sess.run(tf.argmax(mnist.test.labels[r:r + 1], 1)))
 print("Prediction: ", sess.run(
-    tf.argmax(hypothesis, 1), {X: mnist.test.images[r:r + 1], keep_prob: 1}))
+    tf.argmax(hypothesis, 1), feed_dict={X: mnist.test.images[r:r + 1], keep_prob: 1}))
 
 # plt.imshow(mnist.test.images[r:r + 1].
 #           reshape(28, 28), cmap='Greys', interpolation='nearest')
