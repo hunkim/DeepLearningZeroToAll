@@ -123,31 +123,38 @@ print('Learning Finished!')
 # Test model and check accuracy
 correct_prediction = tf.equal(tf.argmax(hypothesis, 1), tf.argmax(Y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-print('Accuracy:', sess.run(accuracy, feed_dict={
-      X: mnist.test.images, Y: mnist.test.labels, keep_prob: 1}))
 
-'''
-if you encounter below message,
-    "ResourceExhaustedError (see above for traceback): OOM when allocating tensor with shape[10000,32,28,28]"
-use codes below, instead of above print()
-'''
 
-'''
-# start code from here
-test_divide_num = 10
-accuracy_sum = 0
+def evaluate(X_sample, y_sample, batch_size=512):
+    """Run a minibatch accuracy op"""
 
-for i in range(test_divide_num):
-    index = i * (mnist.test.num_examples // test_divide_num)
-    print("index", index, mnist.test.num_examples)
+    N = X_sample.shape[0]
+    correct_sample = 0
 
-    accuracy_sum += sess.run(accuracy, feed_dict={
-        X: mnist.test.images[index:index+1000], Y: mnist.test.labels[index:index+1000], keep_prob: 1})
+    for i in range(0, N, batch_size):
+        X_batch = X_sample[i: i + batch_size]
+        y_batch = y_sample[i: i + batch_size]
+        N_batch = X_batch.shape[0]
 
-print('Accuracy:', accuracy_sum / 10)
-'''
+        feed = {
+            X: X_batch,
+            Y: y_batch,
+            keep_prob: 1
+        }
+
+        correct_sample += sess.run(accuracy, feed_dict=feed) * N_batch
+
+    return correct_sample / N
+
+print("\nAccuracy Evaluates")
+print("-------------------------------")
+print('Train Accuracy:', evaluate(mnist.train.images, mnist.train.labels))
+print('Test Accuracy:', evaluate(mnist.test.images, mnist.test.labels))
+
 
 # Get one and predict
+print("\nGet one and predict")
+print("-------------------------------")
 r = random.randint(0, mnist.test.num_examples - 1)
 print("Label: ", sess.run(tf.argmax(mnist.test.labels[r:r + 1], 1)))
 print("Prediction: ", sess.run(
