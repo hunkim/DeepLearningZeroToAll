@@ -17,11 +17,12 @@ W = tf.Variable(tf.random_normal([8, 1]), name='weight')
 b = tf.Variable(tf.random_normal([1]), name='bias')
 
 # Hypothesis using sigmoid: tf.div(1., 1. + tf.exp(tf.matmul(X, W)))
-hypothesis = tf.sigmoid(tf.matmul(X, W) + b)
+logits = tf.matmul(X, W) + b
+hypothesis = tf.sigmoid(logits)
 
 # cost/loss function
-cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) *
-                       tf.log(1 - hypothesis))
+losses = tf.nn.sigmoid_cross_entropy_with_logits(None, labels=Y, logits=logits)
+cost = tf.reduce_mean(losses)
 
 train = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(cost)
 
