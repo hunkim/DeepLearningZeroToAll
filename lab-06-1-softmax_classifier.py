@@ -38,11 +38,12 @@ optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
 # Launch graph
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
+    feed = {X: x_data, Y: y_data}
 
     for step in range(2001):
-        sess.run(optimizer, feed_dict={X: x_data, Y: y_data})
+        sess.run(optimizer, feed_dict=feed)
         if step % 200 == 0:
-            print(step, sess.run(cost, feed_dict={X: x_data, Y: y_data}))
+            print(step, sess.run(cost, feed_dict=feed))
 
     print('--------------')
 
