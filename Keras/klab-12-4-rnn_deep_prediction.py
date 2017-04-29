@@ -1,4 +1,3 @@
-
 # http://machinelearningmastery.com/time-series-prediction-lstm-recurrent-neural-networks-python-keras/
 # Video: https://www.youtube.com/watch?v=ftMq5ps503w
 import numpy as np
@@ -23,9 +22,7 @@ xy = xy[::-1]  # reverse order (chronically ordered)
 
 # very important. It does not work without it.
 X_scaler = MinMaxScaler(feature_range=(0, 1))
-Y_scaler = MinMaxScaler(feature_range=(0, 1))
-x = X_scaler.fit_transform(xy)
-y = Y_scaler.fit_transform(xy[:, [-1]])  # Close as label
+x = X_scaler.fit_transform(xy)  # Close as label
 
 dataX = []
 dataY = []
@@ -60,14 +57,13 @@ plot_model(model, to_file=os.path.basename(__file__) + '.png', show_shapes=True)
 model.compile(loss='mean_squared_error', optimizer='adam')
 
 print(trainX.shape, trainY.shape)
-model.fit(trainX, trainY, epochs=20)
+model.fit(trainX, trainY, epochs=200)
 
 # make predictions
 testPredict = model.predict(testX)
 
 # inverse values
 testPredict = Y_scaler.inverse_transform(testPredict)
-testY = Y_scaler.inverse_transform(testY)
 
 print(testPredict)
 plt.plot(testY)
