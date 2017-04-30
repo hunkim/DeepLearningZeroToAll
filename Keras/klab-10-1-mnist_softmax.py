@@ -1,5 +1,6 @@
 from keras.models import Sequential
 from keras.layers import Dense, Activation
+from keras.optimizers import Adam
 from keras import initializers
 from keras.utils import np_utils
 from keras import backend as K
@@ -48,8 +49,9 @@ model.add(Activation('softmax'))
 
 model.summary()
 
+adam = Adam(lr=learning_rate)
 model.compile(loss='categorical_crossentropy',
-              optimizer='adam', learning_rate=learning_rate,
+              optimizer=adam,
               metrics=['accuracy'])
 
 model.fit(X_train, Y_train, batch_size=batch_size, epochs=training_epochs)
