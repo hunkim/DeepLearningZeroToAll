@@ -6,9 +6,16 @@ import tensorflow as tf
 tf.set_random_seed(777)  # reproducibility
 
 # tf Graph Input
-x_data = [[73., 80., 75.], [93., 88., 93.],
-          [89., 91., 90.], [96., 98., 100.], [73., 66., 70.]]
-y_data = [[152.], [185.], [180.], [196.], [142.]]
+x_data = [[73., 80., 75.],
+          [93., 88., 93.],
+          [89., 91., 90.],
+          [96., 98., 100.],
+          [73., 66., 70.]]
+y_data = [[152.],
+          [185.],
+          [180.],
+          [196.],
+          [142.]]
 
 # placeholders for a tensor that will be always fed.
 X = tf.placeholder(tf.float32, shape=[None, 3])

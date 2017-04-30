@@ -1,7 +1,8 @@
 # http://machinelearningmastery.com/time-series-prediction-lstm-recurrent-neural-networks-python-keras/
 import numpy as np
 from keras.models import Sequential
-from keras.layers import Dense, LSTM, Activation
+from keras.layers import Activation
+from keras.layers import LSTM
 from sklearn.preprocessing import MinMaxScaler
 import os
 

@@ -37,25 +37,12 @@ class Model:
             X_img = tf.reshape(self.X, [-1, 28, 28, 1])
             self.Y = tf.placeholder(tf.float32, [None, 10])
 
-            # L1 ImgIn shape=(?, 28, 28, 1)
-            # W1 = tf.Variable(tf.random_normal([3, 3, 1, 32], stddev=0.01))
-            #    Conv     -> (?, 28, 28, 32)
-            #    Pool     -> (?, 14, 14, 32)
-            # L1 = tf.nn.conv2d(X_img, W1, strides=[1, 1, 1, 1], padding='SAME')
-            # L1 = tf.nn.relu(L1)
-
             # Convolutional Layer #1
             conv1 = tf.layers.conv2d(inputs=X_img, filters=32, kernel_size=[3, 3],
                                      padding="SAME", activation=tf.nn.relu)
-
-            #  L1 = tf.nn.max_pool(L1, ksize=[1, 2, 2, 1],
-            #                    strides=[1, 2, 2, 1], padding='SAME')
-
             # Pooling Layer #1
             pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2],
                                             padding="SAME", strides=2)
-
-            # L1 = tf.nn.dropout(L1, keep_prob=self.keep_prob)
             dropout1 = tf.layers.dropout(inputs=pool1,
                                          rate=0.7, training=self.training)
 
@@ -75,28 +62,14 @@ class Model:
             dropout3 = tf.layers.dropout(inputs=pool3,
                                          rate=0.7, training=self.training)
 
+            # Dense Layer with Relu
             flat = tf.reshape(dropout3, [-1, 128 * 4 * 4])
-            '''
-            Tensor("Conv2D_2:0", shape=(?, 7, 7, 128), dtype=float32)
-            Tensor("Relu_2:0", shape=(?, 7, 7, 128), dtype=float32)
-            Tensor("MaxPool_2:0", shape=(?, 4, 4, 128), dtype=float32)
-            Tensor("dropout_2/mul:0", shape=(?, 4, 4, 128), dtype=float32)
-            Tensor("Reshape_1:0", shape=(?, 2048), dtype=float32)
-            '''
-
-            # # Dense Layer: 4x4x128 inputs -> 625 outputs
-            # W4 = tf.get_variable("W4", shape=[128 * 4 * 4, 625],
-            #                     initializer=tf.contrib.layers.xavier_initializer())
-            # b4 = tf.Variable(tf.random_normal([625]))
-            # L4 = tf.nn.relu(tf.matmul(L3, W4) + b4)
-            # L4 = tf.nn.dropout(L4, keep_prob=self.keep_prob)
-
             dense4 = tf.layers.dense(inputs=flat,
                                      units=625, activation=tf.nn.relu)
             dropout4 = tf.layers.dropout(inputs=dense4,
                                          rate=0.5, training=self.training)
 
-            # Logits Layer: L5 Final FC 625 inputs -> 10 outputs
+            # Logits (no activation) Layer: L5 Final FC 625 inputs -> 10 outputs
             self.logits = tf.layers.dense(inputs=dropout4, units=10)
 
         # define cost/loss & optimizer
