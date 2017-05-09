@@ -40,7 +40,7 @@ diff = (y_pred - Y)
 
 
 # Back prop (chain rule)
-d_l2 = diff * sigma_prime(l2)
+d_l2 = diff
 d_b2 = d_l2
 d_w2 = tf.matmul(tf.transpose(a1), d_l2)
 
