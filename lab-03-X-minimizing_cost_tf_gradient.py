@@ -35,6 +35,8 @@ sess = tf.Session()
 # Initializes global variables in the graph.
 sess.run(tf.global_variables_initializer())
 
+tf.reset_default_graph()
+
 for step in range(100):
     print(step, sess.run([gradient, W, gvs]))
     sess.run(apply_gradients)
