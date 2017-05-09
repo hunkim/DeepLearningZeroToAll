@@ -1,7 +1,9 @@
 # Lab 9 XOR
 import tensorflow as tf
 import numpy as np
+
 tf.set_random_seed(777)  # for reproducibility
+learning_rate = 0.01
 
 x_data = [[0, 0],
           [0, 1],
@@ -43,7 +45,7 @@ with tf.name_scope("cost") as scope:
     cost_summ = tf.summary.scalar("cost", cost)
 
 with tf.name_scope("train") as scope:
-    train = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(cost)
+    train = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
 
 # Accuracy computation
 # True if hypothesis>0.5 else False

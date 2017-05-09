@@ -1,4 +1,4 @@
-# Lab 7 Learning rate and Evaluation
+# Lab 13 Using Scope
 import tensorflow as tf
 import random
 

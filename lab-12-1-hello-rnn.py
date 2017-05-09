@@ -20,6 +20,7 @@ input_dim = 5  # one-hot size
 hidden_size = 5  # output from the LSTM. 5 to directly predict one-hot
 batch_size = 1   # one sentence
 sequence_length = 6  # |ihello| == 6
+learning_rate = 0.1
 
 X = tf.placeholder(
     tf.float32, [None, sequence_length, input_dim])  # X one-hot
@@ -45,7 +46,7 @@ weights = tf.ones([batch_size, sequence_length])
 sequence_loss = tf.contrib.seq2seq.sequence_loss(
     logits=outputs, targets=Y, weights=weights)
 loss = tf.reduce_mean(sequence_loss)
-train = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
+train = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
 
 prediction = tf.argmax(outputs, axis=2)
 

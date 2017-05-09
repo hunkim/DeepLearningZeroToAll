@@ -1,8 +1,9 @@
 # Lab 9 XOR
-# This example does not work
 import tensorflow as tf
 import numpy as np
+
 tf.set_random_seed(777)  # for reproducibility
+learning_rate = 0.1
 
 x_data = [[0, 0],
           [0, 1],
@@ -28,7 +29,7 @@ hypothesis = tf.sigmoid(tf.matmul(X, W) + b)
 cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) *
                        tf.log(1 - hypothesis))
 
-train = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
+train = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
 
 # Accuracy computation
 # True if hypothesis>0.5 else False
