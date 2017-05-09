@@ -42,7 +42,7 @@ def MinMaxScaler(data):
 
 
 # train Parameters
-timesteps = seq_length = 7
+seq_length = 7
 data_dim = 5
 hidden_dim = 10
 output_dim = 1
