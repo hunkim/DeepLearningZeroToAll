@@ -1,4 +1,4 @@
-# Lab 7 Learning rate and Evaluation
+# Lab 13 Tensorboard
 import tensorflow as tf
 import random
 
@@ -16,7 +16,6 @@ training_epochs = 15
 batch_size = 100
 
 TB_SUMMARY_DIR = './tb/mnist'
-
 
 # input place holders
 X = tf.placeholder(tf.float32, [None, 784])

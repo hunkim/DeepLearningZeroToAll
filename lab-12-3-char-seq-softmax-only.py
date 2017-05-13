@@ -13,6 +13,7 @@ rnn_hidden_size = len(char2idx)  # RNN output size
 num_classes = len(char2idx)  # final output size (RNN or softmax, etc.)
 batch_size = 1  # one sample data, one batch
 sequence_length = len(sample) - 1  # number of lstm rollings (unit #)
+learning_rate = 0.1
 
 sample_idx = [char2idx[c] for c in sample]  # char to index
 x_data = [sample_idx[:-1]]  # X data sample (0 ~ n-1) hello: hell
@@ -38,7 +39,7 @@ weights = tf.ones([batch_size, sequence_length])
 sequence_loss = tf.contrib.seq2seq.sequence_loss(
     logits=outputs, targets=Y, weights=weights)
 loss = tf.reduce_mean(sequence_loss)  # mean all sequence loss
-train = tf.train.AdamOptimizer(learning_rate=0.1).minimize(loss)
+train = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
 
 prediction = tf.argmax(outputs, axis=2)
 

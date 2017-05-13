@@ -16,6 +16,7 @@ data_dim = len(char_set)
 hidden_size = len(char_set)
 num_classes = len(char_set)
 sequence_length = 10  # Any arbitrary number
+learning_rate = 0.1
 
 dataX = []
 dataY = []
@@ -59,7 +60,7 @@ weights = tf.ones([batch_size, sequence_length])
 sequence_loss = tf.contrib.seq2seq.sequence_loss(
     logits=outputs, targets=Y, weights=weights)
 mean_loss = tf.reduce_mean(sequence_loss)
-train_op = tf.train.AdamOptimizer(learning_rate=0.1).minimize(mean_loss)
+train_op = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(mean_loss)
 
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
