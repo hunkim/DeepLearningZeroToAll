@@ -46,7 +46,7 @@ seq_length = 7
 data_dim = 5
 hidden_dim = 10
 output_dim = 1
-learing_rate = 0.01
+learning_rate = 0.01
 iterations = 500
 
 # Open, High, Low, Volume, Close
@@ -88,7 +88,7 @@ Y_pred = tf.contrib.layers.fully_connected(
 # cost/loss
 loss = tf.reduce_sum(tf.square(Y_pred - Y))  # sum of the squares
 # optimizer
-optimizer = tf.train.AdamOptimizer(learing_rate)
+optimizer = tf.train.AdamOptimizer(learning_rate)
 train = optimizer.minimize(loss)
 
 # RMSE
