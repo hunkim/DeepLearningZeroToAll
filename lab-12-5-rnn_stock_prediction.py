@@ -8,16 +8,16 @@ import os
 
 tf.set_random_seed(777)  # reproducibility
 
-if "DISPLAY" not in os.environ:
+# if "DISPLAY" not in os.environ:
     # remove Travis CI Error
-    matplotlib.use('Agg')
+    # matplotlib.use('Agg')
 
 import matplotlib.pyplot as plt
 
 
 def MinMaxScaler(data):
+    import numpy as np
     ''' Min Max Normalization
-
     Parameters
     ----------
     data : numpy.ndarray
@@ -26,19 +26,23 @@ def MinMaxScaler(data):
 
     Returns
     ----------
-    data : numpy.ndarry
+    data : numpy.ndarray
         normalized data
         shape: [Batch size, dimension]
 
     References
     ----------
     .. [1] http://sebastianraschka.com/Articles/2014_about_feature_scaling.html
-
     '''
+
     numerator = data - np.min(data, 0)
-    denominator = np.max(data, 0) - np.min(data, 0)
+    denominator = np.max(data, 0)
     # noise term prevents the zero division
-    return numerator / (denominator + 1e-7)
+    return numerator / (denominator + 1e-7), np.min(data, 0)[-1], np.max(data, 0)[-1]
+
+
+def OriginalScaler(data, min_value, max_value):
+    return data * (max_value + 1e-7) + min_value
 
 
 # train Parameters
@@ -46,13 +50,13 @@ seq_length = 7
 data_dim = 5
 hidden_dim = 10
 output_dim = 1
-learing_rate = 0.01
+learning_rate = 0.01
 iterations = 500
 
 # Open, High, Low, Volume, Close
 xy = np.loadtxt('data-02-stock_daily.csv', delimiter=',')
 xy = xy[::-1]  # reverse order (chronically ordered)
-xy = MinMaxScaler(xy)
+xy, min_y, max_y = MinMaxScaler(xy)
 x = xy
 y = xy[:, [-1]]  # Close as label
 
@@ -88,7 +92,7 @@ Y_pred = tf.contrib.layers.fully_connected(
 # cost/loss
 loss = tf.reduce_sum(tf.square(Y_pred - Y))  # sum of the squares
 # optimizer
-optimizer = tf.train.AdamOptimizer(learing_rate)
+optimizer = tf.train.AdamOptimizer(learning_rate)
 train = optimizer.minimize(loss)
 
 # RMSE
@@ -108,13 +112,17 @@ with tf.Session() as sess:
 
     # Test step
     test_predict = sess.run(Y_pred, feed_dict={X: testX})
-    rmse_val2 = sess.run(rmse, feed_dict={
+    rmse_val = sess.run(rmse, feed_dict={
                     targets: testY, predictions: test_predict})
-    print("RMSE: {}".format(rmse_val2))
+    print("RMSE: {}".format(rmse_val))
 
-    # Plot predictions
-    plt.plot(testY)
-    plt.plot(test_predict)
-    plt.xlabel("Time Period")
-    plt.ylabel("Stock Price")
-    plt.show()
+    if True:
+        # Plot predictions
+        testY = OriginalScaler(testY, min_y, max_y)
+        test_predict = OriginalScaler(test_predict, min_y, max_y)
+        plt.plot(testY, label='testY')
+        plt.plot(test_predict, label='test_predict')
+        plt.legend(loc='upper left')
+        plt.xlabel('Time Period')
+        plt.ylabel('Stock Price')
+        plt.show()
