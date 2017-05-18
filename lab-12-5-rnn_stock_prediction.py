@@ -108,9 +108,9 @@ with tf.Session() as sess:
 
     # Test step
     test_predict = sess.run(Y_pred, feed_dict={X: testX})
-    rmse = sess.run(rmse, feed_dict={
+    rmse_val2 = sess.run(rmse, feed_dict={
                     targets: testY, predictions: test_predict})
-    print("RMSE: {}".format(rmse))
+    print("RMSE: {}".format(rmse_val2))
 
     # Plot predictions
     plt.plot(testY)
