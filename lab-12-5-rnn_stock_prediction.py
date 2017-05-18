@@ -16,7 +16,6 @@ import matplotlib.pyplot as plt
 
 
 def MinMaxScaler(data):
-    import numpy as np
     ''' Min Max Normalization
     Parameters
     ----------
