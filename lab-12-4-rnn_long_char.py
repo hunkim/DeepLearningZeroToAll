@@ -3,6 +3,7 @@ from __future__ import print_function
 import tensorflow as tf
 import numpy as np
 from tensorflow.contrib import rnn
+
 tf.set_random_seed(777)  # reproducibility
 
 sentence = ("if you want to build a ship, don't drum up people together to "
@@ -40,12 +41,16 @@ Y = tf.placeholder(tf.int32, [None, sequence_length])
 X_one_hot = tf.one_hot(X, num_classes)
 print(X_one_hot)  # check out the shape
 
+
 # Make a lstm cell with hidden_size (each unit output vector size)
-cell = rnn.BasicLSTMCell(hidden_size, state_is_tuple=True)
-cell = rnn.MultiRNNCell([cell] * 2, state_is_tuple=True)
+def lstm_cell():
+    cell = rnn.BasicLSTMCell(hidden_size, state_is_tuple=True)
+    return cell
+
+multi_cells = rnn.MultiRNNCell([lstm_cell() for _ in range(2)], state_is_tuple=True)
 
 # outputs: unfolding size x hidden size, state = hidden size
-outputs, _states = tf.nn.dynamic_rnn(cell, X_one_hot, dtype=tf.float32)
+outputs, _states = tf.nn.dynamic_rnn(multi_cells, X_one_hot, dtype=tf.float32)
 
 # FC layer
 X_for_fc = tf.reshape(outputs, [-1, hidden_size])
