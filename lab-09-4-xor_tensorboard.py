@@ -45,7 +45,7 @@ with tf.name_scope("cost") as scope:
     cost_summ = tf.summary.scalar("cost", cost)
 
 with tf.name_scope("train") as scope:
-    train = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
+    train = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 
 # Accuracy computation
 # True if hypothesis>0.5 else False
