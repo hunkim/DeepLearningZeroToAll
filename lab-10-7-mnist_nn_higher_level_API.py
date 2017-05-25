@@ -47,11 +47,11 @@ with arg_scope([fully_connected],
     hidden_layer1 = fully_connected(X, hidden_output_size, scope="h1")
     h1_drop = dropout(hidden_layer1, keep_prob, is_training=train_mode)
     hidden_layer2 = fully_connected(h1_drop, hidden_output_size, scope="h2")
-    h2_drop = dropout(hidden_layer1, keep_prob, is_training=train_mode)
+    h2_drop = dropout(hidden_layer2, keep_prob, is_training=train_mode)
     hidden_layer3 = fully_connected(h2_drop, hidden_output_size, scope="h3")
-    h3_drop = dropout(hidden_layer1, keep_prob, is_training=train_mode)
+    h3_drop = dropout(hidden_layer3, keep_prob, is_training=train_mode)
     hidden_layer4 = fully_connected(h3_drop, hidden_output_size, scope="h4")
-    h4_drop = dropout(hidden_layer1, keep_prob, is_training=train_mode)
+    h4_drop = dropout(hidden_layer4, keep_prob, is_training=train_mode)
     hypothesis = fully_connected(h4_drop, final_output_size, activation_fn=None, scope="hypothesis")
 
 
