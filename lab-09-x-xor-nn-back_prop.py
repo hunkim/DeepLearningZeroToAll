@@ -30,17 +30,24 @@ hypothesis = tf.sigmoid(tf.matmul(layer1, W2) + b2)
 # cost/loss function
 cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) *
                        tf.log(1 - hypothesis))
+def sigma(x):
+    # sigmoid function
+    # σ(x) = 1 / (1 + exp(-x))
+    return 1. / (1. + tf.exp(-x))
 
-def sigmoidGradient(z):
-  return tf.multiply(tf.sigmoid(z), (1 - tf.sigmoid(z)))
+
+def sigma_prime(x):
+    # derivative of the sigmoid function
+    # σ'(x) = σ(x) * (1 - σ(x))
+    return sigma(x) * (1. - sigma(x))
 
 diff = hypothesis - Y
 
-d_l2 = tf.multiply(diff, sigmoidGradient(tf.matmul(layer1, W2) + b2))
+d_l2 = tf.multiply(diff, sigma_prime(tf.matmul(layer1, W2) + b2))
 d_b2 = d_l2
 d_W2 = tf.matmul(tf.transpose(layer1), d_l2)
 
-d_l1 = tf.multiply(tf.matmul(d_l2, tf.transpose(W2)), sigmoidGradient(tf.matmul(X, W1) + b1))
+d_l1 = tf.multiply(tf.matmul(d_l2, tf.transpose(W2)), sigma_prime(tf.matmul(X, W1) + b1))
 d_b1 = d_l1
 d_W1 = tf.matmul(tf.transpose(X), d_l1)
 
