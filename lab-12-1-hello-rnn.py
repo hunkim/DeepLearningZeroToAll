@@ -6,7 +6,7 @@ tf.set_random_seed(777)  # reproducibility
 idx2char = ['h', 'i', 'e', 'l', 'o']
 # Teach hello: hihell -> ihello
 x_data = [[0, 1, 0, 2, 3, 3]]   # hihell
-x_one_hot = [[[1, 0, 0, 0, 0],   # h 0
+x_one_hot =3 [[[1, 0, 0, 0, 0],   # h 0
               [0, 1, 0, 0, 0],   # i 1
               [1, 0, 0, 0, 0],   # h 0
               [0, 0, 1, 0, 0],   # e 2
