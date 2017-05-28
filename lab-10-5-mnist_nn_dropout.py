@@ -70,7 +70,7 @@ for epoch in range(training_epochs):
 
     for i in range(total_batch):
         batch_xs, batch_ys = mnist.train.next_batch(batch_size)
-        feed_dict = {X: batch_xs, Y: batch_ys, keep_prob: 0.7}
+        feed_dict = {X: batch_xs, Y: batch_ys, keep_prob: 0.3}
         c, _ = sess.run([cost, optimizer], feed_dict=feed_dict)
         avg_cost += c / total_batch
 
