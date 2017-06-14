@@ -16,8 +16,6 @@ cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
 # Launch the graph in a session.
 sess = tf.Session()
-# Initializes global variables in the graph.
-sess.run(tf.global_variables_initializer())
 
 # Variables for plotting cost function
 W_history = []
