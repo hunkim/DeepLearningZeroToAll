@@ -21,11 +21,8 @@ xy = np.loadtxt('data-02-stock_daily.csv', delimiter=',')
 xy = xy[::-1]  # reverse order (chronically ordered)
 
 # very important. It does not work without it.
-scaler = MinMaxScaler(feature_range=(0, 1))
-xy = scaler.fit_transform(xy)
-
-x = xy
-y = xy[:, [-1]]  # Close as label
+X_scaler = MinMaxScaler(feature_range=(0, 1))
+x = X_scaler.fit_transform(xy)  # Close as label
 
 dataX = []
 dataY = []
@@ -66,8 +63,7 @@ model.fit(trainX, trainY, epochs=200)
 testPredict = model.predict(testX)
 
 # inverse values
-# testPredict = scaler.transform(testPredict)
-# testY = scaler.transform(testY)
+testPredict = Y_scaler.inverse_transform(testPredict)
 
 print(testPredict)
 plt.plot(testY)
