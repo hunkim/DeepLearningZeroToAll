@@ -1,7 +1,7 @@
 # Lab 7 Learning rate and Evaluation
 import tensorflow as tf
 import random
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 tf.set_random_seed(777)  # for reproducibility
 
 from tensorflow.examples.tutorials.mnist import input_data
@@ -63,12 +63,11 @@ with tf.Session() as sess:
     print("Prediction: ", sess.run(
         tf.argmax(hypothesis, 1), feed_dict={X: mnist.test.images[r:r + 1]}))
 
-    # don't know why this makes Travis Build error.
-    # plt.imshow(
-    #     mnist.test.images[r:r + 1].reshape(28, 28),
-    #     cmap='Greys',
-    #     interpolation='nearest')
-    # plt.show()
+    plt.imshow(
+        mnist.test.images[r:r + 1].reshape(28, 28),
+        cmap='Greys',
+        interpolation='nearest')
+    plt.show()
 
 
 '''
