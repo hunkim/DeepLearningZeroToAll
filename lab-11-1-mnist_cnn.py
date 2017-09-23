@@ -95,7 +95,7 @@ print("Prediction: ", sess.run(
     tf.argmax(logits, 1), feed_dict={X: mnist.test.images[r:r + 1]}))
 
 # plt.imshow(mnist.test.images[r:r + 1].
-#           reshape(28, 28), cmap='Greys', interpolation='nearest')
+#           reshape(28, 28), cmap='Gray', interpolation='nearest')
 # plt.show()
 
 '''
