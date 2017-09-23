@@ -161,7 +161,7 @@ print("Prediction: ", sess.run(
     tf.argmax(hypothesis, 1), {X: mnist.test.images[r:r + 1], keep_prob: 1}))
 
 # plt.imshow(mnist.test.images[r:r + 1].
-#           reshape(28, 28), cmap='Greys', interpolation='nearest')
+#           reshape(28, 28), cmap='Gray', interpolation='nearest')
 # plt.show()
 
 '''
