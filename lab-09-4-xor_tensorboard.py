@@ -19,7 +19,7 @@ y_data = np.array(y_data, dtype=np.float32)
 X = tf.placeholder(tf.float32, [None, 2], name='x-input')
 Y = tf.placeholder(tf.float32, [None, 1], name='y-input')
 
-with tf.name_scope("layer1") as scope:
+with tf.name_scope("layer1"):
     W1 = tf.Variable(tf.random_normal([2, 2]), name='weight1')
     b1 = tf.Variable(tf.random_normal([2]), name='bias1')
     layer1 = tf.sigmoid(tf.matmul(X, W1) + b1)
@@ -29,7 +29,7 @@ with tf.name_scope("layer1") as scope:
     layer1_hist = tf.summary.histogram("layer1", layer1)
 
 
-with tf.name_scope("layer2") as scope:
+with tf.name_scope("layer2"):
     W2 = tf.Variable(tf.random_normal([2, 1]), name='weight2')
     b2 = tf.Variable(tf.random_normal([1]), name='bias2')
     hypothesis = tf.sigmoid(tf.matmul(layer1, W2) + b2)
@@ -39,12 +39,12 @@ with tf.name_scope("layer2") as scope:
     hypothesis_hist = tf.summary.histogram("hypothesis", hypothesis)
 
 # cost/loss function
-with tf.name_scope("cost") as scope:
+with tf.name_scope("cost"):
     cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) *
                            tf.log(1 - hypothesis))
     cost_summ = tf.summary.scalar("cost", cost)
 
-with tf.name_scope("train") as scope:
+with tf.name_scope("train"):
     train = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 
 # Accuracy computation
