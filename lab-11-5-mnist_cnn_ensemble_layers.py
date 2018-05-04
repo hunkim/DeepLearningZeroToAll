@@ -44,7 +44,7 @@ class Model:
             pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2],
                                             padding="SAME", strides=2)
             dropout1 = tf.layers.dropout(inputs=pool1,
-                                         rate=0.7, training=self.training)
+                                         rate=0.3, training=self.training)
 
             # Convolutional Layer #2 and Pooling Layer #2
             conv2 = tf.layers.conv2d(inputs=dropout1, filters=64, kernel_size=[3, 3],
@@ -52,7 +52,7 @@ class Model:
             pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2],
                                             padding="SAME", strides=2)
             dropout2 = tf.layers.dropout(inputs=pool2,
-                                         rate=0.7, training=self.training)
+                                         rate=0.3, training=self.training)
 
             # Convolutional Layer #3 and Pooling Layer #3
             conv3 = tf.layers.conv2d(inputs=dropout2, filters=128, kernel_size=[3, 3],
@@ -60,7 +60,7 @@ class Model:
             pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2],
                                             padding="SAME", strides=2)
             dropout3 = tf.layers.dropout(inputs=pool3,
-                                         rate=0.7, training=self.training)
+                                         rate=0.3, training=self.training)
 
             # Dense Layer with Relu
             flat = tf.reshape(dropout3, [-1, 128 * 4 * 4])
