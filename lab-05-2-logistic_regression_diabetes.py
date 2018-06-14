@@ -16,7 +16,7 @@ Y = tf.placeholder(tf.float32, shape=[None, 1])
 W = tf.Variable(tf.random_normal([8, 1]), name='weight')
 b = tf.Variable(tf.random_normal([1]), name='bias')
 
-# Hypothesis using sigmoid: tf.div(1., 1. + tf.exp(tf.matmul(X, W)))
+# Hypothesis using sigmoid: tf.div(1., 1. + tf.exp(-tf.matmul(X, W)))
 hypothesis = tf.sigmoid(tf.matmul(X, W) + b)
 
 # cost/loss function
