@@ -52,27 +52,30 @@ iterations = 500
 # Open, High, Low, Volume, Close
 xy = np.loadtxt('data-02-stock_daily.csv', delimiter=',')
 xy = xy[::-1]  # reverse order (chronically ordered)
-xy = MinMaxScaler(xy)
-x = xy
-y = xy[:, [-1]]  # Close as label
-
-# build a dataset
-dataX = []
-dataY = []
-for i in range(0, len(y) - seq_length):
-    _x = x[i:i + seq_length]
-    _y = y[i + seq_length]  # Next close price
-    print(_x, "->", _y)
-    dataX.append(_x)
-    dataY.append(_y)
 
 # train/test split
-train_size = int(len(dataY) * 0.7)
-test_size = len(dataY) - train_size
-trainX, testX = np.array(dataX[0:train_size]), np.array(
-    dataX[train_size:len(dataX)])
-trainY, testY = np.array(dataY[0:train_size]), np.array(
-    dataY[train_size:len(dataY)])
+train_size = int(len(xy) * 0.7)
+train_set = xy[0:train_size]
+test_set = xy[train_size - seq_length:]  # Index from [train_size - seq_length] to utilize past sequence
+
+# Scale each
+train_set = MinMaxScaler(train_set)
+test_set = MinMaxScaler(test_set)
+
+# build datasets
+def build_dataset(time_series, seq_length):
+    dataX = []
+    dataY = []
+    for i in range(0, len(time_series) - seq_length):
+        _x = time_series[i:i + seq_length, :]
+        _y = time_series[i + seq_length, [-1]]  # Next close price
+        print(_x, "->", _y)
+        dataX.append(_x)
+        dataY.append(_y)
+    return np.array(dataX), np.array(dataY)
+
+trainX, trainY = build_dataset(train_set, seq_length)
+testX, testY = build_dataset(test_set, seq_length)
 
 # input place holders
 X = tf.placeholder(tf.float32, [None, seq_length, data_dim])
