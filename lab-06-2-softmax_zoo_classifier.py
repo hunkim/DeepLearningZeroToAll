@@ -28,8 +28,8 @@ logits = tf.matmul(X, W) + b
 hypothesis = tf.nn.softmax(logits)
 
 # Cross entropy cost/loss
-cost_i = tf.nn.softmax_cross_entropy_with_logits(logits=logits,
-                                                 labels=Y_one_hot)
+cost_i = tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits,
+                                                 labels=tf.stop_gradient([Y_one_hot]))
 cost = tf.reduce_mean(cost_i)
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
 
