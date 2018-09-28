@@ -5,8 +5,8 @@ tf.set_random_seed(777)  # for reproducibility
 x_data = [1, 2, 3]
 y_data = [1, 2, 3]
 
-# Try to find values for W and b to compute y_data = W * x_data + b
-# We know that W should be 1 and b should be 0
+# Try to find values for W and b to compute y_data = W * x_data
+# We know that W should be 1
 # But let's use TensorFlow to figure it out
 W = tf.Variable(tf.random_normal([1]), name='weight')
 
