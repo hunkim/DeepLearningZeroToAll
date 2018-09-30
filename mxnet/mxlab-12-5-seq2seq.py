@@ -7,7 +7,7 @@ import logging
 import sys
 
 # pip3 install tqdm
-from tqdm import *
+from tqdm import tqdm
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)  # Config the logging
 np.random.seed(777)
