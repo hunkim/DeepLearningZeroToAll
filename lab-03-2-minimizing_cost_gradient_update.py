@@ -31,8 +31,8 @@ sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 for step in range(21):
-    sess.run(update, feed_dict={X: x_data, Y: y_data})
-    print(step, sess.run(cost, feed_dict={X: x_data, Y: y_data}), sess.run(W))
+    _, cost_val, W_val = sess.run([update, cost, W], feed_dict={X: x_data, Y: y_data})
+    print(step, cost_val, W_val)
 
 '''
 0 1.93919 [ 1.64462376]
