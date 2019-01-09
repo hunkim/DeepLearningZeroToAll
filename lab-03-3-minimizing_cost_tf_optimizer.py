@@ -25,8 +25,8 @@ sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 for step in range(100):
-    print(step, sess.run(W))
-    sess.run(train)
+    W_val, _ = sess.run([W, train])
+    print(step, W_val)
 
 '''
 0 5.0
