@@ -35,7 +35,7 @@ sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 for step in range(100):
-    gradient_val, gvs_val, _ = sess.run([gradient, gvs, apply_gradients])) # Same as sess.run(train)
+    gradient_val, gvs_val, _ = sess.run([gradient, gvs, apply_gradients]) # Same as sess.run(train)
     print(step, gradient_val, gvs_val)
 
 
