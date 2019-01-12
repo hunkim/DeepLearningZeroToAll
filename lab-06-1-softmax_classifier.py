@@ -40,7 +40,7 @@ with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
 
     for step in range(2001):
-            _, cost_val = sess.run([optimizer, cost], feed_dict={x: x_data, y: y_data})
+            _, cost_val = sess.run([optimizer, cost], feed_dict={X: x_data, Y: y_data})
 
             if step % 200 == 0:
                 print(step, cost_val)
