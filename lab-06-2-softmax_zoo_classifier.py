@@ -51,7 +51,7 @@ with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
 
     for step in range(2001):
-        _, cost_val, acc_val = sess.run([optimizer, cost, accuracy], feed_dict={x: x_data, y: y_data}
+        _, cost_val, acc_val = sess.run([optimizer, cost, accuracy], feed_dict={X: x_data, Y: y_data})
                                         
         if step % 100 == 0:
             print("Step: {:5}\tCost: {:.3f}\tAcc: {:.2%}".format(step, cost_val, acc_val))
