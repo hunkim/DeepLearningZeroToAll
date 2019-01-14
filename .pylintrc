@@ -1,4 +1,14 @@
 [TYPECHECK]
-
-ignored-modules=numpy,numpy.random
+ignored-modules=numpy,random,tensorflow,matplotlib,keras,sklearn,chainer,torch,mxnet,torchvision,tqdm
 ignored-classes=numpy,tuple,SparseTensor
+disable= invalid-unary-operand-type,
+    W,
+    C,
+    R,
+    invalid-name,
+    missing-docstring,
+    no-member,
+    no-name-in-module,
+    not-context-manager,
+    pointless-string-statement,
+    superfluous-parens

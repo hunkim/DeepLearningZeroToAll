@@ -1,14 +1,12 @@
 # code below is taken from https://github.com/fchollet/keras/blob/master/.travis.yml
-sudo: required
-dist: trusty
 language: python
 python: # Only two versions for now
-  - "2.7"
-  - "3.5"
   - "3.6"
 # command to install dependencies
-install: "pip install -r requirements.txt"
+install:
+    - pip install -r requirements.txt --quiet
 
 script:
   - python -m compileall .
   - pytest
+  - find . -name '*.py' | xargs pylint

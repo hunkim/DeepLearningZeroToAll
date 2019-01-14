@@ -10,14 +10,24 @@ y_data = xy[:, [-1]]
 
 print(x_data.shape, y_data.shape)
 
+'''
+(101, 16) (101, 1)
+'''
+
 nb_classes = 7  # 0 ~ 6
 
 X = tf.placeholder(tf.float32, [None, 16])
 Y = tf.placeholder(tf.int32, [None, 1])  # 0 ~ 6
+
 Y_one_hot = tf.one_hot(Y, nb_classes)  # one hot
-print("one_hot", Y_one_hot)
+print("one_hot:", Y_one_hot)
 Y_one_hot = tf.reshape(Y_one_hot, [-1, nb_classes])
-print("reshape", Y_one_hot)
+print("reshape one_hot:", Y_one_hot)
+
+'''
+one_hot: Tensor("one_hot:0", shape=(?, 1, 7), dtype=float32)
+reshape one_hot: Tensor("Reshape:0", shape=(?, 7), dtype=float32)
+'''
 
 W = tf.Variable(tf.random_normal([16, nb_classes]), name='weight')
 b = tf.Variable(tf.random_normal([nb_classes]), name='bias')
@@ -28,25 +38,23 @@ logits = tf.matmul(X, W) + b
 hypothesis = tf.nn.softmax(logits)
 
 # Cross entropy cost/loss
-cost_i = tf.nn.softmax_cross_entropy_with_logits(logits=logits,
-                                                 labels=Y_one_hot)
-cost = tf.reduce_mean(cost_i)
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits,
+                                                                 labels=tf.stop_gradient([Y_one_hot])))
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
 
 prediction = tf.argmax(hypothesis, 1)
 correct_prediction = tf.equal(prediction, tf.argmax(Y_one_hot, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
 # Launch graph
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
 
-    for step in range(2000):
-        sess.run(optimizer, feed_dict={X: x_data, Y: y_data})
+    for step in range(2001):
+        _, cost_val, acc_val = sess.run([optimizer, cost, accuracy], feed_dict={X: x_data, Y: y_data})
+                                        
         if step % 100 == 0:
-            loss, acc = sess.run([cost, accuracy], feed_dict={
-                                 X: x_data, Y: y_data})
-            print("Step: {:5}\tLoss: {:.3f}\tAcc: {:.2%}".format(
-                step, loss, acc))
+            print("Step: {:5}\tCost: {:.3f}\tAcc: {:.2%}".format(step, cost_val, acc_val))
 
     # Let's see if we can predict
     pred = sess.run(prediction, feed_dict={X: x_data})
@@ -58,26 +66,15 @@ with tf.Session() as sess:
 Step:     0 Loss: 5.106 Acc: 37.62%
 Step:   100 Loss: 0.800 Acc: 79.21%
 Step:   200 Loss: 0.486 Acc: 88.12%
-Step:   300 Loss: 0.349 Acc: 90.10%
-Step:   400 Loss: 0.272 Acc: 94.06%
-Step:   500 Loss: 0.222 Acc: 95.05%
-Step:   600 Loss: 0.187 Acc: 97.03%
-Step:   700 Loss: 0.161 Acc: 97.03%
-Step:   800 Loss: 0.140 Acc: 97.03%
-Step:   900 Loss: 0.124 Acc: 97.03%
-Step:  1000 Loss: 0.111 Acc: 97.03%
-Step:  1100 Loss: 0.101 Acc: 99.01%
-Step:  1200 Loss: 0.092 Acc: 100.00%
-Step:  1300 Loss: 0.084 Acc: 100.00%
+...
+Step:  1800	Loss: 0.060	Acc: 100.00%
+Step:  1900	Loss: 0.057	Acc: 100.00%
+Step:  2000	Loss: 0.054	Acc: 100.00%
+[True] Prediction: 0 True Y: 0
+[True] Prediction: 0 True Y: 0
+[True] Prediction: 3 True Y: 3
 ...
 [True] Prediction: 0 True Y: 0
-[True] Prediction: 0 True Y: 0
-[True] Prediction: 3 True Y: 3
-[True] Prediction: 0 True Y: 0
-[True] Prediction: 0 True Y: 0
-[True] Prediction: 0 True Y: 0
-[True] Prediction: 0 True Y: 0
-[True] Prediction: 3 True Y: 3
-[True] Prediction: 3 True Y: 3
-[True] Prediction: 0 True Y: 0
+[True] Prediction: 6 True Y: 6
+[True] Prediction: 1 True Y: 1
 '''

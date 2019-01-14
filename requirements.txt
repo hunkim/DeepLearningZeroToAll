@@ -1,6 +1,12 @@
-Keras==2.0.2
-matplotlib==2.0.0
-numpy==1.12.1
-tensorflow==1.0.0
-scikit_learn==0.18.1
+keras
+matplotlib
+numpy
+tensorflow
+scikit_learn
+# mxnet
+# sklearn
+# chainer
+# torch
+# torchvision
+tqdm
 pylint
