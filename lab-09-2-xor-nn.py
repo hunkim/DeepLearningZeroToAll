@@ -41,22 +41,21 @@ with tf.Session() as sess:
     h, c, a = sess.run(
         [hypothesis, predicted, accuracy], feed_dict={X: x_data, Y: y_data}
     )
-     print(f"""
-Hypothesis: 
-{h}
-Predicted: 
-{p}
-Accuracy: {a}""")
+    
+    print(f"\nHypothesis:\n{h} \nPredicted:\n{p} \nAccuracy:\n{a}")
 
 
 '''
-Hypothesis:  [[ 0.01338218]
- [ 0.98166394]
- [ 0.98809403]
- [ 0.01135799]]
-Correct:  [[ 0.]
- [ 1.]
- [ 1.]
- [ 0.]]
-Accuracy:  1.0
+Hypothesis:
+[[0.01338216]
+ [0.98166394]
+ [0.98809403]
+ [0.01135799]] 
+Predicted:
+[[0.]
+ [1.]
+ [1.]
+ [0.]] 
+Accuracy:
+1.0
 '''
