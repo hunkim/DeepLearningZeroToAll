@@ -8,7 +8,7 @@ x_data = np.array([[0, 0], [0, 1], [1, 0], [1, 1]], dtype=np.float32)
 y_data = np.array([[0], [1], [1], [0]], dtype=np.float32)
 
 X = tf.placeholder(tf.float32, [None, 2], name="x")
-Y = tf.placeholder(tf.float32, [4, 1], name="y")
+Y = tf.placeholder(tf.float32, [None, 1], name="y")
 
 with tf.name_scope("Layer1"):
     W1 = tf.Variable(tf.random_normal([2, 2]), name="weight_1")
