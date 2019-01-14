@@ -1,7 +1,6 @@
 # code below is taken from https://github.com/fchollet/keras/blob/master/.travis.yml
 language: python
 python: # Only two versions for now
-  - "2.7"
   - "3.6"
 # command to install dependencies
 install:
