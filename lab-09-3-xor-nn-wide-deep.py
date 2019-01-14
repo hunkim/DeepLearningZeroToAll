@@ -1,5 +1,6 @@
 # Lab 9 XOR
 import tensorflow as tf
+import numpy as np
 
 tf.set_random_seed(777)  # for reproducibility
 
