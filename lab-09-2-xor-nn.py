@@ -38,7 +38,7 @@ with tf.Session() as sess:
             print(step, cost_val)
 
     # Accuracy report
-    h, c, a = sess.run(
+    h, p, a = sess.run(
         [hypothesis, predicted, accuracy], feed_dict={X: x_data, Y: y_data}
     )
     
