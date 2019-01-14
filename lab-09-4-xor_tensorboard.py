@@ -26,7 +26,7 @@ with tf.name_scope("Layer2"):
     hypothesis = tf.sigmoid(tf.matmul(layer1, W2) + b2)
 
     tf.summary.histogram("W2", W2)
-    tf.summary.histogram("B2", b2)
+    tf.summary.histogram("b2", b2)
     tf.summary.histogram("Hypothesis", hypothesis)
 
 # cost/loss function
