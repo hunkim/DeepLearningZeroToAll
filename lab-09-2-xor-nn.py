@@ -3,8 +3,8 @@ import tensorflow as tf
 
 tf.set_random_seed(777)  # for reproducibility
 
-x_data = [[0, 0], [0, 1], [1, 0], [1, 1]]
-y_data = [[0], [1], [1], [0]]
+x_data = np.array([[0, 0], [0, 1], [1, 0], [1, 1]], dtype=np.float32)
+y_data = np.array([[0], [1], [1], [0]], dtype=np.float32)
 
 X = tf.placeholder(tf.float32, [4, 2])
 Y = tf.placeholder(tf.float32, [4, 1])
