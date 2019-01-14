@@ -63,19 +63,23 @@ with tf.Session() as sess:
             print(step, cost_val)
 
     # Accuracy report
-    h, c, a = sess.run(
+    h, p, a = sess.run(
         [hypothesis, predicted, accuracy], feed_dict={X: x_data, Y: y_data}
     )
-    print("\nHypothesis: ", h, "\nCorrect: ", c, "\nAccuracy: ", a)
+    
+    print(f"\nHypothesis:\n{h} \nPredicted:\n{p} \nAccuracy:\n{a}")
 
 """
-Hypothesis:  [[  6.13103184e-05]
- [  9.99936938e-01]
- [  9.99950767e-01]
- [  5.97514772e-05]]
-Correct:  [[ 0.]
- [ 1.]
- [ 1.]
- [ 0.]]
-Accuracy:  1.0
+Hypothesis:
+[[6.1310326e-05]
+ [9.9993694e-01]
+ [9.9995077e-01]
+ [5.9751470e-05]] 
+Predicted:
+[[0.]
+ [1.]
+ [1.]
+ [0.]] 
+Accuracy:
+1.0
 """
