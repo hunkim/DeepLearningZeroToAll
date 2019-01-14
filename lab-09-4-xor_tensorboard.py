@@ -16,7 +16,7 @@ with tf.name_scope("Layer1"):
     layer1 = tf.sigmoid(tf.matmul(X, W1) + b1)
 
     tf.summary.histogram("W1", W1)
-    tf.summary.histogram("B1", b1)
+    tf.summary.histogram("b1", b1)
     tf.summary.histogram("Layer1", layer1)
 
 
