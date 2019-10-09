@@ -28,7 +28,9 @@ class SquareTest(tf.test.TestCase):
         with self.test_session():
             values = np.array([[10, 20], [1000, -100]], dtype=np.float32)
             norm_values = tf.nn.l2_normalize(values, axis=1)
-            print(norm_values.eval())
+            #print(norm_values.eval())
+        sess = tf.Session()
+        print(sess.run(norm_values))
 
 if __name__ == '__main__':
     tf.test.main()
