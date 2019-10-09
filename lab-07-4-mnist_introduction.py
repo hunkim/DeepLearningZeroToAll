@@ -1,5 +1,10 @@
 # Lab 7 Learning rate and Evaluation
 import tensorflow as tf
+
+#remove read_data_sets error
+old_v = tf.logging.get_verbosity()
+tf.logging.set_verbosity(tf.logging.ERROR)
+
 import matplotlib.pyplot as plt
 import random
 
