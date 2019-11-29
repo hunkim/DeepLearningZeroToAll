@@ -64,7 +64,7 @@ print(model.summary())
 
 callbacks = [EarlyStopping(monitor='val_loss', patience=1, mode='min', verbose=1)]
 
-model.fit(x_train, y_train,epochs=10,validation_split=0.2,verbose=1,callbacks=callbacks)
+model.fit(x_train, y_train,epochs=1,validation_split=0.2,verbose=1,callbacks=callbacks)
 
 res_acc = model.evaluate(x_test,y_test)
 
