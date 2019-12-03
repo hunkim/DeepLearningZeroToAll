@@ -9,4 +9,3 @@ install:
 script:
   - python -m compileall .
   - pytest
-  - find . -name '*.py' | xargs pylint
