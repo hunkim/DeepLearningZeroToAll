@@ -57,11 +57,11 @@ def build_dataset(time_series, seq_length):
     dataX = []
     dataY = []
     for i in range(0, len(time_series) - seq_length):
-        _x = time_series[i:i + seq_length, :]
-        _y = time_series[i + seq_length, [-1]]  # Next close price
-        print(_x, "->", _y)
-        dataX.append(_x)
-        dataY.append(_y)
+        x = time_series[i:i + seq_length, :]
+        y = time_series[i + seq_length, [-1]]  # Next close price
+        print(x, "->", y)
+        dataX.append(x)
+        dataY.append(y)
     return np.array(dataX), np.array(dataY)
 
 trainX, trainY = build_dataset(train_set, seq_length)
@@ -74,6 +74,7 @@ tf.model = tf.keras.Sequential();
 tf.model.add(tf.keras.layers.LSTM(units=1, input_shape=(seq_length, data_dim)))
 tf.model.add(tf.keras.layers.Dense(units=output_dim, activation='tanh'))
 tf.model.summary()
+
 tf.model.compile(loss='mean_squared_error', optimizer=tf.keras.optimizers.Adam(lr=learning_rate))
 tf.model.fit(trainX, trainY, epochs=iterations)
 
