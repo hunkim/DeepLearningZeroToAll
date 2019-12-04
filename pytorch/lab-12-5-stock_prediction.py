@@ -131,7 +131,7 @@ for epoch in range(num_epochs):
     optimizer.step()
     print("Epoch: %d, loss: %1.5f" % (epoch, loss.data[0]))
 
-print("Learning finished!")
+print("Learning finished!!")
 
 # Test the model
 lstm.eval()
