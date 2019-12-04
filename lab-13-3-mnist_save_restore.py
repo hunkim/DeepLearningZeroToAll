@@ -4,6 +4,7 @@ import random
 # import matplotlib.pyplot as plt
 import os
 
+
 from tensorflow.examples.tutorials.mnist import input_data
 
 tf.set_random_seed(777)  # reproducibility
