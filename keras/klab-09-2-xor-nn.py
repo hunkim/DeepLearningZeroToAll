@@ -2,14 +2,14 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.optimizers import SGD
 
-x_data = [[0., 0.],
+x_data = np.array([[0., 0.],
           [0., 1.],
           [1., 0.],
-          [1., 1.]]
-y_data = [[0.],
+          [1., 1.]])
+y_data = np.array([[0.],
           [1.],
           [1.],
-          [0.]]
+          [0.]])
 
 model = Sequential()
 model.add(Dense(2, input_dim=2, activation='sigmoid'))

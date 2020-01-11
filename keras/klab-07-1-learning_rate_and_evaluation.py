@@ -5,14 +5,14 @@ from keras.optimizers import SGD
 import numpy as np
 np.random.seed(777)  # for reproducibility
 
-x_data = [[1, 2, 1], [1, 3, 2], [1, 3, 4], [1, 5, 5],
-          [1, 7, 5], [1, 2, 5], [1, 6, 6], [1, 7, 7]]
-y_data = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 1, 0],
-          [0, 1, 0], [0, 1, 0], [1, 0, 0], [1, 0, 0]]
+x_data = np.array([[1, 2, 1], [1, 3, 2], [1, 3, 4], [1, 5, 5],
+          [1, 7, 5], [1, 2, 5], [1, 6, 6], [1, 7, 7]])
+y_data = np.array([[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 1, 0],
+          [0, 1, 0], [0, 1, 0], [1, 0, 0], [1, 0, 0]])
 
 # Evaluation our model using this test dataset
-x_test = [[2, 1, 1], [3, 1, 2], [3, 3, 4]]
-y_test = [[0, 0, 1], [0, 0, 1], [0, 0, 1]]
+x_test = np.array([[2, 1, 1], [3, 1, 2], [3, 3, 4]])
+y_test = np.array([[0, 0, 1], [0, 0, 1], [0, 0, 1]])
 
 
 model = Sequential()
