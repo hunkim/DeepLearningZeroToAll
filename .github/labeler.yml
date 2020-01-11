@@ -21,6 +21,6 @@ tf2:
   - tf2/**/*
 
 tensorflow:
-  - *.ipynb
-  - *.py
+  - "*.ipynb"
+  - "*.py"
   - tf2/**/*
