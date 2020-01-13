@@ -4,23 +4,23 @@ chainer:
 
 ipynb:
   - ipynb/**/*
-  
+
 keras:
   - keras/**/*
-  
+
 mxnet:
   - mxnet/**/*
-  
+
 numpy:
   - numpy/**/*
-  
+
 pytorch:
   - pytorch/**/*
-  
+
 tf2:
   - tf2/**/*
 
 tensorflow:
-  - "*.ipynb"
-  - "*.py"
+  - ./*.ipynb
+  - ./*.py
   - tf2/**/*
