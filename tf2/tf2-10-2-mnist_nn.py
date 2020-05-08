@@ -26,6 +26,7 @@ tf.model.compile(loss='categorical_crossentropy',
                  optimizer=tf.keras.optimizers.Adam(lr=learning_rate), metrics=['accuracy'])
 tf.model.summary()
 
+tf.model.fit(x_train, y_train, batch_size=batch_size, epochs=training_epochs)
 
 # predict 10 random hand-writing data
 y_predicted = tf.model.predict(x_test)
