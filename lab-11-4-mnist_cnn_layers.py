@@ -53,7 +53,7 @@ class Model:
             dropout2 = tf.layers.dropout(inputs=pool2,
                                          rate=0.3, training=self.training)
 
-            # Convolutional Layer #2 and Pooling Layer #2
+            # Convolutional Layer #3 and Pooling Layer #3
             conv3 = tf.layers.conv2d(inputs=dropout2, filters=128, kernel_size=[3, 3],
                                      padding="same", activation=tf.nn.relu)
             pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2],
