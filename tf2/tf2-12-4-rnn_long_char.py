@@ -51,7 +51,7 @@ tf.model.fit(X_one_hot, Y_one_hot, epochs=100)
 results = tf.model.predict(X_one_hot)
 for j, result in enumerate(results):
     index = np.argmax(result, axis=1)
-    if j is 0:  # print all for the first result to make a sentence
+    if j == 0:  # print all for the first result to make a sentence
         print(''.join([char_set[t] for t in index]), end='')
     else:
         print(char_set[index[-1]], end='')
