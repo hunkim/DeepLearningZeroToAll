@@ -6,3 +6,8 @@ __pycache__
 klab*.png
 MNIST_data
 tb
+Untitled*.ipynb
+.ropeproject
+xlab*
+logs
+.mypy_cache/

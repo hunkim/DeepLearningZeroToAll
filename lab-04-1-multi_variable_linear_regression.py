@@ -21,9 +21,8 @@ w3 = tf.Variable(tf.random_normal([1]), name='weight3')
 b = tf.Variable(tf.random_normal([1]), name='bias')
 
 hypothesis = x1 * w1 + x2 * w2 + x3 * w3 + b
-print(hypothesis)
 
-# cost function
+# cost/loss function
 cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
 # Minimize. Need a very small learning rate for this data set
@@ -36,11 +35,10 @@ sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 for step in range(2001):
-    feed = {x1: x1_data, x2: x2_data, x3: x3_data, Y: y_data}
-    sess.run(train, feed_dict=feed)
+    cost_val, hy_val, _ = sess.run([cost, hypothesis, train],
+                                   feed_dict={x1: x1_data, x2: x2_data, x3: x3_data, Y: y_data})
     if step % 10 == 0:
-        print(step, "Cost: ", sess.run(cost, feed_dict=feed),
-              "\nPrediction:\n", sess.run(hypothesis, feed_dict=feed))
+        print(step, "Cost: ", cost_val, "\nPrediction:\n", hy_val)
 
 '''
 0 Cost:  19614.8

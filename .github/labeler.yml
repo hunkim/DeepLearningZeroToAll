@@ -1,0 +1,26 @@
+# Add 'label1' to any changes within 'example' folder or any subfolders
+chainer:
+  - chainer/**/*
+
+ipynb:
+  - ipynb/**/*
+
+keras:
+  - keras/**/*
+
+mxnet:
+  - mxnet/**/*
+
+numpy:
+  - numpy/**/*
+
+pytorch:
+  - pytorch/**/*
+
+tf2:
+  - tf2/**/*
+
+tensorflow:
+  - ./*.ipynb
+  - ./*.py
+  - tf2/**/*

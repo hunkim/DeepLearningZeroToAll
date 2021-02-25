@@ -1,7 +1,7 @@
-# Lab 7 Learning rate and Evaluation
+# Lab 13 Saver and Restore
 import tensorflow as tf
 import random
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import os
 
 from tensorflow.examples.tutorials.mnist import input_data
@@ -33,7 +33,7 @@ keep_prob = tf.placeholder(tf.float32)
 
 # weights & bias for nn layers
 # http://stackoverflow.com/questions/33640581/how-to-do-xavier-initialization-on-tensorflow
-with tf.variable_scope('layer1') as scope:
+with tf.variable_scope('layer1'):
     W1 = tf.get_variable("W", shape=[784, 512],
                          initializer=tf.contrib.layers.xavier_initializer())
     b1 = tf.Variable(tf.random_normal([512]))
@@ -45,7 +45,7 @@ with tf.variable_scope('layer1') as scope:
     tf.summary.histogram("bias", b1)
     tf.summary.histogram("layer", L1)
 
-with tf.variable_scope('layer2') as scope:
+with tf.variable_scope('layer2'):
     W2 = tf.get_variable("W", shape=[512, 512],
                          initializer=tf.contrib.layers.xavier_initializer())
     b2 = tf.Variable(tf.random_normal([512]))
@@ -56,7 +56,7 @@ with tf.variable_scope('layer2') as scope:
     tf.summary.histogram("bias", b2)
     tf.summary.histogram("layer", L2)
 
-with tf.variable_scope('layer3') as scope:
+with tf.variable_scope('layer3'):
     W3 = tf.get_variable("W", shape=[512, 512],
                          initializer=tf.contrib.layers.xavier_initializer())
     b3 = tf.Variable(tf.random_normal([512]))
@@ -67,7 +67,7 @@ with tf.variable_scope('layer3') as scope:
     tf.summary.histogram("bias", b3)
     tf.summary.histogram("layer", L3)
 
-with tf.variable_scope('layer4') as scope:
+with tf.variable_scope('layer4'):
     W4 = tf.get_variable("W", shape=[512, 512],
                          initializer=tf.contrib.layers.xavier_initializer())
     b4 = tf.Variable(tf.random_normal([512]))
@@ -78,7 +78,7 @@ with tf.variable_scope('layer4') as scope:
     tf.summary.histogram("bias", b4)
     tf.summary.histogram("layer", L4)
 
-with tf.variable_scope('layer5') as scope:
+with tf.variable_scope('layer5'):
     W5 = tf.get_variable("W", shape=[512, 10],
                          initializer=tf.contrib.layers.xavier_initializer())
     b5 = tf.Variable(tf.random_normal([10]))
@@ -89,7 +89,7 @@ with tf.variable_scope('layer5') as scope:
     tf.summary.histogram("hypothesis", hypothesis)
 
 
-# define cost & optimizer
+# define cost/loss & optimizer
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
     logits=hypothesis, labels=Y))
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
@@ -110,7 +110,7 @@ writer = tf.summary.FileWriter(TB_SUMMARY_DIR)
 writer.add_graph(sess.graph)
 global_step = 0
 
-# Savor and Restore
+# Saver and Restore
 saver = tf.train.Saver()
 checkpoint = tf.train.get_checkpoint_state(CHECK_POINT_DIR)
 
@@ -163,7 +163,7 @@ print('Accuracy:', sess.run(accuracy, feed_dict={
 r = random.randint(0, mnist.test.num_examples - 1)
 print("Label: ", sess.run(tf.argmax(mnist.test.labels[r:r + 1], 1)))
 print("Prediction: ", sess.run(
-    tf.argmax(hypothesis, 1), {X: mnist.test.images[r:r + 1], keep_prob: 1}))
+    tf.argmax(hypothesis, 1), feed_dict={X: mnist.test.images[r:r + 1], keep_prob: 1}))
 
 # plt.imshow(mnist.test.images[r:r + 1].
 #           reshape(28, 28), cmap='Greys', interpolation='nearest')

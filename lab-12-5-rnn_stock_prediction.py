@@ -1,56 +1,97 @@
+'''
+This script shows how to predict stock prices using a basic RNN
+'''
 import tensorflow as tf
 import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.preprocessing import MinMaxScaler
+import matplotlib
+import os
 
 tf.set_random_seed(777)  # reproducibility
 
-timesteps = seq_length = 7
-data_dim = 5
-output_dim = 1
+if "DISPLAY" not in os.environ:
+    # remove Travis CI Error
+    matplotlib.use('Agg')
 
-# Open,High,Low,Close,Volume
+import matplotlib.pyplot as plt
+
+
+def MinMaxScaler(data):
+    ''' Min Max Normalization
+
+    Parameters
+    ----------
+    data : numpy.ndarray
+        input data to be normalized
+        shape: [Batch size, dimension]
+
+    Returns
+    ----------
+    data : numpy.ndarry
+        normalized data
+        shape: [Batch size, dimension]
+
+    References
+    ----------
+    .. [1] http://sebastianraschka.com/Articles/2014_about_feature_scaling.html
+
+    '''
+    numerator = data - np.min(data, 0)
+    denominator = np.max(data, 0) - np.min(data, 0)
+    # noise term prevents the zero division
+    return numerator / (denominator + 1e-7)
+
+
+# train Parameters
+seq_length = 7
+data_dim = 5
+hidden_dim = 10
+output_dim = 1
+learning_rate = 0.01
+iterations = 500
+
+# Open, High, Low, Volume, Close
 xy = np.loadtxt('data-02-stock_daily.csv', delimiter=',')
 xy = xy[::-1]  # reverse order (chronically ordered)
 
-# very important. It does not work without it.
-scaler = MinMaxScaler(feature_range=(0, 1))
-xy = scaler.fit_transform(xy)
+# train/test split
+train_size = int(len(xy) * 0.7)
+train_set = xy[0:train_size]
+test_set = xy[train_size - seq_length:]  # Index from [train_size - seq_length] to utilize past sequence
 
-x = xy
-y = xy[:, [-1]]  # Close as label
+# Scale each
+train_set = MinMaxScaler(train_set)
+test_set = MinMaxScaler(test_set)
 
-dataX = []
-dataY = []
-for i in range(0, len(y) - seq_length):
-    _x = x[i:i + seq_length]
-    _y = y[i + 1]  # Next close price
-    print(_x, "->", _y)
-    dataX.append(_x)
-    dataY.append(_y)
+# build datasets
+def build_dataset(time_series, seq_length):
+    dataX = []
+    dataY = []
+    for i in range(0, len(time_series) - seq_length):
+        _x = time_series[i:i + seq_length, :]
+        _y = time_series[i + seq_length, [-1]]  # Next close price
+        print(_x, "->", _y)
+        dataX.append(_x)
+        dataY.append(_y)
+    return np.array(dataX), np.array(dataY)
 
-# split to train and testing
-train_size = int(len(dataY) * 0.7)
-test_size = len(dataY) - train_size
-trainX, testX = np.array(dataX[0:train_size]), np.array(
-    dataX[train_size:len(dataX)])
-trainY, testY = np.array(dataY[0:train_size]), np.array(
-    dataY[train_size:len(dataY)])
+trainX, trainY = build_dataset(train_set, seq_length)
+testX, testY = build_dataset(test_set, seq_length)
 
 # input place holders
 X = tf.placeholder(tf.float32, [None, seq_length, data_dim])
 Y = tf.placeholder(tf.float32, [None, 1])
 
-cell = tf.contrib.rnn.BasicLSTMCell(num_units=output_dim, state_is_tuple=True)
+# build a LSTM network
+cell = tf.contrib.rnn.BasicLSTMCell(
+    num_units=hidden_dim, state_is_tuple=True, activation=tf.tanh)
 outputs, _states = tf.nn.dynamic_rnn(cell, X, dtype=tf.float32)
-Y_pred = outputs[:, -1]  # We use the last cell's output
+Y_pred = tf.contrib.layers.fully_connected(
+    outputs[:, -1], output_dim, activation_fn=None)  # We use the last cell's output
 
-print(outputs[:, -1])
-
-# loss
+# cost/loss
 loss = tf.reduce_sum(tf.square(Y_pred - Y))  # sum of the squares
 # optimizer
-optimizer = tf.train.GradientDescentOptimizer(0.01)
+optimizer = tf.train.AdamOptimizer(learning_rate)
 train = optimizer.minimize(loss)
 
 # RMSE
@@ -58,16 +99,25 @@ targets = tf.placeholder(tf.float32, [None, 1])
 predictions = tf.placeholder(tf.float32, [None, 1])
 rmse = tf.sqrt(tf.reduce_mean(tf.square(targets - predictions)))
 
-sess = tf.Session()
-sess.run(tf.global_variables_initializer())
+with tf.Session() as sess:
+    init = tf.global_variables_initializer()
+    sess.run(init)
 
-for i in range(1000):
-    _, l = sess.run([train, loss], feed_dict={X: trainX, Y: trainY})
-    print(i, l)
+    # Training step
+    for i in range(iterations):
+        _, step_loss = sess.run([train, loss], feed_dict={
+                                X: trainX, Y: trainY})
+        print("[step: {}] loss: {}".format(i, step_loss))
 
-testPredict = sess.run(Y_pred, feed_dict={X: testX})
-print("RMSE", sess.run(rmse, feed_dict={
-      targets: testY, predictions: testPredict}))
-plt.plot(testY)
-plt.plot(testPredict)
-plt.show()
+    # Test step
+    test_predict = sess.run(Y_pred, feed_dict={X: testX})
+    rmse_val = sess.run(rmse, feed_dict={
+                    targets: testY, predictions: test_predict})
+    print("RMSE: {}".format(rmse_val))
+
+    # Plot predictions
+    plt.plot(testY)
+    plt.plot(test_predict)
+    plt.xlabel("Time Period")
+    plt.ylabel("Stock Price")
+    plt.show()

@@ -1,14 +1,15 @@
 # Lab 3 Minimizing Cost
 import tensorflow as tf
+
 tf.set_random_seed(777)  # for reproducibility
 
 x_data = [1, 2, 3]
 y_data = [1, 2, 3]
 
-# Try to find values for W and b to compute y_data = W * x_data + b
-# We know that W should be 1 and b should be 0
+# Try to find values for W and b to compute y_data = W * x_data
+# We know that W should be 1
 # But let's use TensorFlow to figure it out
-W = tf.Variable(tf.random_normal([1]), name='weight')
+W = tf.Variable(tf.random_normal([1]), name="weight")
 
 X = tf.placeholder(tf.float32)
 Y = tf.placeholder(tf.float32)
@@ -16,43 +17,46 @@ Y = tf.placeholder(tf.float32)
 # Our hypothesis for linear model X * W
 hypothesis = X * W
 
-# Cost function
-cost = tf.reduce_sum(tf.square(hypothesis - Y))
+# cost/loss function
+cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
 # Minimize: Gradient Descent using derivative: W -= learning_rate * derivative
 learning_rate = 0.1
-descent = W - learning_rate * tf.reduce_mean((W * X - Y) * X)
+gradient = tf.reduce_mean((W * X - Y) * X)
+descent = W - learning_rate * gradient
 update = W.assign(descent)
 
 # Launch the graph in a session.
-sess = tf.Session()
-# Initializes global variables in the graph.
-sess.run(tf.global_variables_initializer())
+with tf.Session() as sess:
+    # Initializes global variables in the graph.
+    sess.run(tf.global_variables_initializer())
 
-for step in range(21):
-    sess.run(update, feed_dict={X: x_data, Y: y_data})
-    print(step, sess.run(cost, feed_dict={X: x_data, Y: y_data}), sess.run(W))
+    for step in range(21):
+        _, cost_val, W_val = sess.run(
+            [update, cost, W], feed_dict={X: x_data, Y: y_data}
+        )
+        print(step, cost_val, W_val)
 
-'''
-0 5.81756 [ 1.64462376]
-1 1.65477 [ 1.34379935]
-2 0.470691 [ 1.18335962]
-3 0.133885 [ 1.09779179]
-4 0.0380829 [ 1.05215561]
-5 0.0108324 [ 1.0278163]
-6 0.00308123 [ 1.01483536]
-7 0.000876432 [ 1.00791216]
-8 0.00024929 [ 1.00421977]
-9 7.09082e-05 [ 1.00225055]
-10 2.01716e-05 [ 1.00120032]
-11 5.73716e-06 [ 1.00064015]
-12 1.6319e-06 [ 1.00034142]
-13 4.63772e-07 [ 1.00018203]
-14 1.31825e-07 [ 1.00009704]
-15 3.74738e-08 [ 1.00005174]
-16 1.05966e-08 [ 1.00002754]
-17 2.99947e-09 [ 1.00001466]
-18 8.66635e-10 [ 1.00000787]
-19 2.40746e-10 [ 1.00000417]
-20 7.02158e-11 [ 1.00000226]
-'''
+"""
+0 1.93919 [ 1.64462376]
+1 0.551591 [ 1.34379935]
+2 0.156897 [ 1.18335962]
+3 0.0446285 [ 1.09779179]
+4 0.0126943 [ 1.05215561]
+5 0.00361082 [ 1.0278163]
+6 0.00102708 [ 1.01483536]
+7 0.000292144 [ 1.00791216]
+8 8.30968e-05 [ 1.00421977]
+9 2.36361e-05 [ 1.00225055]
+10 6.72385e-06 [ 1.00120032]
+11 1.91239e-06 [ 1.00064015]
+12 5.43968e-07 [ 1.00034142]
+13 1.54591e-07 [ 1.00018203]
+14 4.39416e-08 [ 1.00009704]
+15 1.24913e-08 [ 1.00005174]
+16 3.5322e-09 [ 1.00002754]
+17 9.99824e-10 [ 1.00001466]
+18 2.88878e-10 [ 1.00000787]
+19 8.02487e-11 [ 1.00000417]
+20 2.34053e-11 [ 1.00000226]
+"""

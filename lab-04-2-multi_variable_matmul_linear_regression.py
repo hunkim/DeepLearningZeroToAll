@@ -2,9 +2,16 @@
 import tensorflow as tf
 tf.set_random_seed(777)  # for reproducibility
 
-x_data = [[73., 80., 75.], [93., 88., 93.],
-          [89., 91., 90.], [96., 98., 100.], [73., 66., 70.]]
-y_data = [[152.], [185.], [180.], [196.], [142.]]
+x_data = [[73., 80., 75.],
+          [93., 88., 93.],
+          [89., 91., 90.],
+          [96., 98., 100.],
+          [73., 66., 70.]]
+y_data = [[152.],
+          [185.],
+          [180.],
+          [196.],
+          [142.]]
 
 
 # placeholders for a tensor that will be always fed.
@@ -17,7 +24,7 @@ b = tf.Variable(tf.random_normal([1]), name='bias')
 # Hypothesis
 hypothesis = tf.matmul(X, W) + b
 
-# Simplified cost function
+# Simplified cost/loss function
 cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
 # Minimize
@@ -30,11 +37,10 @@ sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 for step in range(2001):
-    feed = {X: x_data, Y: y_data}
-    sess.run(train, feed_dict=feed)
+    cost_val, hy_val, _ = sess.run(
+        [cost, hypothesis, train], feed_dict={X: x_data, Y: y_data})
     if step % 10 == 0:
-        print(step, "Cost: ", sess.run(cost, feed_dict=feed),
-              "\nPrediction:\n", sess.run(hypothesis, feed_dict=feed))
+        print(step, "Cost: ", cost_val, "\nPrediction:\n", hy_val)
 
 '''
 0 Cost:  7105.46
