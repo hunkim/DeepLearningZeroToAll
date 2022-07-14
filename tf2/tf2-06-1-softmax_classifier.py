@@ -48,10 +48,10 @@ print(b, tf.keras.backend.eval(tf.argmax(b, axis=1)))
 print('--------------')
 # or use argmax embedded method, predict_classes
 c = tf.model.predict(np.array([[1, 1, 0, 1]]))
-c_onehot = tf.model.predict_classes(np.array([[1, 1, 0, 1]]))
+c_onehot = np.argmax(c, axis=-1)
 print(c, c_onehot)
 
 print('--------------')
 all = tf.model.predict(np.array([[1, 11, 7, 9], [1, 3, 4, 3], [1, 1, 0, 1]]))
-all_onehot = tf.model.predict_classes(np.array([[1, 11, 7, 9], [1, 3, 4, 3], [1, 1, 0, 1]]))
+all_onehot = np.argmax(all, axis=-1)
 print(all, all_onehot)
