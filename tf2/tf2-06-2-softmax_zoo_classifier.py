@@ -28,9 +28,9 @@ history = tf.model.fit(x_data, y_one_hot, epochs=1000)
 
 # Single data test
 test_data = np.array([[0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0]]) # expected prediction == 3 (feathers)
-print(tf.model.predict(test_data), tf.model.predict_classes(test_data))
+print(tf.model.predict(test_data), np.argmax(tf.model.predict(test_data), axis=-1))
 
 # Full x_data test
-pred = tf.model.predict_classes(x_data)
+pred = np.argmax(tf.model.predict(x_data), axis=-1)
 for p, y in zip(pred, y_data.flatten()):
     print("[{}] Prediction: {} True Y: {}".format(p == int(y), p, int(y)))
