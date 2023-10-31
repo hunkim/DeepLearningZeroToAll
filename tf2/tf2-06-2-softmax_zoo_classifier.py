@@ -21,7 +21,7 @@ print("one_hot:", y_one_hot)
 
 tf.model = tf.keras.Sequential()
 tf.model.add(tf.keras.layers.Dense(units=nb_classes, input_dim=16, activation='softmax'))
-tf.model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.SGD(lr=0.1), metrics=['accuracy'])
+tf.model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.SGD(learning_rate=0.1), metrics=['accuracy'])
 tf.model.summary()
 
 history = tf.model.fit(x_data, y_one_hot, epochs=1000)

@@ -43,7 +43,7 @@ tf.model.add(tf.keras.layers.
 tf.model.add(tf.keras.layers.LSTM(units=num_classes, return_sequences=True))
 tf.model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Dense(units=num_classes, activation='softmax')))
 tf.model.summary()
-tf.model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(lr=learning_rate),
+tf.model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
                  metrics=['accuracy'])
 tf.model.fit(X_one_hot, Y_one_hot, epochs=100)
 

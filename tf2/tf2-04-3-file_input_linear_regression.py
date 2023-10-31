@@ -31,7 +31,7 @@ tf.model.add(tf.keras.layers.Dense(units=1, input_dim=3, activation='linear'))
 # tf.model.add(tf.keras.layers.Activation('linear'))
 tf.model.summary()
 
-tf.model.compile(loss='mse', optimizer=tf.keras.optimizers.SGD(lr=1e-5))
+tf.model.compile(loss='mse', optimizer=tf.keras.optimizers.SGD(learning_rate=1e-5))
 history = tf.model.fit(x_data, y_data, epochs=2000)
 
 # Ask my score

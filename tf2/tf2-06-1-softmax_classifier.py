@@ -31,7 +31,7 @@ tf.model.add(tf.keras.layers.Dense(input_dim=4, units=nb_classes, use_bias=True)
 tf.model.add(tf.keras.layers.Activation('softmax'))
 
 # use loss == categorical_crossentropy
-tf.model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.SGD(lr=0.1), metrics=['accuracy'])
+tf.model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.SGD(learning_rate=0.1), metrics=['accuracy'])
 tf.model.summary()
 
 history = tf.model.fit(x_data, y_data, epochs=2000)

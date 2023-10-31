@@ -33,7 +33,7 @@ learning_rate = 0.1
 
 tf.model = tf.keras.Sequential()
 tf.model.add(tf.keras.layers.Dense(units=3, input_dim=3, activation='softmax'))
-tf.model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.SGD(lr=learning_rate), metrics=['accuracy'])
+tf.model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.SGD(learning_rate=learning_rate), metrics=['accuracy'])
 
 tf.model.fit(x_data, y_data, epochs=1000)
 

@@ -28,7 +28,7 @@ tf.model.add(tf.keras.layers.Dense(units=512, kernel_initializer='glorot_normal'
 tf.model.add(tf.keras.layers.Dense(units=512, kernel_initializer='glorot_normal', activation='relu'))
 tf.model.add(tf.keras.layers.Dense(units=nb_classes, kernel_initializer='glorot_normal', activation='softmax'))
 tf.model.compile(loss='categorical_crossentropy',
-                 optimizer=tf.keras.optimizers.Adam(lr=learning_rate), metrics=['accuracy'])
+                 optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate), metrics=['accuracy'])
 tf.model.summary()
 
 history = tf.model.fit(x_train, y_train, batch_size=batch_size, epochs=training_epochs)

@@ -8,7 +8,7 @@ tf.model = tf.keras.Sequential()
 # units == output shape, input_dim == input shape
 tf.model.add(tf.keras.layers.Dense(units=1, input_dim=1))
 
-sgd = tf.keras.optimizers.SGD(lr=0.1)  # SGD == standard gradient descendent, lr == learning rate
+sgd = tf.keras.optimizers.SGD(learning_rate=0.1)  # SGD == standard gradient descendent, lr == learning rate
 tf.model.compile(loss='mse', optimizer=sgd)  # mse == mean_squared_error, 1/m * sig (y'-y)^2
 
 # prints summary of the model to the terminal

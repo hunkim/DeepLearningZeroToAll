@@ -33,7 +33,7 @@ tf.model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
 tf.model.add(tf.keras.layers.Flatten())
 tf.model.add(tf.keras.layers.Dense(units=10, kernel_initializer='glorot_normal', activation='softmax'))
 
-tf.model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(lr=learning_rate), metrics=['accuracy'])
+tf.model.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate), metrics=['accuracy'])
 tf.model.summary()
 
 tf.model.fit(x_train, y_train, batch_size=batch_size, epochs=training_epochs)

@@ -75,7 +75,7 @@ tf.model.add(tf.keras.layers.LSTM(units=1, input_shape=(seq_length, data_dim)))
 tf.model.add(tf.keras.layers.Dense(units=output_dim, activation='tanh'))
 tf.model.summary()
 
-tf.model.compile(loss='mean_squared_error', optimizer=tf.keras.optimizers.Adam(lr=learning_rate))
+tf.model.compile(loss='mean_squared_error', optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate))
 tf.model.fit(trainX, trainY, epochs=iterations)
 
 

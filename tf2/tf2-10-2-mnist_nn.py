@@ -23,7 +23,7 @@ tf.model.add(tf.keras.layers.Dense(input_dim=784, units=256, activation='relu'))
 tf.model.add(tf.keras.layers.Dense(units=256, activation='relu'))
 tf.model.add(tf.keras.layers.Dense(units=nb_classes, activation='softmax'))
 tf.model.compile(loss='categorical_crossentropy',
-                 optimizer=tf.keras.optimizers.Adam(lr=learning_rate), metrics=['accuracy'])
+                 optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate), metrics=['accuracy'])
 tf.model.summary()
 
 tf.model.fit(x_train, y_train, batch_size=batch_size, epochs=training_epochs)
